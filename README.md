@@ -1,5 +1,4 @@
-# ZMetric
-
+# ZMetric [![Build Status](https://travis-ci.com/zuhlke/ZMetric.svg?branch=master)](https://travis-ci.com/zuhlke/ZMetric)
 Visualising project metrics
 
 ## Installation
