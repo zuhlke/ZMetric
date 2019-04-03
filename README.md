@@ -1,2 +1,2 @@
 # ZMetric
-Visualising project metrics
+Visualising project metrics from various sources.
