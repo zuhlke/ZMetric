@@ -5,22 +5,22 @@ export class DataAdapter {
 
     convert(data) {
         let dateEntries = [];
-        for( const entry of data.issues) {
-            const startDate = moment(entry.fields.created)
-            const endDate = moment(entry.fields.resolutiondate)
-            const leadTime = endDate.diff(startDate,'days');
-            while (startDate < endDate) {
-                if(!dateEntries.some(e => e.date === startDate.format('YYYY-MM-DD') ))
-                {
-                    dateEntries.push(
-                        {
-                            "date": startDate.format('YYYY-MM-DD'),
-                            "averageLeadTime": 0
-                        });
-                }
-                startDate.add(1,'d')
+        const periodStartDate = data.issues.map((issue) => {
+            return new moment(issue.fields.created);
+        }).sort(function(a, b){return a - b;})[0];
 
-            }
+        const periodEndDate = data.issues.map((issue) => {
+
+            return  moment.max(new moment(issue.fields.created), new moment(issue.fields.resolutiondate));
+        }).sort(function(a, b){return b - a;})[0];
+
+        while (periodStartDate < periodEndDate) {
+            dateEntries.push(
+                {
+                    "date": periodStartDate.format('YYYY-MM-DD'),
+                    "averageLeadTime": 0
+                });
+            periodStartDate.add(1, 'd')
         }
         return dateEntries;
     }
