@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {List} from 'semantic-ui-react';
-import {Button} from 'semantic-ui-react';
+import {Button, List} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import Label from "semantic-ui-react/dist/commonjs/elements/Label";
 
@@ -40,7 +39,7 @@ export function WorkflowContainer(props) {
 
     return (
         <div>
-            <Label color={"green"}>Start status: {startStatus}</Label>
+            <Label id={"start-status"} color={"green"}>Start status: {startStatus}</Label>
             <br/>
             <Label color={"red"}>End status: {endStatus}</Label>
             <List>
@@ -48,7 +47,8 @@ export function WorkflowContainer(props) {
                 {
                     props.workflow.map((status) =>
                         <List.Item key={status.name}>
-                            <WorkflowStatus status={status} setStartOrEndStatus={setStartOrEndStatus}
+                            <WorkflowStatus id={"workFlowStatus-" + status.id} status={status}
+                                            setStartOrEndStatus={setStartOrEndStatus}
                                             displayOnClickFunction={startOrEndStatus}
                                             calculateButtonColour={calculateButtonColour}/>
                         </List.Item>
@@ -62,7 +62,8 @@ export function WorkflowContainer(props) {
 function WorkflowStatus(props) {
     return (
         <div>
-            <Button size={"large"} animated onClick={() => props.setStartOrEndStatus(props.status.name)}
+            <Button size={"large"} id={"status-button-" + props.status.id} animated
+                    onClick={() => props.setStartOrEndStatus(props.status.name)}
                     color={props.calculateButtonColour(props.status.name)}>
                 <Button.Content visible>{props.status.name}</Button.Content>
                 <Button.Content hidden>{props.displayOnClickFunction(props.status.name)}</Button.Content>
@@ -75,6 +76,7 @@ WorkflowStatus.propTypes = {
     setStartOrEndStatus: PropTypes.func.isRequired,
     displayOnClickFunction: PropTypes.func.isRequired,
     status: PropTypes.shape({
+        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
     })
 };
