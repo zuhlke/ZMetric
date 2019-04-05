@@ -1,14 +1,26 @@
+import moment from "moment";
+
 export class DataAdapter {
 
 
     convert(data) {
         let dateEntries = [];
         for( const entry of data.issues) {
-            dateEntries.push(
+            const startDate = moment(entry.fields.created)
+            const endDate = moment(entry.fields.resolutiondate)
+            const leadTime = endDate.diff(startDate,'days');
+            while (startDate < endDate) {
+                if(!dateEntries.some(e => e.date === startDate.format('YYYY-MM-DD') ))
                 {
-                    "date": entry.fields.created.split("T")[0],
-                    "averageLeadTime": 0
-                });
+                    dateEntries.push(
+                        {
+                            "date": startDate.format('YYYY-MM-DD'),
+                            "averageLeadTime": 0
+                        });
+                }
+                startDate.add(1,'d')
+
+            }
         }
         return dateEntries;
     }
