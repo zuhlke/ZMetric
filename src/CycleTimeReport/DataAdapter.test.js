@@ -232,7 +232,7 @@ describe('DataAdapter', () => {
         };
 
         const result = new DataAdapter().convert(jiraIssue);
-        expect(result).toEqual([{date: "2019-04-02", averageLeadTime: 0},{date: "2019-04-03",averageLeadTime: 1}])
+        expect(result).toEqual([{date: "2019-04-02", averageLeadTime: 0}, {date: "2019-04-03", averageLeadTime: 1}])
 
     });
 
@@ -257,7 +257,54 @@ describe('DataAdapter', () => {
         };
 
         const result = new DataAdapter().convert(jiraIssue);
-        expect(result[result.length-1]).toEqual({date: moment().format('YYYY-MM-DD'),averageLeadTime: 0})
+        expect(result[result.length - 1]).toEqual({date: moment().format('YYYY-MM-DD'), averageLeadTime: 0})
+
+    });
+
+    it('should return an average lead time over time for a resolved and unresolved issue', () => {
+        const jiraIssue = {
+            "expand": "names,schema",
+            "startAt": 0,
+            "maxResults": 1,
+            "total": 236802,
+            "issues": [
+                {
+                    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                    "id": "1143143",
+                    "self": "https://jira.atlassian.com/rest/api/2/issue/1143143",
+                    "key": "TRANS-2617",
+                    "fields": {
+                        "resolutiondate": null,
+                        "created": "2019-04-05T10:15:35.000+0000"
+                    }
+                },
+                {
+                    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                    "id": "1143143",
+                    "self": "https://jira.atlassian.com/rest/api/2/issue/1143143",
+                    "key": "TRANS-2617",
+                    "fields": {
+                        "resolutiondate": "2019-04-03T10:15:35.000+0000",
+                        "created": "2019-04-02T10:15:35.000+0000"
+                    }
+                }
+            ]
+        };
+
+        const result = new DataAdapter().convert(jiraIssue).splice(0,4);
+        expect(result).toEqual([{
+            date: moment("2019-04-02").format('YYYY-MM-DD'),
+            averageLeadTime: 0
+        }, {
+            date: moment("2019-04-03").format('YYYY-MM-DD'),
+            averageLeadTime: 1
+        }, {
+            date: moment("2019-04-04").format('YYYY-MM-DD'),
+            averageLeadTime: 1
+        }, {
+            date: moment("2019-04-05").format('YYYY-MM-DD'),
+            averageLeadTime: 1
+        }])
 
     });
 });
