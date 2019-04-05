@@ -32,7 +32,8 @@
   ],
   "devDependencies": {
     "cz-conventional-changelog": "2.1.0",
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^2.0.1",
+    "semantic-ui-forest-themes": "^1.0.3"
   },
   "config": {
     "commitizen": {
