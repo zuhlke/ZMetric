@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Table} from "./Table";
+import {LeadAndCycleTimeTable} from "./LeadAndCycleTimeTable";
 import {LeadTimeLineChart} from "./LeadTimeLineChart";
 import {WorkflowContainer} from "./WorkflowContainer";
 
@@ -141,7 +141,7 @@ class App extends Component {
   render() {
     return (
         <div>
-            <Table data={data}/>
+            <LeadAndCycleTimeTable data={data}/>
             <br/>
             <LeadTimeLineChart data={data}/>
             <br/>
