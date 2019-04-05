@@ -1,6 +1,7 @@
 import {DataAdapter} from "./DataAdapter";
+import moment from "moment";
 
-describe('DataAdapter',  ()=>  {
+describe('DataAdapter', () => {
     it('should return one entry when given a jira issue entry that is created and resolved on the same day', () => {
         const jiraIssue = {
             "expand": "names,schema",
@@ -19,9 +20,9 @@ describe('DataAdapter',  ()=>  {
                     }
                 }
             ]
-        }
+        };
         const result = new DataAdapter().convert(jiraIssue);
-        expect(result).toEqual([{date:"2019-02-08",averageLeadTime:0}])
+        expect(result).toEqual([{date: "2019-02-08", averageLeadTime: 0}])
     });
     it('should return two entries when given two jira issue entries on that have been created and resolved on consequtive dates', () => {
         const jiraIssue = {
@@ -51,11 +52,11 @@ describe('DataAdapter',  ()=>  {
                     }
                 }
             ]
-        }
+        };
         const result = new DataAdapter().convert(jiraIssue);
-        expect(result).toEqual([{date:"2019-02-08",averageLeadTime:0},{date:"2019-02-09",averageLeadTime:0}])
+        expect(result).toEqual([{date: "2019-02-08", averageLeadTime: 0}, {date: "2019-02-09", averageLeadTime: 0}])
     });
-    it('should return the same number of date entries for every date between creation and resolution date of jira issue entry',  () => {
+    it('should return the same number of date entries for every date between creation and resolution date of jira issue entry', () => {
         const jiraIssue = {
             "expand": "names,schema",
             "startAt": 0,
@@ -73,14 +74,14 @@ describe('DataAdapter',  ()=>  {
                     }
                 }
             ]
-        }
+        };
 
         const result = new DataAdapter().convert(jiraIssue);
 
         expect(result.length).toEqual(13)
 
     });
-    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates are the same',  () => {
+    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates are the same', () => {
         const jiraIssue = {
             "expand": "names,schema",
             "startAt": 0,
@@ -108,7 +109,7 @@ describe('DataAdapter',  ()=>  {
                     }
                 }
             ]
-        }
+        };
 
         const result = new DataAdapter().convert(jiraIssue);
 
@@ -116,7 +117,7 @@ describe('DataAdapter',  ()=>  {
 
     });
 
-    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates overlap',  () => {
+    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates overlap', () => {
         const jiraIssue = {
             "expand": "names,schema",
             "startAt": 0,
@@ -144,14 +145,14 @@ describe('DataAdapter',  ()=>  {
                     }
                 }
             ]
-        }
+        };
 
         const result = new DataAdapter().convert(jiraIssue);
         expect(result.length).toEqual(72)
 
     });
 
-    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates dont overlap',  () => {
+    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates dont overlap', () => {
         const jiraIssue = {
             "expand": "names,schema",
             "startAt": 0,
@@ -179,11 +180,35 @@ describe('DataAdapter',  ()=>  {
                     }
                 }
             ]
-        }
+        };
 
         const result = new DataAdapter().convert(jiraIssue);
         expect(result.length).toEqual(72)
 
     });
 
+    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates dont overlap', () => {
+        const jiraIssue = {
+            "expand": "names,schema",
+            "startAt": 0,
+            "maxResults": 1,
+            "total": 236802,
+            "issues": [
+                {
+                    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                    "id": "1143143",
+                    "self": "https://jira.atlassian.com/rest/api/2/issue/1143143",
+                    "key": "TRANS-2617",
+                    "fields": {
+                        "resolutiondate": null,
+                        "created": "2019-04-02T10:15:35.000+0000"
+                    }
+                }
+            ]
+        };
+
+        const result = new DataAdapter().convert(jiraIssue);
+        expect(result[result.length - 1].date).toEqual(moment().format('YYYY-MM-DD'))
+
+    });
 });

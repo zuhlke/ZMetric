@@ -11,9 +11,8 @@ export class DataAdapter {
             .sort((a, b) => a - b)[0];
 
         const periodEndDate = data.issues
-            .map((issue) => moment.max(new moment(issue.fields.created), new moment(issue.fields.resolutiondate)))
+            .map((issue) => moment.max(new moment(issue.fields.created), issue.fields.resolutiondate ? new moment(issue.fields.resolutiondate) : new moment()))
             .sort((a, b) => b - a)[0];
-
 
 
         while (periodStartDate < periodEndDate) {
