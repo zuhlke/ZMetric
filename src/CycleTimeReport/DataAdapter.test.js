@@ -187,7 +187,7 @@ describe('DataAdapter', () => {
 
     });
 
-    it('should return the current date for the last entry if a issue hasn\'t been resolved', () => {
+    it('should return all dates until today if a issue hasn\'t been resolved', () => {
         const jiraIssue = {
             "expand": "names,schema",
             "startAt": 0,
@@ -211,5 +211,28 @@ describe('DataAdapter', () => {
         expect(result[result.length - 1].date).toEqual(moment().format('YYYY-MM-DD'))
 
     });
+    it('should return an average lead time of 1 when 1 issue takes one day to complete', () => {
+        const jiraIssue = {
+            "expand": "names,schema",
+            "startAt": 0,
+            "maxResults": 1,
+            "total": 236802,
+            "issues": [
+                {
+                    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                    "id": "1143143",
+                    "self": "https://jira.atlassian.com/rest/api/2/issue/1143143",
+                    "key": "TRANS-2617",
+                    "fields": {
+                        "resolutiondate": "2019-04-03T10:15:35.000+0000",
+                        "created": "2019-04-02T10:15:35.000+0000"
+                    }
+                }
+            ]
+        };
 
+        const result = new DataAdapter().convert(jiraIssue);
+        expect(result).toEqual([{date: "2019-04-02", averageLeadTime: 0},{date: "2019-04-03",averageLeadTime: 1}])
+
+    });
 });
