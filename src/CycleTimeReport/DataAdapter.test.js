@@ -150,4 +150,40 @@ describe('DataAdapter',  ()=>  {
         expect(result.length).toEqual(72)
 
     });
+
+    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates dont overlap',  () => {
+        const jiraIssue = {
+            "expand": "names,schema",
+            "startAt": 0,
+            "maxResults": 1,
+            "total": 160,
+            "issues": [
+                {
+                    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                    "id": "100136",
+                    "self": "",
+                    "key": "JIRA-161",
+                    "fields": {
+                        "resolutiondate": "2019-02-10T12:30:53.000+0100",
+                        "created": "2019-01-08T12:20:36.000+0100"
+                    }
+                },
+                {
+                    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                    "id": "100136",
+                    "self": "",
+                    "key": "JIRA-161",
+                    "fields": {
+                        "resolutiondate": "2019-03-20T12:30:53.000+0100",
+                        "created": "2019-02-19T12:20:36.000+0100"
+                    }
+                }
+            ]
+        }
+
+        const result = new DataAdapter().convert(jiraIssue);
+        expect(result.length).toEqual(72)
+
+    });
+
 });
