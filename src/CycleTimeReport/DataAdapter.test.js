@@ -187,7 +187,7 @@ describe('DataAdapter', () => {
 
     });
 
-    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates dont overlap', () => {
+    it('should return the current date for the last entry if a issue hasn\'t been resolved', () => {
         const jiraIssue = {
             "expand": "names,schema",
             "startAt": 0,
@@ -211,4 +211,5 @@ describe('DataAdapter', () => {
         expect(result[result.length - 1].date).toEqual(moment().format('YYYY-MM-DD'))
 
     });
+
 });
