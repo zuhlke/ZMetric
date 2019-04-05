@@ -5,14 +5,16 @@ export class DataAdapter {
 
     convert(data) {
         let dateEntries = [];
-        const periodStartDate = data.issues.map((issue) => {
-            return new moment(issue.fields.created);
-        }).sort(function(a, b){return a - b;})[0];
 
-        const periodEndDate = data.issues.map((issue) => {
+        const periodStartDate = data.issues
+            .map((issue) => new moment(issue.fields.created))
+            .sort((a, b) => a - b)[0];
 
-            return  moment.max(new moment(issue.fields.created), new moment(issue.fields.resolutiondate));
-        }).sort(function(a, b){return b - a;})[0];
+        const periodEndDate = data.issues
+            .map((issue) => moment.max(new moment(issue.fields.created), new moment(issue.fields.resolutiondate)))
+            .sort((a, b) => b - a)[0];
+
+
 
         while (periodStartDate < periodEndDate) {
             dateEntries.push(
