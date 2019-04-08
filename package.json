@@ -6,13 +6,13 @@
   "dependencies": {
     "enzyme": "^3.9.0",
     "moment": "^2.24.0",
+    "prop-types": "latest",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8",
     "recharts": "^1.5.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.86.0",
-    "prop-types": "latest"
+    "semantic-ui-react": "^0.86.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -33,6 +33,7 @@
   ],
   "devDependencies": {
     "cz-conventional-changelog": "2.1.0",
+    "enzyme-adapter-react-16": "^1.11.2",
     "gh-pages": "^2.0.1"
   },
   "config": {
