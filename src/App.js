@@ -4,9 +4,8 @@ import {LeadAndCycleTimeTable} from "./LeadAndCycleTimeTable";
 import {LeadTimeLineChart} from "./LeadTimeLineChart";
 import {WorkflowContainer} from "./WorkflowContainer";
 import {DateRangePicker} from "./DateRangePicker";
-import {DateFilter} from "./DateFiltering/DateFilter";
+import {applyDateRangeFilter} from "./DateFiltering/DateFilter";
 import moment from "moment";
-import PropTypes from "prop-types";
 import {getData, getWorkflow} from "./DataFetcher";
 
 export default function App() {
@@ -15,7 +14,7 @@ export default function App() {
     const [data, updateData] = useState(originalData);
 
     const filterData = dateRange => {
-        const newData = DateFilter.applyDateRangeFilter(dateRange, originalData);
+        const newData = applyDateRangeFilter(dateRange, originalData);
         updateData(newData)
     };
 
