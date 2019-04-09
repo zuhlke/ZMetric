@@ -1,5 +1,6 @@
 import React from 'react';
 import {Line, LineChart, XAxis, YAxis, Tooltip, Legend, CartesianGrid} from "recharts";
+import PropTypes from 'prop-types';
 
 export function LeadTimeLineChart(props) {
         return(
@@ -16,3 +17,11 @@ export function LeadTimeLineChart(props) {
             </div>
         )
 }
+
+LeadTimeLineChart.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.shape({
+        date: PropTypes.string.isRequired,
+        averageLeadTime: PropTypes.number.isRequired,
+        averageCycleTime: PropTypes.number.isRequired
+    })).isRequired
+};
