@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {LeadAndCycleTimeTable} from "./LeadAndCycleTimeTable";
 import {LeadTimeLineChart} from "./LeadTimeLineChart";
@@ -6,7 +6,7 @@ import {WorkflowContainer} from "./WorkflowContainer";
 import {DateRangePicker} from "./DateRangePicker";
 import {DateFilter} from "./DateFiltering/DateFilter";
 import moment from "moment";
-
+import PropTypes from "prop-types";
 
 const workflow =
     [
@@ -564,32 +564,33 @@ const workflow =
         }
     ];
 
-class App extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            data: this.props.data,
-        };
-        this.updateData = this.updateData.bind(this);
-    }
+function App(props) {
+    const [data, updateData] = useState(props.data);
 
-    updateData(dateRange){
-        const newData = DateFilter.applyDateRangeFilter(dateRange, this.props.data);
-        this.setState({data: newData});
-    }
-  render() {
+    const filterData = dateRange => {
+        const newData = DateFilter.applyDateRangeFilter(dateRange, props.data);
+        updateData(newData)
+    };
+
     return (
         <div>
-            <LeadAndCycleTimeTable data={this.state.data}/>
+            <LeadAndCycleTimeTable data={data}/>
             <br/>
-            <LeadTimeLineChart data={this.state.data}/>
+            <LeadTimeLineChart data={data}/>
             <br/>
             <WorkflowContainer workflow={workflow} project={"ZMetric"}/>
             <br/>
-            <DateRangePicker minDate={moment(this.props.data[0].date)} maxDate={moment(this.props.data[this.props.data.length-1].date)} dateRangeUpdate={(dateRange) => {this.updateData(dateRange)}}/>
+            {props.data.length && <DateRangePicker minDate={moment(props.data[0].date)}
+                                                   maxDate={moment(props.data[props.data.length - 1].date)}
+                                                   dateRangeUpdate={(dateRange) => {
+                                                       filterData(dateRange)
+                                                   }}/>}
         </div>
     );
-  }
 }
+
+App.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.shape({date: PropTypes.string.isRequired})).isRequired
+};
 
 export default App;
