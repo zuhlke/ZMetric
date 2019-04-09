@@ -1,5 +1,6 @@
 import React from 'react';
 import {Table} from 'semantic-ui-react'
+import PropTypes from 'prop-types';
 
 export function LeadAndCycleTimeTable(props) {
     return (
@@ -28,3 +29,11 @@ export function LeadAndCycleTimeTable(props) {
         </div>
     )
 }
+
+LeadAndCycleTimeTable.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.shape({
+            date: PropTypes.string.isRequired,
+            averageLeadTime: PropTypes.number.isRequired,
+            averageCycleTime: PropTypes.number.isRequired
+        })).isRequired
+};
