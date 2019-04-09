@@ -20,11 +20,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint src",
     "predeploy": "yarn build",
-    "deploy": "gh-pages  -d build"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "deploy": "gh-pages -d build"
   },
   "browserslist": [
     ">0.2%",
