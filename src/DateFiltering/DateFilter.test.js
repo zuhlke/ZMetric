@@ -79,54 +79,44 @@ describe("DateFilter", () =>{
 
     it("dateInDateRange correctly identifies date inside date range", () =>{
         const dateRange = "01-02-2019 - 08-02-2019";
-        const parsedDateRange = parseDateRangeToStartAndEndDates(dateRange);
-        // const date = "05-02-2019";
         const date = "2019-02-05";
         expect(dateInDateRange(date, dateRange)).toBe(true);
     });
 
     it("dateInDateRange correctly identifies date at start of date range as inside date range", () =>{
         const dateRange = "01-02-2019 - 08-02-2019";
-        const parsedDateRange = parseDateRangeToStartAndEndDates(dateRange);
-        // const date = "05-02-2019";
         const date = "2019-02-01";
         expect(dateInDateRange(date, dateRange)).toBe(true);
     });
 
     it("dateInDateRange correctly identifies date on month outside date range", () =>{
         const dateRange = "01-02-2019 - 08-02-2019";
-        // const date = "02-03-2019";
         const date = "2019-03-02";
         expect(dateInDateRange(date, dateRange)).toBe(false);
     });
 
     it("dateInDateRange correctly identifies date one day outside date range", () =>{
         const dateRange = "01-02-2019 - 08-02-2019";
-        // const date = "09-02-2019";
         const date = "2019-02-09";
         expect(dateInDateRange(date, dateRange)).toBe(false);
     });
 
     it("dateInDateRange correctly identifies date one year outside date range", () =>{
         const dateRange = "01-02-2019 - 08-02-2019";
-        // const date = "05-02-2018";
         const date = "2018-02-05";
         expect(dateInDateRange(date, dateRange)).toBe(false);
     });
 
     it("dateInDateRange correctly identifies date one month and one year outside date range", () =>{
         const dateRange = "01-02-2019 - 08-02-2019";
-        // const date = "02-03-2018";
         const date = "2018-03-02";
         expect(dateInDateRange(date, dateRange)).toBe(false);
     });
-
 
     it("parseDateRangeToStartAndEndDates breaks a date range as a string into two dates", () =>{
         const startAndEndDates= parseDateRangeToStartAndEndDates("01-02-2019 - 08-02-2019");
         expect(startAndEndDates.start).toBe("01-02-2019");
         expect(startAndEndDates.end).toBe("08-02-2019");
     });
-
 
 });
