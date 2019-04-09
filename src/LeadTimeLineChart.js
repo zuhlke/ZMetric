@@ -5,7 +5,7 @@ export class LeadTimeLineChart extends Component {
     render(){
         return(
             <div>
-                <LineChart width={1200} height={400} data={this.props.data}>
+                <LineChart id="lead-time-line-chart" width={1200} height={400} data={this.props.data}>
                     <Line type="monotone" dataKey="averageLeadTime" stroke="#8884d8" />
                     <Line type="monotone" dataKey="averageCycleTime" stroke="#82ca9d" />
                     <Tooltip/>

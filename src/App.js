@@ -3,49 +3,10 @@ import './App.css';
 import {LeadAndCycleTimeTable} from "./LeadAndCycleTimeTable";
 import {LeadTimeLineChart} from "./LeadTimeLineChart";
 import {WorkflowContainer} from "./WorkflowContainer";
+import {DateRangePicker} from "./DateRangePicker";
+import {DateFilter} from "./DateFiltering/DateFilter";
+import moment from "moment";
 
-const data = [
-    {
-        "date": "2019-02-01",
-        "averageLeadTime": 0,
-        "averageCycleTime":0
-    },
-    {
-        "date": "2019-02-02",
-        "averageLeadTime": 1,
-        "averageCycleTime": 0,
-    },
-    {
-        "date": "2019-02-03",
-        "averageLeadTime": 1,
-        "averageCycleTime": 1
-    },
-    {
-        "date": "2019-02-04",
-        "averageLeadTime": 3,
-        "averageCycleTime":2
-    },
-    {
-        "date": "2019-02-05",
-        "averageLeadTime": 2,
-        "averageCycleTime": 1
-    },
-    {
-        "date": "2019-02-06",
-        "averageLeadTime": 3,
-        "averageCycleTime": 2
-    },
-    {
-        "date": "2019-02-07",
-        "averageLeadTime": 5,
-        "averageCycleTime": 3
-    },
-    {
-        "date": "2019-02-08",
-        "averageLeadTime": 4,
-        "averageCycleTime": 4
-    }
-];
 
 const workflow =
     [
@@ -604,14 +565,28 @@ const workflow =
     ];
 
 class App extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            data: this.props.data,
+        };
+        this.updateData = this.updateData.bind(this);
+    }
+
+    updateData(dateRange){
+        const newData = DateFilter.applyDateRangeFilter(dateRange, this.props.data);
+        this.setState({data: newData});
+    }
   render() {
     return (
         <div>
-            <LeadAndCycleTimeTable data={data}/>
+            <LeadAndCycleTimeTable data={this.state.data}/>
             <br/>
-            <LeadTimeLineChart data={data}/>
+            <LeadTimeLineChart data={this.state.data}/>
             <br/>
             <WorkflowContainer workflow={workflow} project={"ZMetric"}/>
+            <br/>
+            <DateRangePicker minDate={moment(this.props.data[0].date)} maxDate={moment(this.props.data[this.props.data.length-1].date)} dateRangeUpdate={(dateRange) => {this.updateData(dateRange)}}/>
         </div>
     );
   }
