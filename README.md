@@ -1,4 +1,4 @@
-# ZMetric [![Build Status](https://travis-ci.com/zuhlke/ZMetric.svg?branch=master)](https://travis-ci.com/zuhlke/ZMetric)
+# ZMetric [![Build Status](https://travis-ci.com/zuhlke/ZMetric.svg?branch=master)](https://travis-ci.com/zuhlke/ZMetric) [![Coverage Status](https://coveralls.io/repos/github/zuhlke/ZMetric/badge.svg?branch=master)](https://coveralls.io/github/zuhlke/ZMetric?branch=master)
 Visualising project metrics
 
 ## Installation
