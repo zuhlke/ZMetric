@@ -372,4 +372,69 @@ describe('DataAdapter', () => {
         }])
 
     });
+    it('should return an average lead time over time for three issues in the past', () => {
+        const jiraIssue = {
+            "expand": "names,schema",
+            "startAt": 0,
+            "maxResults": 1,
+            "total": 236802,
+            "issues": [
+                {
+                    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                    "id": "1143143",
+                    "self": "https://jira.atlassian.com/rest/api/2/issue/1143143",
+                    "key": "TRANS-2617",
+                    "fields": {
+                        "resolutiondate": "2019-01-03T10:15:35.000+0000",
+                        "created": "2019-01-01T10:15:35.000+0000"
+                    }
+                },
+                {
+                    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                    "id": "1143143",
+                    "self": "https://jira.atlassian.com/rest/api/2/issue/1143143",
+                    "key": "TRANS-2617",
+                    "fields": {
+                        "resolutiondate": "2019-01-05T10:15:35.000+0000",
+                        "created": "2019-01-01T10:15:35.000+0000"
+                    }
+                },
+                {
+                    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                    "id": "1143143",
+                    "self": "https://jira.atlassian.com/rest/api/2/issue/1143143",
+                    "key": "TRANS-2617",
+                    "fields": {
+                        "resolutiondate": "2019-01-07T10:15:35.000+0000",
+                        "created": "2019-01-01T10:15:35.000+0000"
+                    }
+                }
+            ]
+        };
+
+        const result = new DataAdapter().convert(jiraIssue);
+        expect(result).toEqual([{
+            date: moment("2019-01-01").format('YYYY-MM-DD'),
+            averageLeadTime: 0
+        }, {
+            date: moment("2019-01-02").format('YYYY-MM-DD'),
+            averageLeadTime: 0
+        }, {
+            date: moment("2019-01-03").format('YYYY-MM-DD'),
+            averageLeadTime: 2
+        }, {
+            date: moment("2019-01-04").format('YYYY-MM-DD'),
+            averageLeadTime: 2
+        }, {
+            date: moment("2019-01-05").format('YYYY-MM-DD'),
+            averageLeadTime: 3
+        }, {
+            date: moment("2019-01-06").format('YYYY-MM-DD'),
+            averageLeadTime: 3
+        }, {
+            date: moment("2019-01-07").format('YYYY-MM-DD'),
+            averageLeadTime: 4
+        }])
+
+    });
 });
