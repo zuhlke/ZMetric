@@ -20,6 +20,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test-coverage": "react-scripts test --coverage",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "eject": "react-scripts eject",
     "lint": "eslint src",
     "predeploy": "yarn build",
@@ -32,6 +33,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "coveralls": "^3.0.3",
     "cz-conventional-changelog": "2.1.0",
     "enzyme-adapter-react-16": "^1.11.2",
     "gh-pages": "^2.0.1"
