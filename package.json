@@ -1,7 +1,7 @@
 {
   "name": "zmetric",
   "version": "0.1.0",
-  "homepage": "https://zuhlke.github.io/ZMetric/",
+  "homepage": "http://zmetric.surge.sh",
   "private": true,
   "dependencies": {
     "enzyme": "^3.9.0",
