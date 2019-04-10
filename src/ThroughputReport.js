@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 
 export function ThroughputReport(props){
     const [displayedData, updateDisplayedData] = useState(props.data);
-    const data = props.data;
 
     const filterData = dateRange => {
         const newData = applyDateRangeFilter(dateRange, props.data);
@@ -23,12 +22,12 @@ export function ThroughputReport(props){
                 <Legend/>
                 <Bar dataKey="throughput" fill="#8884d8"/>
             </BarChart>
-            <br/>
             <h4>Select date range:</h4>
-            {props.data.length && <DateRangePicker id={"dates-range-picker-throughput"} minDate={moment(data[0].date)}
-                                                                     maxDate={moment(data[data.length - 1].date)}
+            {props.data.length && <DateRangePicker id={"dates-range-picker-throughput"} minDate={moment(props.data[0].date)}
+                                                                     maxDate={moment(props.data[props.data.length - 1].date)}
                                                                      dateRangeUpdate={dateRange => filterData(dateRange)}/>
             }
+            <br/>
         </div>
 
     )

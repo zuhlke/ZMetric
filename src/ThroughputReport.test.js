@@ -4,6 +4,8 @@ import {mount} from "enzyme";
 import {DatesRangeInput} from "semantic-ui-calendar-react";
 import {act} from "react-dom/test-utils";
 import {BarChart} from "recharts";
+import ReactDOM from "react-dom";
+import App from "./App";
 
 const unfilteredData = [
     {
@@ -34,6 +36,12 @@ const expectedFilteredData = [
 ];
 
 describe("ThroughputReport", () =>{
+
+    it("renders without crashing", () => {
+        const div = document.createElement('div');
+        ReactDOM.render(<ThroughputReport data={unfilteredData}/>, div);
+        ReactDOM.unmountComponentAtNode(div);
+    });
 
     it("renders BarChart with updated data values when DateRangePicker is used to specify date range", () => {
         const wrapper = mount(<ThroughputReport data={unfilteredData}/>);
