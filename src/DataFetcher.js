@@ -594,7 +594,6 @@ const leadAndCycleTimeData = [
         "averageCycleTime": 4
     }
 ];
-
 const throughputData = [
     {
         "date": "2019-02-01",
