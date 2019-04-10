@@ -19,6 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "audit": "node scripts/audit.js",
     "test-coverage": "react-scripts test --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "eject": "react-scripts eject",
@@ -48,7 +49,8 @@
       "src/**/*.{js,jsx}",
       "!src/index.js",
       "!src/serviceWorker.js",
-      "!src/setupTests.js"
+      "!src/setupTests.js",
+      "!scripts/*.js"
     ],
     "coverageThreshold": {
       "global": {

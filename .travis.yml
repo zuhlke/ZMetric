@@ -1,15 +1,20 @@
 language: node_js
 node_js:
   - "stable"
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+  - export PATH=$HOME/.yarn/bin:$PATH
 cache:
+  yarn: true
   directories:
     - node_modules
 script:
+  - yarn run audit # customised yarn audit
   - yarn build
   - yarn test-coverage
   - yarn lint
 after_script:
-  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls
+  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
 deploy:
   provider: pages
   skip_cleanup: true
