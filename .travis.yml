@@ -16,8 +16,7 @@ script:
 after_script:
   - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
 before_deploy:
-  - DEPLOY_DOMAIN=$(if [ "TRAVIS_BRANCH" == "master" ]; then echo "https://zmetric.surge.sh"; else echo 'https://'+$TRAVIS_BRANCH+'-zmetric.surge.sh'; fi)
-#  - DEPLOY_DOMAIN=https://${TRAVIS_BRANCH}-zmetric.surge.sh
+  - DEPLOY_DOMAIN=$(if [ "TRAVIS_BRANCH" == "master" ]; then echo "https://zmetric.surge.sh"; else echo "https://"$TRAVIS_BRANCH"-zmetric.surge.sh"; fi)
 deploy:
   provider: surge
   project: ./build/
