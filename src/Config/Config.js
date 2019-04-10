@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import './Config.css'
-import axios from 'axios'
-import {Button, Input, Loader} from 'semantic-ui-react'
+import JiraApi from 'jira-client';
+import {Button, Input, Message} from 'semantic-ui-react'
+import {JiraConnector} from "../Jira/JiraConnector";
 
 
 class Config extends Component {
@@ -12,6 +13,8 @@ class Config extends Component {
             jiraUsername: '',
             jiraPassword: '',
             loading: false,
+            successMessage: '',
+            errorMessage: ''
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,15 +25,12 @@ class Config extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-
+        this.setState({errorMessage: '', successMessage: ''});
 
         this.setState({
             [name]: value
         });
-        if(this.state.jiraHostURL && this.state.jiraUsername && this.state.jiraPassword)
-        {
 
-        }
     }
 
     render() {
@@ -42,7 +42,7 @@ class Config extends Component {
                             ZMetric
                         </div>
                     </h2>
-                    <form className="ui large form" onSubmit={this.handleSubmit}>
+                    <form className="ui large form error success" onSubmit={this.handleSubmit}>
                         <div className="ui stacked segment">
                             <div className="field">
                                 <Input icon="globe" iconPosition='left' type="text" name="jiraHostURL"
@@ -59,11 +59,19 @@ class Config extends Component {
                                        value={this.state.jiraPassword} onChange={this.handleChange}
                                        placeholder=" Jira Password"/>
                             </div>
-                            <Button loading={this.state.loading} className="ui fluid large teal submit button">Click
-                                Here</Button>
+                            <Message hidden={!this.state.errorMessage}
+                                     error
+                                     content={this.state.errorMessage}
+                            />
+                            <Message hidden={!this.state.successMessage}
+                                     success
+                                     content={this.state.successMessage}
+                            />
+                            <Button loading={this.state.loading}
+                                    disabled={!(this.state.jiraHostURL && this.state.jiraUsername && this.state.jiraPassword)}
+                                    className="ui fluid large teal submit button">Login</Button>
                         </div>
 
-                        <div className="ui error message"></div>
 
                     </form>
                 </div>
@@ -73,22 +81,29 @@ class Config extends Component {
     }
 
     handleSubmit(event) {
+        this.setState({errorMessage: '', successMessage: ''});
+
         event.preventDefault();
-        console.log(this.state);
         this.setState({loading: true});
-        const jiraInstance = axios.create({
-            baseURL: this.state.jiraHostURL,
-            //headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Max-Age': 600, 'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS','Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'}
+
+        let jiraClient = new JiraApi({
+            protocol: 'https',
+            host: this.state.jiraHostURL,
+            username: this.state.jiraUsername,
+            password: this.state.jiraPassword,
+            apiVersion: '2',
+            strictSSL: true
         });
-
-        jiraInstance.interceptors.request.use( (config) => {
-            console.log(config);
-            return config;
-        }, (error)=> {
-
-            return Promise.reject(error)}
-        )
-        jiraInstance.get(`rest/api/2/myself`).then( (res) => {console.log(res)})
+        let jiraConnector = new JiraConnector(jiraClient);
+        jiraConnector.getAllProjects().then(() => {
+            this.setState({loading: false , successMessage: 'Successfully Connected'});
+        }).catch((error) => {
+            console.log(error);
+            this.setState({
+                errorMessage: JiraConnector.parseError(error),
+                loading: false
+            })
+        });
     }
 }
 
