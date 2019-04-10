@@ -5,7 +5,6 @@ import {DatesRangeInput} from "semantic-ui-calendar-react";
 import {act} from "react-dom/test-utils";
 import {BarChart} from "recharts";
 import ReactDOM from "react-dom";
-import App from "./App";
 
 const unfilteredData = [
     {
@@ -43,7 +42,7 @@ describe("ThroughputReport", () =>{
         ReactDOM.unmountComponentAtNode(div);
     });
 
-    it("renders BarChart with updated data values when DateRangePicker is used to specify date range", () => {
+    it("renders BarChart with updated data values when DateRangePicker is used to specify a date range", () => {
         const wrapper = mount(<ThroughputReport data={unfilteredData}/>);
         const datesRangeInput = wrapper.find(DatesRangeInput);
         const event =  { target: { value: '02-02-2019 - 03-02-2019' } };
@@ -52,6 +51,6 @@ describe("ThroughputReport", () =>{
         });
         wrapper.update();
         const chartProps = wrapper.find(BarChart).props();
-        expect(chartProps.data).toEqual(expectedFilteredData)
-    })
+        expect(chartProps.data).toEqual(expectedFilteredData);
+    });
 });
