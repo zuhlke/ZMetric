@@ -27,7 +27,7 @@ export default function App() {
             <LeadTimeLineChart data={leadAndCycleTimeData}/>
             <br/>
             <h4>Select date range:</h4>
-            {originalLeadAndCycleTimeData.length && <DateRangePicker minDate={moment(originalLeadAndCycleTimeData[0].date)}
+            {originalLeadAndCycleTimeData.length && <DateRangePicker id={"data-range-picker-lead"} minDate={moment(originalLeadAndCycleTimeData[0].date)}
                                                                      maxDate={moment(originalLeadAndCycleTimeData[originalLeadAndCycleTimeData.length - 1].date)}
                                                                      dateRangeUpdate={dateRange => filterData(dateRange)}/>
             }

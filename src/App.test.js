@@ -15,7 +15,7 @@ describe("App", () => {
 
     it("updates the date range of the line graph correctly when a new date range is specified", () => {
         const wrapper = mount(<App />);
-        const datesRangeInput = wrapper.find(DatesRangeInput);
+        const datesRangeInput = wrapper.find('#data-range-picker-lead').find(DatesRangeInput);
         const event = {target: {value: '01-02-2019 - 02-02-2019'}};
         act(() => {
             datesRangeInput.props().onChange(event, {name: "datesRange", value: '01-02-2019 - 02-02-2019'});

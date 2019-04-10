@@ -18,7 +18,6 @@ export function DateRangePicker(props) {
     return (
         <Form>
             <DatesRangeInput
-                id="dates-range-input"
                 name="datesRange"
                 placeholder="From - To"
                 value={datesRange}
