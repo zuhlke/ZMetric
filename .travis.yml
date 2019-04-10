@@ -9,12 +9,12 @@ cache:
   directories:
     - node_modules
 script:
-  - node scripts/audit.js # yarn audit
+  - yarn run audit # customised yarn audit
   - yarn build
   - yarn test-coverage
   - yarn lint
 after_script:
-  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls
+  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
 deploy:
   provider: pages
   skip_cleanup: true
