@@ -16,10 +16,9 @@ script:
 after_script:
   - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
 deploy:
-  provider: pages
+  provider: surge
+  project: ./static/
   skip_cleanup: true
-  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  local_dir: build
   keep_history: true
   on:
-    branch: master
+    all_branches: true
