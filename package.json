@@ -1,7 +1,7 @@
 {
   "name": "zmetric",
   "version": "0.1.0",
-  "homepage": "https://zuhlke.github.io/ZMetric/",
+  "homepage": "https://zmetric.surge.sh",
   "private": true,
   "dependencies": {
     "enzyme": "^3.9.0",
@@ -25,7 +25,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint src",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "deploy": "surge ./build"
   },
   "browserslist": [
     ">0.2%",
@@ -36,8 +36,7 @@
   "devDependencies": {
     "coveralls": "^3.0.3",
     "cz-conventional-changelog": "2.1.0",
-    "enzyme-adapter-react-16": "^1.11.2",
-    "gh-pages": "^2.0.1"
+    "enzyme-adapter-react-16": "^1.11.2"
   },
   "config": {
     "commitizen": {
