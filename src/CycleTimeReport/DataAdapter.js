@@ -23,7 +23,7 @@ export class DataAdapter {
             leadTime: issue.fields.resolutiondate ? new moment(issue.fields.resolutiondate).diff(new moment(issue.fields.created),'days') : undefined
         } } ) ;
 
-        while (periodStartDate.diff(periodEndDate) < 0) {
+        while (periodStartDate.diff(periodEndDate) <= 0) {
            const currentLeadTime = DataAdapter.getAverageLeadTime(issues,periodStartDate);
             dateEntries.push(
                 {
