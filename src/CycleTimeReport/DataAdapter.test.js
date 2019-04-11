@@ -257,6 +257,7 @@ describe('DataAdapter', () => {
         };
 
         const result = new DataAdapter().convert(jiraIssue);
+        console.log(result)
         expect(result[result.length - 1]).toEqual({date: moment().format('YYYY-MM-DD'), averageLeadTime: 0})
 
     });
