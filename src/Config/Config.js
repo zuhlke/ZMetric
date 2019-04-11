@@ -21,16 +21,13 @@ class Config extends Component {
     }
 
     handleChange(event) {
-
         const target = event.target;
         const value = target.value;
         const name = target.name;
         this.setState({errorMessage: '', successMessage: ''});
-
         this.setState({
             [name]: value
         });
-
     }
 
     render() {
@@ -71,8 +68,6 @@ class Config extends Component {
                                     disabled={!(this.state.jiraHostURL && this.state.jiraUsername && this.state.jiraPassword)}
                                     className="ui fluid large teal submit button">Login</Button>
                         </div>
-
-
                     </form>
                 </div>
             </div>
@@ -82,10 +77,8 @@ class Config extends Component {
 
     handleSubmit(event) {
         this.setState({errorMessage: '', successMessage: ''});
-
         event.preventDefault();
         this.setState({loading: true});
-
         let jiraClient = new JiraApi({
             protocol: 'https',
             host: this.state.jiraHostURL,

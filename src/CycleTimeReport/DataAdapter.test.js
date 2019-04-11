@@ -24,7 +24,7 @@ describe('DataAdapter', () => {
         const result = new DataAdapter().convert(jiraIssue);
         expect(result).toEqual([{date: "2019-02-08", averageLeadTime: 0}])
     });
-    it('should return two entries when given two jira issue entries on that have been created and resolved on consequtive dates', () => {
+    it('should return two entries when given two jira issue entries on that have been created and resolved on consecutive dates', () => {
         const jiraIssue = {
             "expand": "names,schema",
             "startAt": 0,
@@ -81,7 +81,7 @@ describe('DataAdapter', () => {
         expect(result.length).toEqual(13)
 
     });
-    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates are the same', () => {
+    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whose dates are the same', () => {
         const jiraIssue = {
             "expand": "names,schema",
             "startAt": 0,
@@ -117,7 +117,7 @@ describe('DataAdapter', () => {
 
     });
 
-    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates overlap', () => {
+    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whose dates overlap', () => {
         const jiraIssue = {
             "expand": "names,schema",
             "startAt": 0,
@@ -152,7 +152,7 @@ describe('DataAdapter', () => {
 
     });
 
-    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whos dates dont overlap', () => {
+    it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whose dates don\'t overlap', () => {
         const jiraIssue = {
             "expand": "names,schema",
             "startAt": 0,
@@ -257,7 +257,6 @@ describe('DataAdapter', () => {
         };
 
         const result = new DataAdapter().convert(jiraIssue);
-        console.log(result)
         expect(result[result.length - 1]).toEqual({date: moment().format('YYYY-MM-DD'), averageLeadTime: 0})
 
     });

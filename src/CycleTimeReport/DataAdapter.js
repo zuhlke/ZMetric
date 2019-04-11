@@ -1,10 +1,6 @@
 import moment from "moment";
 
-
-
 export class DataAdapter {
-
-
 
     convert(data) {
         let dateEntries = [];
@@ -43,6 +39,4 @@ export class DataAdapter {
             .map(issue => issue.leadTime);
         return DataAdapter.average(leadTimes)
     }
-
-
 }

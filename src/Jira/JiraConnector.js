@@ -1,6 +1,5 @@
 export class JiraConnector {
 
-
     constructor(jiraClient) {
         this.jiraClient = jiraClient;
     }
@@ -8,7 +7,6 @@ export class JiraConnector {
     getAllProjects() {
         return this.jiraClient.listProjects();
     }
-
 
     static parseError = error => {
         let statusCode = error.statusCode;
@@ -22,7 +20,5 @@ export class JiraConnector {
         else {
             return "Unknown error"
         }
-
     };
-
 }
