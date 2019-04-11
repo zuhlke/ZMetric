@@ -1,18 +1,25 @@
-
 language: node_js
 node_js:
   - "stable"
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+  - export PATH=$HOME/.yarn/bin:$PATH
 cache:
+  yarn: true
   directories:
     - node_modules
 script:
+  - yarn run audit # customised yarn audit
   - yarn build
-  - yarn test
+  - yarn test-coverage
+  - yarn lint
+after_script:
+  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
 deploy:
-  provider: pages
+  provider: surge
+  project: ./build/
+  domain: $(if [ "TRAVIS_BRANCH" == "master" ]; then echo "https://zmetric.surge.sh"; else echo "https://"$TRAVIS_BRANCH"-zmetric.surge.sh"; fi)
   skip_cleanup: true
-  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  local_dir: build
   keep_history: true
   on:
-    branch: master
+    all_branches: true

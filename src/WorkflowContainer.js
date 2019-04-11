@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, Grid} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import Label from "semantic-ui-react/dist/commonjs/elements/Label";
+import {IssueTypeSelector} from "./IssueTypeSelector";
 
 export function WorkflowContainer(props) {
     const [startStatus, setStartStatus] = useState(undefined);
@@ -42,16 +43,7 @@ export function WorkflowContainer(props) {
         <div>
             <Grid container columns={3}>
                 <Grid.Column>
-                    <Button.Group vertical>
-                        <h3>Issue Type:</h3>
-                        {
-                            props.workflow.map((issueType, index) =>
-                                <Button id={"issue-button-" + issueType.id} key={issueType.id + issueType.name} toggle active={selectedIssueType===index} onClick={() => {setSelectedIssueType(index)}} color={"grey"}>
-                                    {issueType.name}
-                                </Button>
-                            )
-                        }
-                    </Button.Group>
+                    <IssueTypeSelector workflow={props.workflow} selectedIssueType={selectedIssueType} updateSelectedIssueType={(index) => setSelectedIssueType(index)}/>
                 </Grid.Column>
                 <Grid.Column>
                 <Button.Group vertical>
@@ -101,5 +93,10 @@ WorkflowStatus.propTypes = {
     status: PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
-    })
+    }),
+
+};
+
+WorkflowContainer.propTypes = {
+    workflow: PropTypes.arrayOf(PropTypes.shape({id: PropTypes.string.isRequired, name: PropTypes.string.isRequired})).isRequired
 };
