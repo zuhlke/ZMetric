@@ -33,7 +33,7 @@ export class DataAdapter {
             periodStartDate.add(1, 'd')
 
         }
-        return dateEntrieqs;
+        return dateEntries;
     }
     static average = arr => arr.length ? arr.reduce( ( l, r ) => l + r, 0 ) / arr.length : 0;
 
