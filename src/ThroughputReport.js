@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {
     Bar,
-    BarChart,
     CartesianGrid,
+    ComposedChart,
     Label,
-    Legend,
+    Legend, Line,
     ReferenceLine,
     ResponsiveContainer,
     Tooltip,
@@ -19,17 +19,18 @@ import {calculateAverageThroughput} from "./ThroughputReport/ThroughputDataAdapt
 import {Button, Label as SemanticLabel, Segment, Transition} from "semantic-ui-react";
 import {DynamicTable} from "./DynamicTable";
 import './global.css';
+import {generateTrendLineData} from "./TrendLine/TrendLine";
 
 export function ThroughputReport(props) {
     const initialAverageThroughput = calculateAverageThroughput(props.data);
-    const [displayedData, updateDisplayedData] = useState(props.data);
     const [averageThroughput, updateAverageThroughput] = useState(initialAverageThroughput);
+    const [trendLineData, updateTrendLineData] = useState(generateTrendLineData(props.data, "throughput"));
     const [isTableVisible, toggleTableVisibility] = useState(false);
 
     const filterData = dateRange => {
         const newData = applyDateRangeFilter(dateRange, props.data);
-        updateDisplayedData(newData);
         updateAverageThroughput(calculateAverageThroughput(newData));
+        updateTrendLineData(generateTrendLineData(newData, "throughput"));
     };
     return (
         <Segment.Group stacked>
@@ -40,7 +41,7 @@ export function ThroughputReport(props) {
                     </SemanticLabel>
                     <div className={'chart-segment'}>
                         <ResponsiveContainer>
-                            <BarChart width={1200} height={400} data={displayedData} margin={{right: 50}}>
+                            <ComposedChart width={1200} height={400} data={trendLineData} margin={{right: 50}}>
                                 <CartesianGrid strokeDasharray="3 3"/>
                                 <XAxis lavel={{value: "date", position: "bottom"}} dataKey="date"/>
                                 <YAxis label={{value: "Throughput (issues)", angle: -90, position: 'insideLeft'}}/>
@@ -51,7 +52,8 @@ export function ThroughputReport(props) {
                                     <Label value={averageThroughput} position="right"/>
                                 </ReferenceLine>
                                 <Bar dataKey="throughput" fill="#8884d8"/>
-                            </BarChart>
+                                <Line type="monotone" dataKey="trend" stroke="#82ca9d" dot={false}/>
+                            </ComposedChart>
                         </ResponsiveContainer>
                     </div>
                 </Segment>
