@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Grid} from 'semantic-ui-react';
+import {Button, Grid, Segment} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import Label from "semantic-ui-react/dist/commonjs/elements/Label";
 import {IssueTypeSelector} from "./IssueTypeSelector";
@@ -40,7 +40,10 @@ export function WorkflowContainer(props) {
     };
 
     return (
-        <div>
+        <Segment stacked>
+            <Label size={'medium'} color='blue' attached='top left'>
+                Workflow
+            </Label>
             <Grid container columns={3}>
                 <Grid.Column>
                     <IssueTypeSelector workflow={props.workflow} selectedIssueType={selectedIssueType} updateSelectedIssueType={(index) => setSelectedIssueType(index)}/>
@@ -70,7 +73,7 @@ export function WorkflowContainer(props) {
                 </Grid.Column>
             </Grid>
 
-        </div>
+        </Segment>
     )
 }
 

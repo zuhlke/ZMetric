@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import {LeadAndCycleTimeTable} from "./LeadAndCycleTimeTable";
 import {LeadTimeLineChart} from "./LeadTimeLineChart";
 import {WorkflowContainer} from "./WorkflowContainer";
-import {getWorkflow, getThroughput, getCycleTimeReportData} from "./DataFetcher";
+import {getLeadAndCycleTimeData, getThroughput, getWorkflow} from "./DataFetcher";
 import {ThroughputReport} from "./ThroughputReport";
+import {Label, Segment} from "semantic-ui-react";
 
 export default function App() {
     const workflow = getWorkflow();
@@ -13,13 +13,16 @@ export default function App() {
 
     return (
         <div>
-            <LeadAndCycleTimeTable data={cycleTimeReportData}/>
-            <br/>
-            <LeadTimeLineChart data={cycleTimeReportData}/>
-            <br/>
-            <WorkflowContainer workflow={workflow}/>
-            <br/>
-            <ThroughputReport data={throughputData}/>
+            <Segment.Group raised id={"main-segment"}>
+                <Segment stacked>
+                    <Label size={'large'} color='red' ribbon>
+                        ZMetric
+                    </Label>
+                    <LeadTimeLineChart data={leadAndCycleTimeData}/>
+                    <ThroughputReport data={throughputData}/>
+                    <WorkflowContainer workflow={workflow}/>
+                </Segment>
+            </Segment.Group>
         </div>
     );
 }
