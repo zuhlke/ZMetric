@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
+import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import PropTypes from 'prop-types';
 import {DateRangePicker} from "./DateRangePicker";
 import moment from "moment";
 import {applyDateRangeFilter} from "./DateFiltering/DateFilter";
 import {Button, Label, Segment, Transition} from "semantic-ui-react";
 import {DynamicTable} from "./DynamicTable";
+import './global.css';
 
 export function LeadTimeLineChart(props) {
     const [displayedData, updateDisplayedData] = useState(props.data);
@@ -22,20 +23,24 @@ export function LeadTimeLineChart(props) {
                     <Label size={'medium'} color='blue' attached='top left'>
                         Lead Time
                     </Label>
-                    <LineChart id="lead-time-line-chart" width={1200} height={400} data={displayedData}>
-                        <Line type="monotone" dataKey="averageLeadTime" stroke="#8884d8"/>
-                        <Line type="monotone" dataKey="averageCycleTime" stroke="#82ca9d"/>
-                        <Tooltip/>
-                        <CartesianGrid strokeDasharray="3 3"/>
-                        <Legend/>
-                        <XAxis dataKey={"date"} label={{value: "date"}}/>
-                        <YAxis
-                            label={{
-                                value: "Lead Time Rolling Average (days)",
-                                angle: -90,
-                                position: 'insideBottomLeft'
-                            }}/>
-                    </LineChart>
+                    <div className={'chart-segment'}>
+                        <ResponsiveContainer>
+                            <LineChart id="lead-time-line-chart" width={600} height={400} data={displayedData}>
+                                <Line type="monotone" dataKey="averageLeadTime" stroke="#8884d8"/>
+                                <Line type="monotone" dataKey="averageCycleTime" stroke="#82ca9d"/>
+                                <Tooltip/>
+                                <CartesianGrid strokeDasharray="3 3"/>
+                                <Legend/>
+                                <XAxis dataKey={"date"} label={{value: "date"}}/>
+                                <YAxis
+                                    label={{
+                                        value: "Lead Time Rolling Average (days)",
+                                        angle: -90,
+                                        position: 'insideBottomLeft'
+                                    }}/>
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </div>
                 </Segment>
                 <Segment>
                     <h4>Select date range:</h4>

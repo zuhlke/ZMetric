@@ -1,5 +1,16 @@
 import React, {useState} from 'react';
-import {Bar, BarChart, CartesianGrid, Label, Legend, ReferenceLine, Tooltip, XAxis, YAxis} from "recharts";
+import {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Label,
+    Legend,
+    ReferenceLine,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis
+} from "recharts";
 import {DateRangePicker} from "./DateRangePicker";
 import moment from "moment";
 import {applyDateRangeFilter} from "./DateFiltering/DateFilter";
@@ -7,6 +18,7 @@ import PropTypes from 'prop-types';
 import {calculateAverageThroughput} from "./ThroughputReport/ThroughputDataAdapter";
 import {Button, Label as SemanticLabel, Segment, Transition} from "semantic-ui-react";
 import {DynamicTable} from "./DynamicTable";
+import './global.css';
 
 export function ThroughputReport(props) {
     const initialAverageThroughput = calculateAverageThroughput(props.data);
@@ -26,18 +38,22 @@ export function ThroughputReport(props) {
                     <SemanticLabel size={'medium'} color='blue' attached='top left'>
                         Throughput
                     </SemanticLabel>
-                    <BarChart width={1200} height={400} data={displayedData} margin={{right: 50}}>
-                        <CartesianGrid strokeDasharray="3 3"/>
-                        <XAxis lavel={{value: "date", position: "bottom"}} dataKey="date"/>
-                        <YAxis label={{value: "Throughput (issues)", angle: -90, position: 'insideLeft'}}/>
-                        <Tooltip/>
-                        <Legend/>
-                        <ReferenceLine y={averageThroughput} stroke="blue" strokeDasharray="3 3">
-                            <Label value="Avg" position="left"/>
-                            <Label value={averageThroughput} position="right"/>
-                        </ReferenceLine>
-                        <Bar dataKey="throughput" fill="#8884d8"/>
-                    </BarChart>
+                    <div className={'chart-segment'}>
+                        <ResponsiveContainer>
+                            <BarChart width={1200} height={400} data={displayedData} margin={{right: 50}}>
+                                <CartesianGrid strokeDasharray="3 3"/>
+                                <XAxis lavel={{value: "date", position: "bottom"}} dataKey="date"/>
+                                <YAxis label={{value: "Throughput (issues)", angle: -90, position: 'insideLeft'}}/>
+                                <Tooltip/>
+                                <Legend/>
+                                <ReferenceLine y={averageThroughput} stroke="blue" strokeDasharray="3 3">
+                                    <Label value="Avg" position="left"/>
+                                    <Label value={averageThroughput} position="right"/>
+                                </ReferenceLine>
+                                <Bar dataKey="throughput" fill="#8884d8"/>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
                 </Segment>
                 <Segment>
                     <h4>Select date range:</h4>
