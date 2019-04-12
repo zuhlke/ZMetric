@@ -1,11 +1,10 @@
 import React from 'react';
-import {Table} from 'semantic-ui-react'
+import {Segment, Table} from 'semantic-ui-react'
 import PropTypes from 'prop-types';
 
 export function LeadAndCycleTimeTable(props) {
     return (
-        <div>
-            <h2>ZMetric</h2>
+        <Segment>
             <Table celled>
                 <Table.Header>
                     <Table.Row>
@@ -26,7 +25,7 @@ export function LeadAndCycleTimeTable(props) {
                     }
                 </Table.Body>
             </Table>
-        </div>
+        </Segment>
     )
 }
 
