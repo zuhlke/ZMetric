@@ -18,7 +18,7 @@ export function ThroughputReport(props) {
         updateAverageThroughput(calculateAverageThroughput(newData));
     };
     return (
-        <Segment.Group horizontal>
+        <Segment.Group horizontal stacked>
             <Segment>
                 <SemanticLabel size={'medium'} color='blue' attached='top left'>
                     Throughput

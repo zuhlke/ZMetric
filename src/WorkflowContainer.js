@@ -40,7 +40,7 @@ export function WorkflowContainer(props) {
     };
 
     return (
-        <Segment>
+        <Segment stacked>
             <Label size={'medium'} color='blue' attached='top left'>
                 Workflow
             </Label>

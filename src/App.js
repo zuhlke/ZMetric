@@ -15,13 +15,13 @@ export default function App() {
     return (
         <div>
             <Segment.Group raised id={"main-segment"}>
-                <Segment>
+                <Segment stacked>
                     <Label size={'large'} color='red' ribbon>
                         ZMetric
                     </Label>
                     <LeadTimeLineChart data={leadAndCycleTimeData}/>
-                    <WorkflowContainer workflow={workflow}/>
                     <ThroughputReport data={throughputData}/>
+                    <WorkflowContainer workflow={workflow}/>
                 </Segment>
             </Segment.Group>
         </div>

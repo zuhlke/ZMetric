@@ -14,7 +14,7 @@ export function LeadTimeLineChart(props) {
         updateDisplayedData(newData)
     };
     return (
-        <Segment.Group horizontal>
+        <Segment.Group horizontal stacked>
             <Segment>
                 <Label size={'medium'} color='blue' attached='top left'>
                     Lead Time
