@@ -89,9 +89,10 @@ class Config extends Component {
         });
         let jiraConnector = new JiraConnector(jiraClient);
         jiraConnector.getAllProjects().then(() => {
+
             this.setState({loading: false , successMessage: 'Successfully Connected'});
+
         }).catch((error) => {
-            console.log(error);
             this.setState({
                 errorMessage: JiraConnector.parseError(error),
                 loading: false
