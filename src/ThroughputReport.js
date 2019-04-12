@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {
     Bar,
-    BarChart,
     CartesianGrid,
     ComposedChart,
     Label,
@@ -21,13 +20,11 @@ import {generateTrendLineData} from "./TrendLine/TrendLine";
 
 export function ThroughputReport(props) {
     const initialAverageThroughput = calculateAverageThroughput(props.data);
-    const [displayedData, updateDisplayedData] = useState(props.data);
     const [averageThroughput, updateAverageThroughput] = useState(initialAverageThroughput);
     const [trendLineData, updateTrendLineData] = useState(generateTrendLineData(props.data, "throughput"));
 
     const filterData = dateRange => {
         const newData = applyDateRangeFilter(dateRange, props.data);
-        updateDisplayedData(newData);
         updateAverageThroughput(calculateAverageThroughput(newData));
         updateTrendLineData(generateTrendLineData(newData, "throughput"));
     };
