@@ -7,9 +7,10 @@ import {ThroughputReport} from "./ThroughputReport";
 import {Label, Segment} from "semantic-ui-react";
 
 export default function App() {
+    const leadAndCycleTimeData = getLeadAndCycleTimeData();
     const workflow = getWorkflow();
     const throughputData = getThroughput();
-    const cycleTimeReportData = getCycleTimeReportData();
+
 
     return (
         <div>
@@ -25,4 +26,3 @@ export default function App() {
             </Segment.Group>
         </div>
     );
-}
