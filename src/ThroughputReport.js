@@ -4,7 +4,8 @@ import {
     CartesianGrid,
     ComposedChart,
     Label,
-    Legend, Line,
+    Legend,
+    Line,
     ReferenceLine,
     ResponsiveContainer,
     Tooltip,
@@ -40,8 +41,8 @@ export function ThroughputReport(props) {
                         Throughput
                     </SemanticLabel>
                     <div className={'chart-segment'}>
-                        <ResponsiveContainer>
-                            <ComposedChart width={1200} height={400} data={trendLineData} margin={{right: 50}}>
+                        <ResponsiveContainer width={props.graphWidth} height={400}>
+                            <ComposedChart data={trendLineData} margin={{right: 25}}>
                                 <CartesianGrid strokeDasharray="3 3"/>
                                 <XAxis lavel={{value: "date", position: "bottom"}} dataKey="date"/>
                                 <YAxis label={{value: "Throughput (issues)", angle: -90, position: 'insideLeft'}}/>
@@ -92,6 +93,7 @@ export function ThroughputReport(props) {
 }
 
 ThroughputReport.propTypes = {
+    graphWidth: PropTypes.number,
     data: PropTypes.arrayOf(PropTypes.shape({
         date: PropTypes.string.isRequired,
         throughput: PropTypes.number.isRequired

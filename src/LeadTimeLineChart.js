@@ -25,7 +25,7 @@ export function LeadTimeLineChart(props) {
                     </Label>
                     <div className={'chart-segment'}>
                         <ResponsiveContainer>
-                            <LineChart id="lead-time-line-chart" width={600} height={400} data={displayedData}>
+                            <LineChart id="lead-time-line-chart" data={displayedData}>
                                 <Line type="monotone" dataKey="averageLeadTime" stroke="#8884d8"/>
                                 <Line type="monotone" dataKey="averageCycleTime" stroke="#82ca9d"/>
                                 <Tooltip/>

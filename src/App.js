@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import {LeadTimeLineChart} from "./LeadTimeLineChart";
-import {WorkflowContainer} from "./WorkflowContainer";
 import {getLeadAndCycleTimeData, getThroughput, getWorkflow} from "./DataFetcher";
 import {ThroughputReport} from "./ThroughputReport";
 import {Label, Segment} from "semantic-ui-react";
@@ -21,7 +20,7 @@ export default function App() {
                     </Label>
                     <LeadTimeLineChart data={leadAndCycleTimeData}/>
                     <ThroughputReport data={throughputData}/>
-                    <WorkflowContainer workflow={workflow}/>
+                    {/*<WorkflowContainer workflow={workflow}/>*/}
                 </Segment>
             </Segment.Group>
         </div>
