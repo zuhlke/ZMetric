@@ -18,8 +18,6 @@ export const convert = (data)  => {
     } } ) ;
 
     while (periodStartDate.diff(periodEndDate) <= 0) {
-        console.log(periodStartDate);
-
         const currentLeadTime = getAverageLeadTime(issues,periodStartDate);
         dateEntries.push(
             {
