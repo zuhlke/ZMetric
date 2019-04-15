@@ -201,7 +201,7 @@ describe('DataAdapter', () => {
                     "key": "TRANS-2617",
                     "fields": {
                         "resolutiondate": null,
-                        "created": "2019-04-02T00qqqq:15:35.000+0000"
+                        "created": "2019-04-02T00:15:35.000+0000"
                     }
                 }
             ]
