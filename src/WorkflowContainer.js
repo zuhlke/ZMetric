@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, Grid, Segment} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import Label from "semantic-ui-react/dist/commonjs/elements/Label";
-import {IssueTypeSelector} from "./IssueTypeSelector";
+import {SingleIssueTypeSelector} from "./SingleIssueTypeSelector";
 
 export function WorkflowContainer(props) {
     const [startStatus, setStartStatus] = useState(undefined);
@@ -46,7 +46,7 @@ export function WorkflowContainer(props) {
             </Label>
             <Grid container columns={3}>
                 <Grid.Column>
-                    <IssueTypeSelector workflow={props.workflow} selectedIssueType={selectedIssueType} updateSelectedIssueType={(index) => setSelectedIssueType(index)}/>
+                    <SingleIssueTypeSelector workflow={props.workflow} selectedIssueType={selectedIssueType} updateSelectedIssueType={(index) => setSelectedIssueType(index)}/>
                 </Grid.Column>
                 <Grid.Column>
                 <Button.Group vertical>
