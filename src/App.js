@@ -1,14 +1,16 @@
 import React from 'react';
 import './App.css';
 import {LeadTimeLineChart} from "./LeadTimeLineChart";
-import {getLeadAndCycleTimeData, getThroughput} from "./DataFetcher";
+import {getCumulativeFlowData, getLeadAndCycleTimeData, getThroughput} from "./DataFetcher";
 import {ThroughputReport} from "./ThroughputReport";
 import {Label, Segment} from "semantic-ui-react";
+import {CumulativeFlowReport} from "./CumulativeFlowReport";
 
 export default function App() {
     const leadAndCycleTimeData = getLeadAndCycleTimeData();
     // const workflow = getWorkflow();
     const throughputData = getThroughput();
+    const cumulativeFlowData = getCumulativeFlowData();
 
 
     return (
@@ -21,6 +23,7 @@ export default function App() {
                     <LeadTimeLineChart data={leadAndCycleTimeData}/>
                     <ThroughputReport data={throughputData}/>
                     {/*<WorkflowContainer workflow={workflow}/>*/}
+                    <CumulativeFlowReport data={cumulativeFlowData}/>
                 </Segment>
             </Segment.Group>
         </div>

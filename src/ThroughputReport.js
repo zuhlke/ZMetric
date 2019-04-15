@@ -72,7 +72,7 @@ export function ThroughputReport(props) {
                     basic
                     color='green'
                     content='Data Table'
-                    icon={isTableVisible ? 'arrow circle up ' : 'arrow circle down'}
+                    icon={isTableVisible ? 'arrow circle up' : 'arrow circle down'}
                     onClick={() => toggleTableVisibility(!isTableVisible)}
                     label={{
                         as: 'a',
