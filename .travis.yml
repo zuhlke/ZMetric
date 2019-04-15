@@ -26,5 +26,6 @@ deploy:
   on:
     all_branches: true
 addons:
-  artifacts: true
-    working_dir: src/__image_snapshots__/__diff_output__/
+  artifacts:
+    paths:
+    - src/__image_snapshots__/__diff_output__/
