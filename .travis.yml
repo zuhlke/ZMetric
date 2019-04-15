@@ -11,6 +11,8 @@ cache:
 script:
   - yarn run audit # customised yarn audit
   - yarn build
+  - yarn run storybook &
+  - sleep 20 # check if storybook is running
   - yarn test-coverage
   - yarn lint
 after_script:
