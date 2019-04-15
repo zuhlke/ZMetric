@@ -4,6 +4,9 @@
   "homepage": "https://zmetric.surge.sh",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.4.3",
+    "@storybook/react": "^5.0.8",
+    "babel-loader": "^8.0.5",
     "enzyme": "^3.9.0",
     "moment": "^2.24.0",
     "prop-types": "latest",
@@ -17,6 +20,7 @@
     "semantic-ui-react": "^0.86.0"
   },
   "scripts": {
+    "storybook": "cp ./node_modules/semantic-ui-css/semantic.min.css ./.storybook/ && start-storybook -s ./.storybook -p 6006",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -35,9 +39,12 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@storybook/addon-storyshots": "^5.0.8",
+    "@storybook/addon-storyshots-puppeteer": "^5.0.8",
     "coveralls": "^3.0.3",
     "cz-conventional-changelog": "2.1.0",
-    "enzyme-adapter-react-16": "^1.11.2"
+    "enzyme-adapter-react-16": "^1.11.2",
+    "require-context.macro": "^1.0.4"
   },
   "config": {
     "commitizen": {

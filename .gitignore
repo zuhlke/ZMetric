@@ -91,3 +91,10 @@ yarn-error.log*
 # iml file (IJ modules file)
 ZMetric.iml
 >>>>>>> 586f4c8dbbeaec9b95678f0187b1ce0cd1763971
+
+
+# Semantic UI css
+.storybook/semantic.min.css
+
+# Storybook diff files
+/src/__image_snapshots__/__diff_output__/
