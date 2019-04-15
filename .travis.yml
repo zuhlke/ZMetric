@@ -25,7 +25,7 @@ deploy:
   keep_history: true
   on:
     all_branches: true
-addons:
-  artifacts:
-    paths:
-    - src/__image_snapshots__/__diff_output__/
+#addons:
+#  artifacts:
+#    paths:
+#    - src/__image_snapshots__/__diff_output__/
