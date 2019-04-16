@@ -18,8 +18,27 @@ export function CumulativeFlowReport(props){
 
     const filterData = dateRange => {
         const newData = applyDateRangeFilter(dateRange, props.data);
-        updateDisplayedData(newData)
+        updateDisplayedData(newData);
     };
+
+    const updateWorkflowStatus = selectedStatuses => {
+        const newData = updateStatusesIncludedInData(selectedStatuses, props.data);
+        updateDisplayedData(newData);
+    };
+
+    const updateStatusesIncludedInData = (selectedStatuses, data) =>{
+        const updatedData = [];
+        data.forEach((entry, index) => {
+            updatedData[index] = Object.assign({}, entry);
+            Object.keys(selectedStatuses).forEach(statusName => {
+                if(!selectedStatuses[statusName]){
+                    delete updatedData[index][statusName];
+                }
+            });
+        });
+        return updatedData
+    };
+
 
     return(
         <Segment.Group stacked>
@@ -41,11 +60,12 @@ export function CumulativeFlowReport(props){
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <Legend/>
                                 <Tooltip />
+                                {/*TODO: */}
                                 <Area type="monotone" dataKey="To Do" stackId="1" stroke="#8884d8" fill="#8884d8" activeDot={false}/>
                                 <Area type="monotone" dataKey="In Progress" stackId="1" stroke="#82ca9d" fill="#82ca9d" activeDot={false}/>
                                 <Area type="monotone" dataKey="On Hold" stackId="1" stroke="#ffc658" fill="#ffc658" activeDot={false}/>
-                                <Area type="monotone" dataKey="In Review" stackId="1" stroke="#ff7300" fill="#ff7300" activeDot={false}/>
-                                <Area type="monotone" dataKey="Ready to Test" stackId="1" stroke="#17becf" fill="#17becf" activeDot={false}/>
+                                <Area type="monotone" dataKey="Review" stackId="1" stroke="#ff7300" fill="#ff7300" activeDot={false}/>
+                                <Area type="monotone" dataKey="Ready For Test" stackId="1" stroke="#17becf" fill="#17becf" activeDot={false}/>
                                 <Area type="monotone" dataKey="Done" stackId="1" stroke="#bcbd22" fill="#bcbd22" activeDot={false}/>
                             </AreaChart>
                         </ResponsiveContainer>
@@ -66,7 +86,7 @@ export function CumulativeFlowReport(props){
                         </Segment>
                         <Segment>
                             <h4>Select Workflow States</h4>
-                            <MultipleWorkflowStatesSelector workflow={workflow}/>
+                            <MultipleWorkflowStatesSelector workflow={workflow} updateWorkflowStatus={updateWorkflowStatus}/>
                         </Segment>
                     </Segment.Group>
                 </Segment>

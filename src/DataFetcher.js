@@ -600,8 +600,8 @@ const cumulativeFlowData = [
         "To Do":14,
         "In Progress": 2,
         "On Hold": 0,
-        "In Review": 0,
-        "Ready to Test": 0,
+        "Review": 0,
+        "Ready For Test": 0,
         "Done": 0
     },
     {
@@ -609,8 +609,8 @@ const cumulativeFlowData = [
         "To Do":12,
         "In Progress": 2,
         "On Hold": 1,
-        "In Review": 1,
-        "Ready to Test": 0,
+        "Review": 1,
+        "Ready For Test": 0,
         "Done": 0
     },
     {
@@ -618,8 +618,8 @@ const cumulativeFlowData = [
         "To Do":11,
         "In Progress": 3,
         "On Hold": 1,
-        "In Review": 0,
-        "Ready to Test": 1,
+        "Review": 0,
+        "Ready For Test": 1,
         "Done": 0
     },
     {
@@ -627,8 +627,8 @@ const cumulativeFlowData = [
         "To Do":9,
         "In Progress": 2,
         "On Hold": 0,
-        "In Review": 2,
-        "Ready to Test": 1,
+        "Review": 2,
+        "Ready For Test": 1,
         "Done": 2
     },
     {
@@ -636,8 +636,8 @@ const cumulativeFlowData = [
         "To Do":8,
         "In Progress": 3,
         "On Hold": 1,
-        "In Review": 1,
-        "Ready to Test": 0,
+        "Review": 1,
+        "Ready For Test": 0,
         "Done": 3
     },
     {
@@ -645,8 +645,8 @@ const cumulativeFlowData = [
         "To Do":8,
         "In Progress": 2,
         "On Hold": 1,
-        "In Review": 0,
-        "Ready to Test": 1,
+        "Review": 0,
+        "Ready For Test": 1,
         "Done": 5
     },
     {
@@ -654,8 +654,8 @@ const cumulativeFlowData = [
         "To Do":6,
         "In Progress": 4,
         "On Hold": 1,
-        "In Review": 0,
-        "Ready to Test": 0,
+        "Review": 0,
+        "Ready For Test": 0,
         "Done": 6
     },
     {
@@ -663,8 +663,8 @@ const cumulativeFlowData = [
         "To Do":4,
         "In Progress": 3,
         "On Hold": 1,
-        "In Review": 1,
-        "Ready to Test": 1,
+        "Review": 1,
+        "Ready For Test": 1,
         "Done": 7
     },
     {
@@ -672,8 +672,8 @@ const cumulativeFlowData = [
         "To Do": 4,
         "In Progress": 2,
         "On Hold": 2,
-        "In Review": 2,
-        "Ready to Test": 0,
+        "Review": 2,
+        "Ready For Test": 0,
         "Done": 7
     },
     {
@@ -681,8 +681,8 @@ const cumulativeFlowData = [
         "To Do":3,
         "In Progress": 3,
         "On Hold": 1,
-        "In Review": 1,
-        "Ready to Test": 2,
+        "Review": 1,
+        "Ready For Test": 2,
         "Done": 8
     },
     {
@@ -690,8 +690,8 @@ const cumulativeFlowData = [
         "To Do":1,
         "In Progress": 3,
         "On Hold": 2,
-        "In Review": 3,
-        "Ready to Test": 3,
+        "Review": 3,
+        "Ready For Test": 3,
         "Done": 8
     },
     {
@@ -699,8 +699,8 @@ const cumulativeFlowData = [
         "To Do":0,
         "In Progress": 2,
         "On Hold": 4,
-        "In Review": 3,
-        "Ready to Test": 2,
+        "Review": 3,
+        "Ready For Test": 2,
         "Done": 10
     }
 ];
