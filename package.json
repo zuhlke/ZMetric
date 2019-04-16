@@ -20,7 +20,7 @@
     "storybook": "yarn semantic-ui && start-storybook -s ./.storybook -p 6006",
     "storybook:build": "yarn semantic-ui && build-storybook -s ./.storybook/",
     "storybook:local-server:start": "http-server --silent -p 6006 storybook-static &",
-    "storybook:local-server:stop": "pkill -f http-server",
+    "storybook:local-server:stop": "pkill http-server",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
