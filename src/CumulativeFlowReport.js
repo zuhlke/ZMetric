@@ -12,9 +12,16 @@ import {getWorkflow} from "./DataFetcher";
 import {MultipleWorkflowStatesSelector} from "./MultipleWorkflowStatesSelector";
 
 export function CumulativeFlowReport(props){
+    const workflow = getWorkflow();
+    const initialStatuses = {};
+    workflow[3].statuses.forEach( status => {
+        initialStatuses[status.name] = true;
+    });
+
     const [displayedData, updateDisplayedData] = useState(props.data);//TODO: updateDATA
     const [isTableVisible, toggleTableVisibility] = useState(false);
-    const workflow = getWorkflow();
+    const [statusesToDisplay, updateStatusesToDisplay] = useState(initialStatuses);
+
 
     const filterData = dateRange => {
         const newData = applyDateRangeFilter(dateRange, props.data);//TODO: updateDATA
@@ -22,33 +29,23 @@ export function CumulativeFlowReport(props){
     };
 
     const updateWorkflowStatus = selectedStatuses => {
-        const newData = updateStatusesIncludedInData(selectedStatuses, props.data);//TODO: updateDATA
-        updateDisplayedData(newData);
-    };
-
-    const updateStatusesIncludedInData = (selectedStatuses, data) =>{
-        const updatedData = [];
-        data.forEach((entry, index) => {
-            updatedData[index] = Object.assign({}, entry);
-            Object.keys(selectedStatuses).forEach(statusName => {
-                if(!selectedStatuses[statusName]){
-                    delete updatedData[index][statusName];
-                }
-            });
-        });
-        return updatedData
+        updateStatusesToDisplay(selectedStatuses);
     };
 
     const displayStatusAreas = data => {
-        const arrayOfColours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22"];
+        const colours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22"];
         const copyOfFirstEntry = Object.assign({}, data[0]);
         delete copyOfFirstEntry.date;
-        const statuses = Object.keys(copyOfFirstEntry);
-        return statuses.map((status,index) => {
-            return (
-                <Area type="monotone" key={status+"-area"} dataKey={status} stackId="1" stroke="#8884d8" fill={arrayOfColours[index]} activeDot={false}/>
+        const statusEntries = Object.entries(statusesToDisplay);
+        return statusEntries.map((statusEntry, index) =>{
+            const colour = colours[(index % statusEntries.length)];
+            if(statusEntry[1]) {
+                return (
+                    <Area type="monotone" id={statusEntry[0] + "-area"} key={statusEntry[0] + "-area"} dataKey={statusEntry[0]} stackId="1"
+                          stroke={colour} fill={colour} activeDot={false}/>
                 )
-        })
+            }
+        });
     };
 
     return(
@@ -129,8 +126,8 @@ export function CumulativeFlowReport(props){
 //         "To Do": PropTypes.number.isRequired,
 //         "In Progress": PropTypes.number.isRequired,
 //         "On Hold": PropTypes.number.isRequired,
-//         "In Review": PropTypes.number.isRequired,
-//         "Ready To Test": PropTypes.number.isRequired,
+//         "Review": PropTypes.number.isRequired,
+//         "Ready For Test": PropTypes.number.isRequired,
 //         Done: PropTypes.number.isRequired
 //     })).isRequired
 // };

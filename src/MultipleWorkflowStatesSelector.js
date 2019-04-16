@@ -18,7 +18,7 @@ export function MultipleWorkflowStatesSelector(props){
     return (
         <div>
             {
-                props.workflow[0].statuses.map((status) =>{
+                props.workflow[3].statuses.map((status) =>{
                         return(
                             <div key={'multi-issue-selector-inner-div-' + status.id}>
                                 <br key={'multi-issue-selector-inner-br-' + status.id}/>
