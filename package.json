@@ -20,10 +20,15 @@
     "semantic-ui-react": "^0.86.0"
   },
   "scripts": {
-    "storybook": "cp ./node_modules/semantic-ui-css/semantic.min.css ./.storybook/ && start-storybook -s ./.storybook -p 6006",
+    "semantic-ui": "cp ./node_modules/semantic-ui-css/semantic.min.css ./.storybook/",
+    "storybook": "yarn semantic-ui && start-storybook -s ./.storybook -p 6006",
+    "storybook:build": "yarn semantic-ui && build-storybook -s ./.storybook/",
+    "storybook:local-server:start": "http-server --silent -p 6006 storybook-static &",
+    "storybook:local-server:stop": "pkill -f http-server",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:ci": "yarn storybook:build && yarn storybook:local-server:start && yarn test-coverage && yarn storybook:local-server:stop",
     "audit": "node scripts/audit.js",
     "test-coverage": "react-scripts test --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",

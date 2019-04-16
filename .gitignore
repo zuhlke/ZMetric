@@ -98,3 +98,6 @@ ZMetric.iml
 
 # Storybook diff files
 /src/__image_snapshots__/__diff_output__/
+
+# Storybook static build
+/storybook-static/
