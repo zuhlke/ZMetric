@@ -94,7 +94,7 @@ ZMetric.iml
 
 
 # Semantic UI css
-.storybook/semantic.min.css
+.storybook/semantic-ui-css/
 
 # Storybook diff files
 /src/__image_snapshots__/__diff_output__/

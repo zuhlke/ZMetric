@@ -16,7 +16,7 @@
     "semantic-ui-react": "^0.86.0"
   },
   "scripts": {
-    "semantic-ui": "cp ./node_modules/semantic-ui-css/semantic.min.css ./.storybook/",
+    "semantic-ui": "cp -R ./node_modules/semantic-ui-css ./.storybook/",
     "storybook": "yarn semantic-ui && start-storybook -s ./.storybook -p 6006",
     "storybook:build": "yarn semantic-ui && build-storybook -s ./.storybook/",
     "storybook:local-server:start": "http-server --silent -p 6006 storybook-static &",
