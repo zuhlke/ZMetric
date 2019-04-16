@@ -12,17 +12,17 @@ import {getWorkflow} from "./DataFetcher";
 import {MultipleWorkflowStatesSelector} from "./MultipleWorkflowStatesSelector";
 
 export function CumulativeFlowReport(props){
-    const [displayedData, updateDisplayedData] = useState(props.data);
+    const [displayedData, updateDisplayedData] = useState(props.data);//TODO: updateDATA
     const [isTableVisible, toggleTableVisibility] = useState(false);
     const workflow = getWorkflow();
 
     const filterData = dateRange => {
-        const newData = applyDateRangeFilter(dateRange, props.data);
+        const newData = applyDateRangeFilter(dateRange, props.data);//TODO: updateDATA
         updateDisplayedData(newData);
     };
 
     const updateWorkflowStatus = selectedStatuses => {
-        const newData = updateStatusesIncludedInData(selectedStatuses, props.data);
+        const newData = updateStatusesIncludedInData(selectedStatuses, props.data);//TODO: updateDATA
         updateDisplayedData(newData);
     };
 
@@ -39,6 +39,17 @@ export function CumulativeFlowReport(props){
         return updatedData
     };
 
+    const displayStatusAreas = data => {
+        const arrayOfColours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22"];
+        const copyOfFirstEntry = Object.assign({}, data[0]);
+        delete copyOfFirstEntry.date;
+        const statuses = Object.keys(copyOfFirstEntry);
+        return statuses.map((status,index) => {
+            return (
+                <Area type="monotone" key={status+"-area"} dataKey={status} stackId="1" stroke="#8884d8" fill={arrayOfColours[index]} activeDot={false}/>
+                )
+        })
+    };
 
     return(
         <Segment.Group stacked>
@@ -49,7 +60,7 @@ export function CumulativeFlowReport(props){
                     </Label>
                     <div className={'chart-segment'}>
                         <ResponsiveContainer>
-                            <AreaChart id='cumulative-flow-area-chart' data={displayedData} >
+                            <AreaChart id='cumulative-flow-area-chart' data={displayedData } >{/*//TODO: updateDATA*/}
                                 <XAxis dataKey="date"/>
                                 <YAxis
                                     label={{
@@ -60,13 +71,9 @@ export function CumulativeFlowReport(props){
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <Legend/>
                                 <Tooltip />
-                                {/*TODO: */}
-                                <Area type="monotone" dataKey="To Do" stackId="1" stroke="#8884d8" fill="#8884d8" activeDot={false}/>
-                                <Area type="monotone" dataKey="In Progress" stackId="1" stroke="#82ca9d" fill="#82ca9d" activeDot={false}/>
-                                <Area type="monotone" dataKey="On Hold" stackId="1" stroke="#ffc658" fill="#ffc658" activeDot={false}/>
-                                <Area type="monotone" dataKey="Review" stackId="1" stroke="#ff7300" fill="#ff7300" activeDot={false}/>
-                                <Area type="monotone" dataKey="Ready For Test" stackId="1" stroke="#17becf" fill="#17becf" activeDot={false}/>
-                                <Area type="monotone" dataKey="Done" stackId="1" stroke="#bcbd22" fill="#bcbd22" activeDot={false}/>
+                                {
+                                    displayStatusAreas(displayedData)
+                                }
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
