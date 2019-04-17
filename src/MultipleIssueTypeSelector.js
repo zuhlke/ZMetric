@@ -1,4 +1,4 @@
-import React, from 'react'
+import React from 'react'
 import {Checkbox} from "semantic-ui-react";
 import PropTypes from "prop-types";
 
