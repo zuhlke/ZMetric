@@ -4,6 +4,7 @@
   "homepage": "https://zmetric.surge.sh",
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.4.3",
     "jira-client": "^6.7.1",
     "moment": "^2.24.0",
     "prop-types": "latest",
@@ -11,8 +12,9 @@
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8",
     "recharts": "^1.5.0",
-    "request-promise": "^4.2.4",
     "regression": "^2.0.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "semantic-ui-calendar-react": "^0.14.4",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.86.0"
@@ -42,15 +44,15 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.4.3",
-    "@storybook/react": "^5.0.8",
     "@storybook/addon-storyshots": "^5.0.8",
     "@storybook/addon-storyshots-puppeteer": "^5.0.8",
+    "@storybook/react": "^5.0.8",
     "babel-loader": "^8.0.5",
-    "enzyme": "^3.9.0",
-    "http-server": "^0.11.1",
     "coveralls": "^3.0.3",
     "cz-conventional-changelog": "2.1.0",
+    "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
+    "http-server": "^0.11.1",
     "require-context.macro": "^1.0.4"
   },
   "config": {
