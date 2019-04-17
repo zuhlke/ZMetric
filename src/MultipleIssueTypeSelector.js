@@ -1,19 +1,8 @@
-import React, {useState} from 'react'
+import React, from 'react'
 import {Checkbox} from "semantic-ui-react";
+import PropTypes from "prop-types";
 
 export function MultipleIssueTypeSelector(props){
-    const initialIssueTypes = {};
-    props.workflow.forEach((issueType) => {
-        initialIssueTypes[issueType.name] = issueType.name === "Story";
-    });
-    const [selectedIssueTypes, updateSelectedIssueTypes] = useState(initialIssueTypes);
-
-    const handleInputChange = (event, data) => {
-        const copy = Object.assign({},selectedIssueTypes);
-        copy[data.name] = data.checked;
-        updateSelectedIssueTypes(copy);
-    };
-
     return (
         <div>
             {
@@ -22,10 +11,11 @@ export function MultipleIssueTypeSelector(props){
                             <div key={'multi-issue-selector-inner-div-' + issueType.id}>
                                 <br key={'multi-issue-selector-inner-br-' + issueType.id}/>
                                 <Checkbox
+                                    id={'multi-issue-selector-checkbox-' + issueType.id}
                                     key={'multi-issue-selector-checkbox-' + issueType.id}
                                     name={issueType.name}  label={issueType.name}
-                                    checked={selectedIssueTypes[issueType.name]}
-                                    onChange={handleInputChange}
+                                    checked={props.selectedIssueTypes.get(issueType.name)}
+                                    onChange={() => props.toggleIssueType(issueType.name)}
                                     toggle/>
                             </div>
                         )
@@ -34,3 +24,12 @@ export function MultipleIssueTypeSelector(props){
         </div>
     )
 }
+
+MultipleIssueTypeSelector.propTypes = {
+    workflow: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+    })),
+    selectedIssueTypes: PropTypes.object.isRequired,
+    toggleIssueType: PropTypes.func.isRequired
+};

@@ -15,8 +15,17 @@ export function CumulativeFlowReport(props) {
     const [displayedData, updateDisplayedData] = useState(props.data);
     const [isTableVisible, toggleTableVisibility] = useState(false);
 
-    const startState = props.workflow[3].statuses.map(status => [status.name, true]);
-    const [workflowStates, updateWorkflowStates] = useState(new Map(startState));
+    const workflowStatusesStartState = props.workflow[3].statuses.map(status => [status.name, true]);
+    const [workflowStates, updateWorkflowStates] = useState(new Map(workflowStatusesStartState));
+
+    const issueTypesStartState = props.workflow.map(issueType => [issueType.name, issueType.name==="Story"]);
+    const [selectedIssueTypes, updateSelectedIssueTypes] = useState(new Map(issueTypesStartState));
+
+    const toggleIssueType = issueTypeName => {
+        const updatedIssueTypes = new Map(selectedIssueTypes);
+        updatedIssueTypes.set(issueTypeName, !updatedIssueTypes.get(issueTypeName));
+        updateSelectedIssueTypes(updatedIssueTypes);
+    };
 
     const filterData = dateRange => {
         const newData = applyDateRangeFilter(dateRange, props.data);
@@ -75,7 +84,9 @@ export function CumulativeFlowReport(props) {
                     <Segment.Group horizontal>
                         <Segment>
                             <h4>Select Issue types:</h4>
-                            <MultipleIssueTypeSelector workflow={props.workflow}/>
+                            <MultipleIssueTypeSelector workflow={props.workflow}
+                                                       selectedIssueTypes={selectedIssueTypes}
+                                                       toggleIssueType={toggleIssueType}/>
                         </Segment>
                         <Segment>
                             <h4>Select Workflow States</h4>
