@@ -15,15 +15,6 @@ export function CumulativeFlowReport(props) {
     const [displayedData, updateDisplayedData] = useState(props.data);
     const [isTableVisible, toggleTableVisibility] = useState(false);
 
-    const initialSelectedWorkflowState = props.workflow[3].statuses.map(status => [
-            status.name, {
-                "id": status.id,
-                "selected": true
-            }
-        ]
-    );
-    const [selectedWorkflowStates, updateSelectedWorkflowStates] = useState(new Map(initialSelectedWorkflowState));
-
     const initialSelectedIssueTypesState = props.workflow.map(issueType => [
             issueType.name, {
                 "id": issueType.id,
@@ -32,6 +23,9 @@ export function CumulativeFlowReport(props) {
         ]
     );
     const [selectedIssueTypes, updateSelectedIssueTypes] = useState(new Map(initialSelectedIssueTypesState));
+    const initialSelectedWorkflowState = updatedAvailableWorkflowStatusTypes(new Map(initialSelectedIssueTypesState));
+    const [selectedWorkflowStates, updateSelectedWorkflowStates] = useState(new Map(initialSelectedWorkflowState));
+
 
     const toggleIssueType = issueTypeName => {
         const updatedIssueTypes = new Map(selectedIssueTypes);
@@ -43,26 +37,29 @@ export function CumulativeFlowReport(props) {
     };
 
     const updateAvailableWorkflowStatusTypes = updatedIssueTypes => {
+        updateSelectedWorkflowStates(updatedAvailableWorkflowStatusTypes(updatedIssueTypes));
+    };
+
+    function updatedAvailableWorkflowStatusTypes(updatedIssueTypes) {
         const filteredIssuesWithStatuses = props.workflow.filter(issueType => updatedIssueTypes.get(issueType.name).selected);
 
         const graphWorkflowStates = filteredIssuesWithStatuses
             .flatMap(issueType => issueType.statuses)
             .map(status => [status.name, {"id": status.id, "selected": true}]);
 
-        let stateMap = new Map(graphWorkflowStates);
-        updateSelectedWorkflowStates(stateMap);
-    };
-
-    const filterData = dateRange => {
-        const newData = applyDateRangeFilter(dateRange, props.data);
-        updateDisplayedData(newData);
-    };
+        return new Map(graphWorkflowStates);
+    }
 
     const toggleWorkflowStatus = statusName => {
         let updatedStatus = new Map(selectedWorkflowStates);
         updatedStatus.set(statusName,
             {...updatedStatus.get(statusName), selected: !updatedStatus.get(statusName).selected});
         updateSelectedWorkflowStates(updatedStatus);
+    };
+
+    const filterData = dateRange => {
+        const newData = applyDateRangeFilter(dateRange, props.data);
+        updateDisplayedData(newData);
     };
 
     const renderAreaChartsForSelectedWorkflows = () => {
