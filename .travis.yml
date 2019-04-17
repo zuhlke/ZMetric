@@ -18,7 +18,7 @@ after_script:
 deploy:
   provider: surge
   project: ./build/
-  domain: $(if [ $"TRAVIS_BRANCH" == "none/master_deployment" ]; then echo "https://zmetric.surge.sh"; else echo "https://"$TRAVIS_BRANCH"-zmetric.surge.sh"; fi)
+  domain: $(if [ $"TRAVIS_BRANCH" = "none/master_deployment" ]; then echo "https://zmetric.surge.sh"; else echo "https://"$TRAVIS_BRANCH"-zmetric.surge.sh"; fi)
   skip_cleanup: true
   keep_history: true
   on:
