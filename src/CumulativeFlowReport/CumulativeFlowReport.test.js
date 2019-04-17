@@ -7,19 +7,28 @@ import {Checkbox} from "semantic-ui-react";
 import {act} from "react-dom/test-utils";
 import {Area, AreaChart} from "recharts";
 import {MultipleWorkflowStatesSelector} from "../MultipleWorkflowStatesSelector";
+import {MultipleIssueTypeSelector} from "../MultipleIssueTypeSelector";
 
 describe("CumulativeFlowReport", () => {
     const workflow = [
         {
             "id": "1",
-            "name": "Bug"
+            "name": "Bug",
+            "statuses": [
+                {
+                    "name": "Bug To Do",
+                    "id": "3",
+                }
+            ]
         }, {
             "id": "11201",
+            "name": "Epic"
+        }, {
+            "id": "11204",
             "name": "Spike"
         }, {
             "id": "10001",
-            "name": "Story"
-        }, {
+            "name": "Story",
             "statuses": [
                 {
                     "name": "To Do",
@@ -95,6 +104,12 @@ describe("CumulativeFlowReport", () => {
         expect(wrapper.find(Area).length).toBe(2);
     });
 
+    it('initializes issue types with story as default', () => {
+        const wrapper = mount(<CumulativeFlowReport data={data} workflow={workflow} graphWidth={400}/>);
+
+        expect(wrapper.find("#multi-issue-selector-checkbox-10001").hostNodes().props().checked).toBeTruthy();
+    });
+
     it("updates graph when deselecting workflow state", () => {
         const wrapper = mount(<CumulativeFlowReport data={data} workflow={workflow} graphWidth={400}/>);
         const workflowSelector = wrapper.find(MultipleWorkflowStatesSelector);
@@ -104,5 +119,16 @@ describe("CumulativeFlowReport", () => {
         const areaCharts = wrapper.find(Area);
         expect(areaCharts.length).toEqual(1);
         expect(areaCharts.first().props().id).toEqual("In Progress");
+    });
+
+    it("updates available workflows when selecting issues types with new workflows", () => {
+        const wrapper = mount(<CumulativeFlowReport data={data} workflow={workflow} graphWidth={400}/>);
+        const issueTypeSelector = wrapper.find(MultipleIssueTypeSelector);
+
+        issueTypeSelector.find(Checkbox).first().simulate('change');
+
+        const workflowSelector = wrapper.find(MultipleWorkflowStatesSelector);
+        const workflowStates = workflowSelector.find(Checkbox);
+        expect(workflowStates.length).toEqual(3);
     });
 });
