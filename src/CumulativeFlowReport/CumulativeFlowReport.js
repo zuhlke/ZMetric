@@ -1,54 +1,41 @@
 import React, {useState} from 'react'
-// import PropTypes from 'prop-types';
 import {Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {Button, Label, Segment, Transition} from "semantic-ui-react";
-import './global.css';
-import {applyDateRangeFilter} from "./DateFiltering/DateFilter";
-import {DynamicTable} from "./DynamicTable";
-import {DateRangePicker} from "./DateRangePicker";
+import '../global.css';
+import {applyDateRangeFilter} from "../DateFiltering/DateFilter";
+import {DynamicTable} from "../DynamicTable";
+import {DateRangePicker} from "../DateRangePicker";
 import moment from "moment";
-import {MultipleIssueTypeSelector} from "./MultipleIssueTypeSelector";
-import {getWorkflow} from "./DataFetcher";
-import {MultipleWorkflowStatesSelector} from "./MultipleWorkflowStatesSelector";
+import {MultipleIssueTypeSelector} from "../MultipleIssueTypeSelector";
+import {MultipleWorkflowStatesSelector} from "../MultipleWorkflowStatesSelector";
+import PropTypes from "prop-types";
 
-export function CumulativeFlowReport(props){
-    const workflow = getWorkflow();
-    const initialStatuses = {};
-    workflow[3].statuses.forEach( status => {
-        initialStatuses[status.name] = true;
-    });
-
-    const [displayedData, updateDisplayedData] = useState(props.data);//TODO: updateDATA
+export function CumulativeFlowReport(props) {
+    const colours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22"];
+    const [displayedData, updateDisplayedData] = useState(props.data);
     const [isTableVisible, toggleTableVisibility] = useState(false);
-    const [statusesToDisplay, updateStatusesToDisplay] = useState(initialStatuses);
-
+    const [workflowStates, updateWorkflowStates] = useState(new Map());
 
     const filterData = dateRange => {
-        const newData = applyDateRangeFilter(dateRange, props.data);//TODO: updateDATA
+        const newData = applyDateRangeFilter(dateRange, props.data);
         updateDisplayedData(newData);
     };
 
-    const updateWorkflowStatus = selectedStatuses => {
-        updateStatusesToDisplay(selectedStatuses);
+    const toggleWorkflowStatus = statusName => {
+        let updatedStatus = new Map(workflowStates);
+        updatedStatus.set(statusName, !updatedStatus.get(statusName));
+        updateWorkflowStates(updatedStatus);
     };
 
-    const displayStatusAreas = data => {
-        const colours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22"];
-        const copyOfFirstEntry = Object.assign({}, data[0]);
-        delete copyOfFirstEntry.date;
-        const statusEntries = Object.entries(statusesToDisplay);
-        return statusEntries.map((statusEntry, index) =>{
-            const colour = colours[(index % statusEntries.length)];
-            if(statusEntry[1]) {
-                return (
-                    <Area type="monotone" id={statusEntry[0] + "-area"} key={statusEntry[0] + "-area"} dataKey={statusEntry[0]} stackId="1"
-                          stroke={colour} fill={colour} activeDot={false}/>
-                )
-            }
-        });
+    const renderAreaChartsForSelectedWorkflows = () => {
+        return Array.from(workflowStates.entries())
+            .filter(entry => entry[1] === true)
+            .map((entry, index) =>
+                <Area type="monotone" id={entry[0]} key={entry[0]} dataKey={entry[0]} stackId="1"
+                      stroke={colours[index]} fill={colours[index]} activeDot={false}/>);
     };
 
-    return(
+    return (
         <Segment.Group stacked>
             <Segment.Group horizontal>
                 <Segment>
@@ -57,7 +44,7 @@ export function CumulativeFlowReport(props){
                     </Label>
                     <div className={'chart-segment'}>
                         <ResponsiveContainer>
-                            <AreaChart id='cumulative-flow-area-chart' data={displayedData } >{/*//TODO: updateDATA*/}
+                            <AreaChart id='cumulative-flow-area-chart' data={displayedData}>
                                 <XAxis dataKey="date"/>
                                 <YAxis
                                     label={{
@@ -65,11 +52,11 @@ export function CumulativeFlowReport(props){
                                         angle: -90,
                                         position: 'insideLeft'
                                     }}/>
-                                <CartesianGrid strokeDasharray="3 3" />
+                                <CartesianGrid strokeDasharray="3 3"/>
                                 <Legend/>
-                                <Tooltip />
+                                <Tooltip/>
                                 {
-                                    displayStatusAreas(displayedData)
+                                    renderAreaChartsForSelectedWorkflows()
                                 }
                             </AreaChart>
                         </ResponsiveContainer>
@@ -86,11 +73,13 @@ export function CumulativeFlowReport(props){
                     <Segment.Group horizontal>
                         <Segment>
                             <h4>Select Issue types:</h4>
-                            <MultipleIssueTypeSelector workflow={workflow}/>
+                            <MultipleIssueTypeSelector workflow={props.workflow}/>
                         </Segment>
                         <Segment>
                             <h4>Select Workflow States</h4>
-                            <MultipleWorkflowStatesSelector workflow={workflow} updateWorkflowStatus={updateWorkflowStatus}/>
+                            <MultipleWorkflowStatesSelector statuses={props.workflow[3].statuses}
+                                                            workflowStates={workflowStates}
+                                                            toggleWorkflowStatus={toggleWorkflowStatus}/>
                         </Segment>
                     </Segment.Group>
                 </Segment>
@@ -120,17 +109,12 @@ export function CumulativeFlowReport(props){
     )
 }
 
-// CumulativeFlowReport.PropTypes = {
-//     data: PropTypes.arrayOf(PropTypes.shape({
-//         date: PropTypes.string.isRequired,
-//         "To Do": PropTypes.number.isRequired,
-//         "In Progress": PropTypes.number.isRequired,
-//         "On Hold": PropTypes.number.isRequired,
-//         "Review": PropTypes.number.isRequired,
-//         "Ready For Test": PropTypes.number.isRequired,
-//         Done: PropTypes.number.isRequired
-//     })).isRequired
-// };
+CumulativeFlowReport.propTypes = {
+    data: PropTypes.array.isRequired,
+    workflow: PropTypes.arrayOf(PropTypes.shape({
+        statuses: PropTypes.isRequired
+    })).isRequired
+};
 
 
 

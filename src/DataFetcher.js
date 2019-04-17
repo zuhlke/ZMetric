@@ -594,7 +594,6 @@ const leadAndCycleTimeData = [
         "averageCycleTime": 4
     }
 ];
-
 const newCumulativeFlowData = [
     {
         "id": "1",
@@ -1276,7 +1275,6 @@ const newCumulativeFlowData = [
         ]
     }
 ];
-
 const cumulativeFlowData = [
     {
         "date": "2019-02-01",

@@ -2,10 +2,10 @@ import ReactDOM from "react-dom";
 import React from "react";
 import {CumulativeFlowReport} from "./CumulativeFlowReport";
 import {mount} from "enzyme/build";
-import {DatesRangeInput} from "semantic-ui-calendar-react";
+import {DatesRangeInput} from "semantic-ui-calendar-react/dist/commonjs/index";
 import {act} from "react-dom/test-utils";
 import {AreaChart} from "recharts";
-import {getMockWorkflow} from "./MockDataFetcher";
+import {getMockWorkflow} from "../MockDataFetcher";
 
 const unfilteredData = [
     {
