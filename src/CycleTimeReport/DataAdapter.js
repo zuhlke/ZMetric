@@ -38,4 +38,3 @@ const getAverageLeadTime = (issues, date) => {
         .map(issue => issue.leadTime);
     return average(leadTimes)
 };
-

@@ -1,9 +1,9 @@
 import React from 'react';
 import {ThroughputReport} from "./ThroughputReport";
-import {mount} from "enzyme";
+import {mount, shallow} from "enzyme";
 import {DatesRangeInput} from "semantic-ui-calendar-react";
 import {act} from "react-dom/test-utils";
-import {BarChart, ReferenceLine} from "recharts";
+import {ComposedChart, ReferenceLine} from "recharts";
 import ReactDOM from "react-dom";
 
 const unfilteredData = [
@@ -26,11 +26,13 @@ const unfilteredData = [
 const expectedFilteredData = [
     {
         "date": "2019-02-02",
-        "throughput":3
+        "throughput":3,
+        "trend":3
     },
     {
         "date": "2019-02-03",
-        "throughput":4
+        "throughput":4,
+        "trend":4
     }
 ];
 
@@ -50,17 +52,17 @@ describe("ThroughputReport", () =>{
             datesRangeInput.props().onChange(event, {value: '02-02-2019 - 03-02-2019'});
         });
         wrapper.update();
-        const chartProps = wrapper.find(BarChart).props();
+        const chartProps = wrapper.find(ComposedChart).props();
         expect(chartProps.data).toEqual(expectedFilteredData);
     });
 
     it("renders ReferenceLine at height of average throughput", () => {
-        const wrapper = mount(<ThroughputReport data={unfilteredData}/>);
+        const wrapper = shallow(<ThroughputReport data={unfilteredData}/>);
         expect(wrapper.find(ReferenceLine).props().y).toEqual(2.5);
     });
 
     it("re-renders ReferenceLine at height of average throughput during a date range specified with the DateRangePicker", () => {
-        const wrapper = mount(<ThroughputReport data={unfilteredData}/>);
+        const wrapper = mount(<ThroughputReport graphWidth={400} data={unfilteredData}/>);
         const datesRangeInput = wrapper.find(DatesRangeInput);
         const event =  { target: { value: '02-02-2019 - 03-02-2019' } };
         expect(wrapper.find(ReferenceLine).props().y).toEqual(2.5);
