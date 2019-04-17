@@ -10,7 +10,7 @@ const workflow = [
                     "description": "",
                     "iconUrl": "https://jira.zuehlke.com/images/icons/subtask.gif",
                     "name": "Bug To Do",
-                    "id": "10100",
+                    "id": "9999999",
                     "statusCategory": {
                         "self": "https://jira.zuehlke.com/rest/api/2/statuscategory/2",
                         "id": 2,
