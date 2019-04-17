@@ -14,7 +14,7 @@ export function MultipleIssueTypeSelector(props){
                                     id={'multi-issue-selector-checkbox-' + issueType.id}
                                     key={'multi-issue-selector-checkbox-' + issueType.id}
                                     name={issueType.name}  label={issueType.name}
-                                    checked={props.selectedIssueTypes.get(issueType.name)}
+                                    checked={props.selectedIssueTypes.get(issueType.name).selected}
                                     onChange={() => props.toggleIssueType(issueType.name)}
                                     toggle/>
                             </div>

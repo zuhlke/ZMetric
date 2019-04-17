@@ -15,41 +15,42 @@ export function CumulativeFlowReport(props) {
     const [displayedData, updateDisplayedData] = useState(props.data);
     const [isTableVisible, toggleTableVisibility] = useState(false);
 
-    const initialSelectedWorkflowState = props.workflow[3].statuses.map(status => [status.name, true]);
+    const initialSelectedWorkflowState = props.workflow[3].statuses.map(status => [
+            status.name, {
+                "id": status.id,
+                "selected": true
+            }
+        ]
+    );
     const [selectedWorkflowStates, updateSelectedWorkflowStates] = useState(new Map(initialSelectedWorkflowState));
 
-    const initialSelecteIssueTypesState = props.workflow.map(issueType => [issueType.name, issueType.name === "Story"]);
-    const [selectedIssueTypes, updateSelectedIssueTypes] = useState(new Map(initialSelecteIssueTypesState));
-
-    const [visibleStatuses, updateVisibleStatuses] = useState(props.workflow[3].statuses);
+    const initialSelectedIssueTypesState = props.workflow.map(issueType => [
+            issueType.name, {
+                "id": issueType.id,
+                "selected": issueType.name === "Story"
+            }
+        ]
+    );
+    const [selectedIssueTypes, updateSelectedIssueTypes] = useState(new Map(initialSelectedIssueTypesState));
 
     const toggleIssueType = issueTypeName => {
         const updatedIssueTypes = new Map(selectedIssueTypes);
-        updatedIssueTypes.set(issueTypeName, !updatedIssueTypes.get(issueTypeName));
+        updatedIssueTypes.set(issueTypeName,
+            {...updatedIssueTypes.get(issueTypeName), selected: !updatedIssueTypes.get(issueTypeName).selected});
         updateSelectedIssueTypes(updatedIssueTypes);
 
-        updateAvailableIssueTypes(updatedIssueTypes);
+        updateAvailableWorkflowStatusTypes(updatedIssueTypes);
     };
 
-    const updateAvailableIssueTypes = updatedIssueTypes => {
-        const filteredIssuesWithStatuses = props.workflow.filter(issueType => updatedIssueTypes.get(issueType.name));
+    const updateAvailableWorkflowStatusTypes = updatedIssueTypes => {
+        const filteredIssuesWithStatuses = props.workflow.filter(issueType => updatedIssueTypes.get(issueType.name).selected);
 
         const graphWorkflowStates = filteredIssuesWithStatuses
             .flatMap(issueType => issueType.statuses)
-            .map(status => [status.name, true]);
+            .map(status => [status.name, {"id": status.id, "selected": true}]);
 
         let stateMap = new Map(graphWorkflowStates);
         updateSelectedWorkflowStates(stateMap);
-
-        const updatedWorkflowStates = filteredIssuesWithStatuses
-            .flatMap(issueType => issueType.statuses)
-            .filter(status => !selectedWorkflowStates.has(status.name))
-            .flatMap(status => {
-                return {"name": status.name, "id": status.id}
-            });
-
-        const mergedStates = updatedWorkflowStates.concat(visibleStatuses);
-        updateVisibleStatuses(mergedStates);
     };
 
     const filterData = dateRange => {
@@ -59,13 +60,14 @@ export function CumulativeFlowReport(props) {
 
     const toggleWorkflowStatus = statusName => {
         let updatedStatus = new Map(selectedWorkflowStates);
-        updatedStatus.set(statusName, !updatedStatus.get(statusName));
+        updatedStatus.set(statusName,
+            {...updatedStatus.get(statusName), selected: !updatedStatus.get(statusName).selected});
         updateSelectedWorkflowStates(updatedStatus);
     };
 
     const renderAreaChartsForSelectedWorkflows = () => {
         return Array.from(selectedWorkflowStates.entries())
-            .filter(entry => entry[1] === true)
+            .filter(entry => entry[1].selected === true)
             .map((entry, index) =>
                 <Area type="monotone" id={entry[0]} key={entry[0]} dataKey={entry[0]} stackId="1"
                       stroke={colours[index]} fill={colours[index]} activeDot={false}/>);
@@ -115,8 +117,7 @@ export function CumulativeFlowReport(props) {
                         </Segment>
                         <Segment>
                             <h4>Select Workflow States</h4>
-                            <MultipleWorkflowStatesSelector statuses={visibleStatuses}
-                                                            workflowStates={selectedWorkflowStates}
+                            <MultipleWorkflowStatesSelector workflowStates={selectedWorkflowStates}
                                                             toggleWorkflowStatus={toggleWorkflowStatus}/>
                         </Segment>
                     </Segment.Group>

@@ -7,15 +7,15 @@ export function MultipleWorkflowStatesSelector(props) {
     return (
         <div>
             {
-                props.statuses.map(status => {
+                Array.from(props.workflowStates).map(state => {
                         return (
-                            <div key={'multi-issue-selector-inner-div-' + status.id}>
-                                <br key={'multi-issue-selector-inner-br-' + status.id}/>
-                                <Checkbox key={'multi-issue-selector-checkbox-' + status.id}
-                                          id={'multi-issue-selector-checkbox-' + status.id}
-                                          name={status.name} label={status.name}
-                                          checked={props.workflowStates.get(status.name)}
-                                          onChange={() => props.toggleWorkflowStatus(status.name)}
+                            <div key={'multi-workflow-selector-inner-div-' + state[1].id}>
+                                <br key={'multi-workflow-selector-inner-br-' + state[1].id}/>
+                                <Checkbox key={'multi-workflow-selector-checkbox-' + state[1].id}
+                                          id={'multi-workflow-selector-checkbox-' + state[1].id}
+                                          name={state[0]} label={state[0]}
+                                          checked={props.workflowStates.get(state[0]).selected}
+                                          onChange={() => props.toggleWorkflowStatus(state[0])}
                                           toggle/>
                             </div>
                         )
@@ -27,10 +27,6 @@ export function MultipleWorkflowStatesSelector(props) {
 }
 
 MultipleWorkflowStatesSelector.propTypes = {
-    statuses: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-    })),
     workflowStates: PropTypes.object.isRequired,
     toggleWorkflowStatus: PropTypes.func.isRequired
 };
