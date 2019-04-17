@@ -14,7 +14,9 @@ export function CumulativeFlowReport(props) {
     const colours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22"];
     const [displayedData, updateDisplayedData] = useState(props.data);
     const [isTableVisible, toggleTableVisibility] = useState(false);
-    const [workflowStates, updateWorkflowStates] = useState(new Map());
+
+    const startState = props.workflow[3].statuses.map(status => [status.name, true]);
+    const [workflowStates, updateWorkflowStates] = useState(new Map(startState));
 
     const filterData = dateRange => {
         const newData = applyDateRangeFilter(dateRange, props.data);
@@ -43,7 +45,7 @@ export function CumulativeFlowReport(props) {
                         Cumulative Flow
                     </Label>
                     <div className={'chart-segment'}>
-                        <ResponsiveContainer>
+                        <ResponsiveContainer width={props.graphWidth} height={400}>
                             <AreaChart id='cumulative-flow-area-chart' data={displayedData}>
                                 <XAxis dataKey="date"/>
                                 <YAxis
@@ -112,8 +114,9 @@ export function CumulativeFlowReport(props) {
 CumulativeFlowReport.propTypes = {
     data: PropTypes.array.isRequired,
     workflow: PropTypes.arrayOf(PropTypes.shape({
-        statuses: PropTypes.isRequired
-    })).isRequired
+        statuses: PropTypes.array.isRequired
+    })).isRequired,
+    graphWidth: PropTypes.number
 };
 
 

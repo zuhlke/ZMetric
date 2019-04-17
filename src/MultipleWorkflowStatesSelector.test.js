@@ -39,7 +39,7 @@ describe("MultipleWorkflowStatesSelector", () => {
                                                               toggleWorkflowStatus={mockFn}/>);
 
         const checkBox = wrapper.find(Checkbox).first();
-        checkBox.simulate('change', {target: {checked: true}});
+        checkBox.simulate('change');
         expect(mockFn).toHaveBeenCalledWith("To Do");
     });
 
