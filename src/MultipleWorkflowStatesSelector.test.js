@@ -1,47 +1,56 @@
 import React from 'react';
 import {MultipleWorkflowStatesSelector} from "./MultipleWorkflowStatesSelector";
 import {mount} from "enzyme";
-import {getMockWorkflow} from "./MockDataFetcher";
+import {Checkbox} from "semantic-ui-react";
 import ReactDOM from "react-dom";
 
 describe("MultipleWorkflowStatesSelector", () => {
-    const statuses = getMockWorkflow()[3].statuses;
-    const initialSelectedStatuses = {
-        'To Do': true,
-        'In Progress': true,
-        Review: true,
-        Done: true,
-        'On Hold': true,
-        'Ready For Test': true
-    };
+    const statuses = [
+        {
+            "name": "To Do",
+            "id": "10100",
+        },
+        {
+            "name": "In Progress",
+            "id": "3"
+        }
+    ];
 
     it("renders without crashing", () => {
         const div = document.createElement('div');
-        ReactDOM.render(<MultipleWorkflowStatesSelector workflow={getMockWorkflow()} updateWorkflowStatus={() => {}}/>, div);
+        ReactDOM.render(<MultipleWorkflowStatesSelector statuses={statuses}
+                                                        workflowStates={new Map()}
+                                                        toggleWorkflowStatus={() => new Map()}/>, div);
         ReactDOM.unmountComponentAtNode(div);
     });
 
-    statuses.forEach( (status,index) => {
-        it("calls props.removeWorkflowStatus with correct parameter when the " + status.name + " checkbox is unselected", () => {
-            const mockFn = jest.fn();
-            const source2 = {};
-            source2[status.name] = false;
-            const selectedStatuses = Object.assign({}, initialSelectedStatuses, source2);
-            const wrapper = mount(<MultipleWorkflowStatesSelector workflow={getMockWorkflow()}
-                                                                  updateWorkflowStatus={mockFn}/>);
-            const doneCheckBox = wrapper.find('#multi-issue-selector-checkbox-'+status.id).hostNodes();
-            doneCheckBox.simulate('change', {target: {checked: false}});
-            expect(mockFn).toHaveBeenCalledWith(selectedStatuses);
-        });
+    it('renders one checkbox per status', () => {
+        const statuses = [{id: '1', name: 'To Do'}, {id: '2', name: 'In Progress'}];
+        const wrapper = mount(<MultipleWorkflowStatesSelector statuses={statuses}
+                                                              workflowStates={new Map()}
+                                                              toggleWorkflowStatus={() => new Map()}/>);
+        expect(wrapper.find(Checkbox).length).toEqual(2);
+    });
 
-        it("calls props.removeWorkflowStatus with correct parameter when the " + status.name + " checkbox is selected", () => {
-            const mockFn = jest.fn();
-            const wrapper = mount(<MultipleWorkflowStatesSelector workflow={getMockWorkflow()}
-                                                                  updateWorkflowStatus={mockFn}/>);
-            const doneCheckBox = wrapper.find('#multi-issue-selector-checkbox-'+status.id).hostNodes();
-            doneCheckBox.simulate('change', {target: {checked: false}});
-            doneCheckBox.simulate('change', {target: {checked: true}});
-            expect(mockFn).toHaveBeenCalledWith(initialSelectedStatuses);
-        });
+    it("it updates the workflow status when toggling the checkboxes", () => {
+        const mockFn = jest.fn();
+        const wrapper = mount(<MultipleWorkflowStatesSelector statuses={statuses}
+                                                              workflowStates={new Map()}
+                                                              toggleWorkflowStatus={mockFn}/>);
+
+        const checkBox = wrapper.find(Checkbox).first();
+        checkBox.simulate('change', {target: {checked: true}});
+        expect(mockFn).toHaveBeenCalledWith("To Do");
+    });
+
+    it('sets the correct toggle value for checkBox', () => {
+        const workFlowStates = new Map([["To Do", true], ["In Progress", false]]);
+        const wrapper = mount(<MultipleWorkflowStatesSelector statuses={statuses}
+                                                              workflowStates={workFlowStates}
+                                                              toggleWorkflowStatus={() => new Map()}/>);
+
+        expect(wrapper.find(Checkbox).length).toEqual(2);
+        expect(wrapper.find(Checkbox).first().props().checked).toBeTruthy();
+        expect(wrapper.find(Checkbox).last().props().checked).toBeFalsy();
     });
 });

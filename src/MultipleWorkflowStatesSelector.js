@@ -27,10 +27,10 @@ export function MultipleWorkflowStatesSelector(props) {
 }
 
 MultipleWorkflowStatesSelector.propTypes = {
-    statuses: PropTypes.shape({
-        id: PropTypes.number.isRequired,
+    statuses: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
-    }),
-    workflowStates: PropTypes.func.isRequired,
+    })),
+    workflowStates: PropTypes.object.isRequired,
     toggleWorkflowStatus: PropTypes.func.isRequired
 };
