@@ -46,6 +46,6 @@ LeadTimeLineChart.propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape({
         date: PropTypes.string.isRequired,
         averageLeadTime: PropTypes.number.isRequired,
-        averageCycleTime: PropTypes.number.isRequired
+        averageCycleTime: PropTypes.number
     })).isRequired
 };

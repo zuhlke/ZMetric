@@ -1,29 +1,35 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './App.css';
 import {LeadTimeLineChart} from "./LeadTimeLineChart";
 import {WorkflowContainer} from "./WorkflowContainer";
-import {getLeadAndCycleTimeData, getThroughput, getWorkflow} from "./DataFetcher";
+import {getThroughput, getWorkflow} from "./DataFetcher";
 import {ThroughputReport} from "./ThroughputReport";
 import {Label, Segment} from "semantic-ui-react";
 
-export default function App() {
-    const leadAndCycleTimeData = getLeadAndCycleTimeData();
-    const workflow = getWorkflow();
-    const throughputData = getThroughput();
+class App extends Component {
+    constructor(props) {
+        super(props);
+        console.log(props)
+    }
 
 
-    return (
-        <div>
-            <Segment.Group raised id={"main-segment"}>
-                <Segment stacked>
-                    <Label size={'large'} color='red' ribbon>
-                        ZMetric
-                    </Label>
-                    <LeadTimeLineChart data={leadAndCycleTimeData}/>
-                    <ThroughputReport data={throughputData}/>
-                    <WorkflowContainer workflow={workflow}/>
-                </Segment>
-            </Segment.Group>
-        </div>
-    );
+
+
+    render()
+    {
+        return (
+            <div>
+                <Segment.Group raised id={"main-segment"}>
+                    <Segment stacked>
+                        <Label size={'large'} color='red' ribbon>
+                            {this.props.projectName}
+                        </Label>
+                        <LeadTimeLineChart data={this.props.data}/>
+
+                    </Segment>
+                </Segment.Group>
+            </div>
+        );
+    }
 }
+export default App;
