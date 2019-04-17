@@ -23,7 +23,7 @@ export function CumulativeFlowReport(props) {
         ]
     );
     const [selectedIssueTypes, updateSelectedIssueTypes] = useState(new Map(initialSelectedIssueTypesState));
-    const initialSelectedWorkflowState = updatedAvailableWorkflowStatusTypes(new Map(initialSelectedIssueTypesState));
+    const initialSelectedWorkflowState = newAvailableWorkflowStatusTypes(new Map(initialSelectedIssueTypesState));
     const [selectedWorkflowStates, updateSelectedWorkflowStates] = useState(new Map(initialSelectedWorkflowState));
 
 
@@ -37,16 +37,15 @@ export function CumulativeFlowReport(props) {
     };
 
     const updateAvailableWorkflowStatusTypes = updatedIssueTypes => {
-        updateSelectedWorkflowStates(updatedAvailableWorkflowStatusTypes(updatedIssueTypes));
+        updateSelectedWorkflowStates(newAvailableWorkflowStatusTypes(updatedIssueTypes));
     };
 
-    function updatedAvailableWorkflowStatusTypes(updatedIssueTypes) {
+    function newAvailableWorkflowStatusTypes(updatedIssueTypes) {
         const filteredIssuesWithStatuses = props.workflow.filter(issueType => updatedIssueTypes.get(issueType.name).selected);
-
         const graphWorkflowStates = filteredIssuesWithStatuses
             .flatMap(issueType => issueType.statuses)
             .map(status => [status.name, {"id": status.id, "selected": true}]);
-
+        graphWorkflowStates.sort();
         return new Map(graphWorkflowStates);
     }
 
