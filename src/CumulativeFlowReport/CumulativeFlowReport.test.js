@@ -18,6 +18,10 @@ describe("CumulativeFlowReport", () => {
                 {
                     "name": "Bug To Do",
                     "id": "3",
+                },
+                {
+                    "name": "In Progress",
+                    "id": "2"
                 }
             ]
         }, {

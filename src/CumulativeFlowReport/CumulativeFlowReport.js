@@ -15,16 +15,41 @@ export function CumulativeFlowReport(props) {
     const [displayedData, updateDisplayedData] = useState(props.data);
     const [isTableVisible, toggleTableVisibility] = useState(false);
 
-    const workflowStatusesStartState = props.workflow[3].statuses.map(status => [status.name, true]);
-    const [workflowStates, updateWorkflowStates] = useState(new Map(workflowStatusesStartState));
+    const initialSelectedWorkflowState = props.workflow[3].statuses.map(status => [status.name, true]);
+    const [selectedWorkflowStates, updateSelectedWorkflowStates] = useState(new Map(initialSelectedWorkflowState));
 
-    const issueTypesStartState = props.workflow.map(issueType => [issueType.name, issueType.name==="Story"]);
-    const [selectedIssueTypes, updateSelectedIssueTypes] = useState(new Map(issueTypesStartState));
+    const initialSelecteIssueTypesState = props.workflow.map(issueType => [issueType.name, issueType.name === "Story"]);
+    const [selectedIssueTypes, updateSelectedIssueTypes] = useState(new Map(initialSelecteIssueTypesState));
+
+    const [visibleStatuses, updateVisibleStatuses] = useState(props.workflow[3].statuses);
 
     const toggleIssueType = issueTypeName => {
         const updatedIssueTypes = new Map(selectedIssueTypes);
         updatedIssueTypes.set(issueTypeName, !updatedIssueTypes.get(issueTypeName));
         updateSelectedIssueTypes(updatedIssueTypes);
+
+        updateAvailableIssueTypes(updatedIssueTypes);
+    };
+
+    const updateAvailableIssueTypes = updatedIssueTypes => {
+        const filteredIssuesWithStatuses = props.workflow.filter(issueType => updatedIssueTypes.get(issueType.name));
+
+        const graphWorkflowStates = filteredIssuesWithStatuses
+            .flatMap(issueType => issueType.statuses)
+            .map(status => [status.name, true]);
+
+        let stateMap = new Map(graphWorkflowStates);
+        updateSelectedWorkflowStates(stateMap);
+
+        const updatedWorkflowStates = filteredIssuesWithStatuses
+            .flatMap(issueType => issueType.statuses)
+            .filter(status => !selectedWorkflowStates.has(status.name))
+            .flatMap(status => {
+                return {"name": status.name, "id": status.id}
+            });
+
+        const mergedStates = updatedWorkflowStates.concat(visibleStatuses);
+        updateVisibleStatuses(mergedStates);
     };
 
     const filterData = dateRange => {
@@ -33,13 +58,13 @@ export function CumulativeFlowReport(props) {
     };
 
     const toggleWorkflowStatus = statusName => {
-        let updatedStatus = new Map(workflowStates);
+        let updatedStatus = new Map(selectedWorkflowStates);
         updatedStatus.set(statusName, !updatedStatus.get(statusName));
-        updateWorkflowStates(updatedStatus);
+        updateSelectedWorkflowStates(updatedStatus);
     };
 
     const renderAreaChartsForSelectedWorkflows = () => {
-        return Array.from(workflowStates.entries())
+        return Array.from(selectedWorkflowStates.entries())
             .filter(entry => entry[1] === true)
             .map((entry, index) =>
                 <Area type="monotone" id={entry[0]} key={entry[0]} dataKey={entry[0]} stackId="1"
@@ -90,8 +115,8 @@ export function CumulativeFlowReport(props) {
                         </Segment>
                         <Segment>
                             <h4>Select Workflow States</h4>
-                            <MultipleWorkflowStatesSelector statuses={props.workflow[3].statuses}
-                                                            workflowStates={workflowStates}
+                            <MultipleWorkflowStatesSelector statuses={visibleStatuses}
+                                                            workflowStates={selectedWorkflowStates}
                                                             toggleWorkflowStatus={toggleWorkflowStatus}/>
                         </Segment>
                     </Segment.Group>
@@ -125,7 +150,7 @@ export function CumulativeFlowReport(props) {
 CumulativeFlowReport.propTypes = {
     data: PropTypes.array.isRequired,
     workflow: PropTypes.arrayOf(PropTypes.shape({
-        statuses: PropTypes.array.isRequired
+        statuses: PropTypes.array
     })).isRequired,
     graphWidth: PropTypes.number
 };
