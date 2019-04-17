@@ -111,8 +111,7 @@ export function CumulativeFlowReport(props) {
                     <Segment.Group horizontal>
                         <Segment>
                             <h4>Select Issue types:</h4>
-                            <MultipleIssueTypeSelector workflow={props.workflow}
-                                                       selectedIssueTypes={selectedIssueTypes}
+                            <MultipleIssueTypeSelector selectedIssueTypes={selectedIssueTypes}
                                                        toggleIssueType={toggleIssueType}/>
                         </Segment>
                         <Segment>

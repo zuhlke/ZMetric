@@ -6,19 +6,19 @@ export function MultipleIssueTypeSelector(props){
     return (
         <div>
             {
-                props.workflow.map((issueType) =>{
-                        return(
-                            <div key={'multi-issue-selector-inner-div-' + issueType.id}>
-                                <br key={'multi-issue-selector-inner-br-' + issueType.id}/>
-                                <Checkbox
-                                    id={'multi-issue-selector-checkbox-' + issueType.id}
-                                    key={'multi-issue-selector-checkbox-' + issueType.id}
-                                    name={issueType.name}  label={issueType.name}
-                                    checked={props.selectedIssueTypes.get(issueType.name).selected}
-                                    onChange={() => props.toggleIssueType(issueType.name)}
-                                    toggle/>
-                            </div>
-                        )
+                Array.from(props.selectedIssueTypes).map((issueType) =>{
+                    return(
+                        <div key={'multi-issue-selector-inner-div-' + issueType[1].id}>
+                            <br key={'multi-issue-selector-inner-br-' + issueType[1].id}/>
+                            <Checkbox
+                                id={'multi-issue-selector-checkbox-' + issueType[1].id}
+                                key={'multi-issue-selector-checkbox-' + issueType[1].id}
+                                name={issueType[0]}  label={issueType[0]}
+                                checked={issueType[1].selected}
+                                onChange={() => props.toggleIssueType(issueType[0])}
+                                toggle/>
+                        </div>
+                    )
                 })
             }
         </div>
@@ -26,10 +26,6 @@ export function MultipleIssueTypeSelector(props){
 }
 
 MultipleIssueTypeSelector.propTypes = {
-    workflow: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-    })),
     selectedIssueTypes: PropTypes.object.isRequired,
     toggleIssueType: PropTypes.func.isRequired
 };
