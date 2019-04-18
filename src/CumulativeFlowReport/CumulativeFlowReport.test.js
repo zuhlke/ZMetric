@@ -26,10 +26,22 @@ describe("CumulativeFlowReport", () => {
             ]
         }, {
             "id": "11201",
-            "name": "Epic"
+            "name": "Epic",
+            "statuses": [
+                {
+                    "name": "In Progress",
+                    "id": "2"
+                }
+            ]
         }, {
             "id": "11204",
-            "name": "Spike"
+            "name": "Spike",
+            "statuses": [
+                {
+                    "name": "In Progress",
+                    "id": "2"
+                }
+            ]
         }, {
             "id": "10001",
             "name": "Story",
