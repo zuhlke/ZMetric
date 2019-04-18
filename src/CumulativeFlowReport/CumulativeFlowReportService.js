@@ -1,5 +1,3 @@
-import React from "react";
-
 export const initialSelectedIssueTypesState = workflow => new Map(workflow.map(issueType => [
     issueType.name, {
         "id": issueType.id,
@@ -23,13 +21,16 @@ export const newAvailableWorkflowStatusTypes = (updatedIssueTypes, workflow) => 
     return new Map(graphWorkflowStates);
 };
 
-export const assignUniqueColoursToWorkflowStatuses = workflow => {
-    const colours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22", "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22"];
+export const getColoursForNewIssues = (workflow, colours) => {
+    const availableColours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22", "#1f77b4", "#ff7f0e",
+        "#2ca02c", "#d62728", "#0046bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22"];
+
     const allPossibleStatuses = workflow.flatMap(issueType => issueType.statuses);
-    const statusColours = {};
-    allPossibleStatuses.forEach(status => statusColours[status.name] = "");
-    Object.keys(statusColours).forEach((key, index) => statusColours[key] = colours[index % colours.length]);
-    return statusColours;
+
+    allPossibleStatuses.forEach((status, index) => !colours.has(status.name) &&
+        colours.set(status.name, availableColours[index]));
+
+    return colours;
 };
 
 export const toggleProperty = (data, propertyName) => {

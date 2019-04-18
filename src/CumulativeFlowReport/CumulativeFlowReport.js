@@ -10,7 +10,7 @@ import {MultipleIssueTypeSelector} from "../MultipleIssueTypeSelector";
 import {MultipleWorkflowStatesSelector} from "../MultipleWorkflowStatesSelector";
 import PropTypes from "prop-types";
 import {
-    assignUniqueColoursToWorkflowStatuses,
+    getColoursForNewIssues,
     getSelectedWorkflows,
     initialSelectedIssueTypesState,
     initialSelectedWorkflowState,
@@ -23,13 +23,14 @@ export function CumulativeFlowReport(props) {
     const [isTableVisible, toggleTableVisibility] = useState(false);
     const [selectedIssueTypes, updateSelectedIssueTypes] = useState(initialSelectedIssueTypesState(props.workflow));
     const [selectedWorkflowStates, updateSelectedWorkflowStates] = useState(initialSelectedWorkflowState(props.workflow));
-
-    const statusColours = assignUniqueColoursToWorkflowStatuses(props.workflow);
+    const [statusColours] = useState(getColoursForNewIssues(props.workflow, new Map()));
 
     const renderAreaChartsForSelectedWorkflows = () => {
         return getSelectedWorkflows(selectedWorkflowStates)
             .map(entry => <Area type="monotone" id={entry[0]} key={entry[0]} dataKey={entry[0]} stackId="1"
-                                stroke={statusColours[entry[0]]} fill={statusColours[entry[0]]} activeDot={false}/>);
+                                stroke={statusColours.get(entry[0])}
+                                fill={statusColours.get(entry[0])}
+                                activeDot={false}/>);
     };
 
     const toggleIssueType = issueTypeName => {
