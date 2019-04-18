@@ -11,7 +11,7 @@ import {MultipleWorkflowStatesSelector} from "../MultipleWorkflowStatesSelector"
 import PropTypes from "prop-types";
 
 export function CumulativeFlowReport(props) {
-    const colours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22"];
+    const colours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22", "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22"];
     const [displayedData, updateDisplayedData] = useState(props.data);
     const [isTableVisible, toggleTableVisibility] = useState(false);
 
@@ -60,13 +60,21 @@ export function CumulativeFlowReport(props) {
         const newData = applyDateRangeFilter(dateRange, props.data);
         updateDisplayedData(newData);
     };
+    const assignUniqueColoursToWorkflowStatuses = () => {
+        const allPossibleStatuses = props.workflow.flatMap(issueType => issueType.statuses);
+        const statusColours = {};
+        allPossibleStatuses.forEach(status => statusColours[status.name] = "");
+        Object.keys(statusColours).forEach((key,index) => statusColours[key] = colours[index%colours.length]);
+        return statusColours;
+    };
+    const statusColours = assignUniqueColoursToWorkflowStatuses();
 
     const renderAreaChartsForSelectedWorkflows = () => {
         return Array.from(selectedWorkflowStates.entries())
             .filter(entry => entry[1].selected === true)
-            .map((entry, index) =>
+            .map((entry) =>
                 <Area type="monotone" id={entry[0]} key={entry[0]} dataKey={entry[0]} stackId="1"
-                      stroke={colours[index]} fill={colours[index]} activeDot={false}/>);
+                      stroke={statusColours[entry[0]]} fill={statusColours[entry[0]]} activeDot={false}/>);
     };
 
     return (
