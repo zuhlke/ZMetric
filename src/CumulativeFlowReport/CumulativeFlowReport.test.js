@@ -118,11 +118,11 @@ describe("CumulativeFlowReport", () => {
         const wrapper = mount(<CumulativeFlowReport data={data} workflow={workflow} graphWidth={400}/>);
         const workflowSelector = wrapper.find(MultipleWorkflowStatesSelector);
 
+        expect(wrapper.find(Area).length).toEqual(2);
+
         workflowSelector.find(Checkbox).first().simulate('change');
 
-        const areaCharts = wrapper.find(Area);
-        expect(areaCharts.length).toEqual(1);
-        expect(areaCharts.first().props().id).toEqual("In Progress");
+        expect(wrapper.find(Area).length).toEqual(1);
     });
 
     it("updates available workflows when selecting issues types with new workflows", () => {
