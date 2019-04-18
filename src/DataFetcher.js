@@ -678,7 +678,7 @@ const cumulativeFlowData = [
                 "On Hold": 0,
                 "Review": 2,
                 "Ready For Test": 1,
-                "Done": 2
+                "Done": 2, "Bug To Do": 0
             },
             {
                 "date": "2019-02-10",
@@ -687,7 +687,7 @@ const cumulativeFlowData = [
                 "On Hold": 1,
                 "Review": 1,
                 "Ready For Test": 1,
-                "Done": 4
+                "Done": 4, "Bug To Do": 0
             },
             {
                 "date": "2019-02-11",
@@ -696,7 +696,7 @@ const cumulativeFlowData = [
                 "On Hold": 1,
                 "Review": 1,
                 "Ready For Test": 0,
-                "Done": 6
+                "Done": 6, "Bug To Do": 0
             },
             {
                 "date": "2019-02-12",
@@ -705,7 +705,7 @@ const cumulativeFlowData = [
                 "On Hold": 0,
                 "Review": 0,
                 "Ready For Test": 2,
-                "Done": 8
+                "Done": 8, "Bug To Do": 0
             }
         ]
     }, {

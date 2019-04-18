@@ -1,7 +1,7 @@
 export const initialSelectedIssueTypesState = workflow => new Map(workflow.map(issueType => [
     issueType.name, {
         "id": issueType.id,
-        "selected": issueType.name === "Story"
+        "selected": issueType.name === "Story" || issueType.name === "Bug"
     }
 ]));
 

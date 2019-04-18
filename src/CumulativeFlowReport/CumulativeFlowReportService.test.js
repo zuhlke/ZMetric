@@ -99,9 +99,43 @@ describe("CumulativeFlowReport", () => {
                 "In Progress": 1
             }
         ];
-        const selectedIssueTypes = new Map([["Bug", {"selected": true}], ["Story", {"selected":true}, ["Epic", {"selected":false}]]]);
+        const selectedIssueTypes = new Map([["Bug", {"selected": true}], ["Story", {"selected": true}, ["Epic", {"selected": false}]]]);
 
         expect(mergeData(unmergedData, selectedIssueTypes)).toEqual(mergedData);
     });
 
+    it('adds data flows for single issue', function () {
+        const unmergedData = [
+            {"id": "2",
+                "name": "Story",
+                "data": [
+                    {
+                        "date": "2019-02-01",
+                        "To Do": 1,
+                        "In Progress": 1,
+                    },
+                    {
+                        "date": "2019-02-03",
+                        "To Do": 1,
+                        "In Progress": 1
+                    }
+                ]
+            }
+        ];
+        const mergedData = [
+            {
+                "date": "2019-02-01",
+                "To Do": 1,
+                "In Progress": 1,
+            },
+            {
+                "date": "2019-02-03",
+                "To Do": 1,
+                "In Progress": 1
+            }
+        ];
+        const selectedIssueTypes = new Map([["Story", {"selected": true}]]);
+
+        expect(mergeData(unmergedData, selectedIssueTypes)).toEqual(mergedData);
+    });
 });

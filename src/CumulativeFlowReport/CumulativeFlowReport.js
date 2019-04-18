@@ -31,14 +31,14 @@ export function CumulativeFlowReport(props) {
             .map(entry => <Area type="monotone" id={entry[0]} key={entry[0]} dataKey={entry[0]} stackId="1"
                                 stroke={statusColours.get(entry[0])}
                                 fill={statusColours.get(entry[0])}
-                                activeDot={false}/>);
+                                activeDot={true}/>);
     };
 
     const toggleIssueType = issueTypeName => {
         const issueTypes = toggleProperty(selectedIssueTypes, issueTypeName);
         updateSelectedIssueTypes(issueTypes);
         updateSelectedWorkflowStates(newAvailableWorkflowStatusTypes(issueTypes, props.workflow));
-        updateDisplayedData(mergeData(props.data, selectedIssueTypes));
+        updateDisplayedData(mergeData(props.data, issueTypes));
     };
 
     const toggleWorkflowStatus = statusName => {
