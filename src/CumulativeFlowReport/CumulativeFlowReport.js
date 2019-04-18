@@ -14,14 +14,15 @@ import {
     getSelectedWorkflows,
     initialSelectedIssueTypesState,
     initialSelectedWorkflowState,
+    mergeData,
     newAvailableWorkflowStatusTypes,
     toggleProperty
 } from "./CumulativeFlowReportService";
 
 export function CumulativeFlowReport(props) {
-    const [displayedData, updateDisplayedData] = useState(props.data);
     const [isTableVisible, toggleTableVisibility] = useState(false);
     const [selectedIssueTypes, updateSelectedIssueTypes] = useState(initialSelectedIssueTypesState(props.workflow));
+    const [displayedData, updateDisplayedData] = useState(mergeData(props.data, selectedIssueTypes));
     const [selectedWorkflowStates, updateSelectedWorkflowStates] = useState(initialSelectedWorkflowState(props.workflow));
     const [statusColours] = useState(getColoursForNewIssues(props.workflow));
 
@@ -37,6 +38,7 @@ export function CumulativeFlowReport(props) {
         const issueTypes = toggleProperty(selectedIssueTypes, issueTypeName);
         updateSelectedIssueTypes(issueTypes);
         updateSelectedWorkflowStates(newAvailableWorkflowStatusTypes(issueTypes, props.workflow));
+        updateDisplayedData(mergeData(props.data, selectedIssueTypes));
     };
 
     const toggleWorkflowStatus = statusName => {

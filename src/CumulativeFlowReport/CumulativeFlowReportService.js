@@ -53,7 +53,6 @@ export const mergeTwoDataPoints = (...data) => {
     }, {});
 };
 
-
 export const mergeData = (data, selectedIssueTypes) => {
     const filteredFlatData = data.filter(issueType => selectedIssueTypes.has(issueType.name) && selectedIssueTypes.get(issueType.name).selected).flatMap(issueType => issueType.data);
     const map = new Map();
