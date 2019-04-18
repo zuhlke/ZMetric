@@ -9,72 +9,43 @@ import moment from "moment";
 import {MultipleIssueTypeSelector} from "../MultipleIssueTypeSelector";
 import {MultipleWorkflowStatesSelector} from "../MultipleWorkflowStatesSelector";
 import PropTypes from "prop-types";
+import {
+    assignUniqueColoursToWorkflowStatuses,
+    getSelectedWorkflows,
+    initialSelectedIssueTypesState,
+    initialSelectedWorkflowState,
+    newAvailableWorkflowStatusTypes,
+    toggleProperty
+} from "./CumulativeFlowReportService";
 
 export function CumulativeFlowReport(props) {
-    const colours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22", "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22"];
     const [displayedData, updateDisplayedData] = useState(props.data);
     const [isTableVisible, toggleTableVisibility] = useState(false);
+    const [selectedIssueTypes, updateSelectedIssueTypes] = useState(initialSelectedIssueTypesState(props.workflow));
+    const [selectedWorkflowStates, updateSelectedWorkflowStates] = useState(initialSelectedWorkflowState(props.workflow));
 
-    const initialSelectedIssueTypesState = props.workflow.map(issueType => [
-            issueType.name, {
-                "id": issueType.id,
-                "selected": issueType.name === "Story"
-            }
-        ]
-    );
-    const [selectedIssueTypes, updateSelectedIssueTypes] = useState(new Map(initialSelectedIssueTypesState));
-    const initialSelectedWorkflowState = newAvailableWorkflowStatusTypes(new Map(initialSelectedIssueTypesState));
-    const [selectedWorkflowStates, updateSelectedWorkflowStates] = useState(new Map(initialSelectedWorkflowState));
+    const statusColours = assignUniqueColoursToWorkflowStatuses(props.workflow);
 
+    const renderAreaChartsForSelectedWorkflows = () => {
+        return getSelectedWorkflows(selectedWorkflowStates)
+            .map(entry => <Area type="monotone" id={entry[0]} key={entry[0]} dataKey={entry[0]} stackId="1"
+                                stroke={statusColours[entry[0]]} fill={statusColours[entry[0]]} activeDot={false}/>);
+    };
 
     const toggleIssueType = issueTypeName => {
-        const updatedIssueTypes = new Map(selectedIssueTypes);
-        updatedIssueTypes.set(issueTypeName,
-            {...updatedIssueTypes.get(issueTypeName), selected: !updatedIssueTypes.get(issueTypeName).selected});
-        updateSelectedIssueTypes(updatedIssueTypes);
-
-        updateAvailableWorkflowStatusTypes(updatedIssueTypes);
+        const issueTypes = toggleProperty(selectedIssueTypes, issueTypeName);
+        updateSelectedIssueTypes(issueTypes);
+        updateSelectedWorkflowStates(newAvailableWorkflowStatusTypes(issueTypes, props.workflow));
     };
-
-    const updateAvailableWorkflowStatusTypes = updatedIssueTypes => {
-        updateSelectedWorkflowStates(newAvailableWorkflowStatusTypes(updatedIssueTypes));
-    };
-
-    function newAvailableWorkflowStatusTypes(updatedIssueTypes) {
-        const filteredIssuesWithStatuses = props.workflow.filter(issueType => updatedIssueTypes.get(issueType.name).selected);
-        const graphWorkflowStates = filteredIssuesWithStatuses
-            .flatMap(issueType => issueType.statuses)
-            .map(status => [status.name, {"id": status.id, "selected": true}]);
-        graphWorkflowStates.sort();
-        return new Map(graphWorkflowStates);
-    }
 
     const toggleWorkflowStatus = statusName => {
-        let updatedStatus = new Map(selectedWorkflowStates);
-        updatedStatus.set(statusName,
-            {...updatedStatus.get(statusName), selected: !updatedStatus.get(statusName).selected});
-        updateSelectedWorkflowStates(updatedStatus);
+        const workflowStatuses = toggleProperty(selectedWorkflowStates, statusName);
+        updateSelectedWorkflowStates(workflowStatuses);
     };
 
     const filterData = dateRange => {
         const newData = applyDateRangeFilter(dateRange, props.data);
         updateDisplayedData(newData);
-    };
-    const assignUniqueColoursToWorkflowStatuses = () => {
-        const allPossibleStatuses = props.workflow.flatMap(issueType => issueType.statuses);
-        const statusColours = {};
-        allPossibleStatuses.forEach(status => statusColours[status.name] = "");
-        Object.keys(statusColours).forEach((key,index) => statusColours[key] = colours[index%colours.length]);
-        return statusColours;
-    };
-    const statusColours = assignUniqueColoursToWorkflowStatuses();
-
-    const renderAreaChartsForSelectedWorkflows = () => {
-        return Array.from(selectedWorkflowStates.entries())
-            .filter(entry => entry[1].selected === true)
-            .map((entry) =>
-                <Area type="monotone" id={entry[0]} key={entry[0]} dataKey={entry[0]} stackId="1"
-                      stroke={statusColours[entry[0]]} fill={statusColours[entry[0]]} activeDot={false}/>);
     };
 
     return (
