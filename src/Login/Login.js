@@ -33,6 +33,7 @@ class Login extends Component {
 
     const self = this;
     const instance = axios.create({baseURL: jiraHostURL, headers: {}});
+    //https://developer.atlassian.com/cloud/jira/platform/jira-rest-api-cookie-based-authentication/
     instance
       .post('/rest/auth/1/session', {username: jiraUsername, password: jiraPassword})
       .then((response) => {
@@ -40,26 +41,6 @@ class Login extends Component {
         self.setState({phase: Phases.SUCCESS});
       })
       .catch(error => self.setState({phase: Phases.FAIL, errorMessage: error.response.data.errorMessages}));
-
-
-    // const jiraClient = new JiraApi({
-    //   protocol: 'https',
-    //   host: this.state.jiraHostURL,
-    //   username: this.state.jiraUsername,
-    //   password: this.state.jiraPassword,
-    //   apiVersion: '2',
-    //   strictSSL: true
-    // });
-    // const jiraConnector = new JiraConnector(jiraClient);
-    // this.setState({loading: true});
-    // jiraConnector.getAllProjects()
-    //   .then(res => res.map(project => ({
-    //     key: project.key,
-    //     text: `${project.key} - ${project.name}`,
-    //     value: project.key
-    //   })).sort(project => project.name))
-    //   .then(projects => this.setState({projects: projects, loading: false, isLoginForm: false}))
-    //   .catch(error => this.setState({errorMessage: JiraConnector.parseError(error), loading: false}));
   }
 
   handleChange(event, data) {
