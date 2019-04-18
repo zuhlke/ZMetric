@@ -116,11 +116,13 @@ export function CumulativeFlowReport(props) {
                     }}
                 />
             </Segment>
+            {displayedData.length > 0 &&
             <Transition visible={isTableVisible} animation='fade down' duration={500}>
                 <Segment>
-                    <DynamicTable data={props.data}/>
+                    <DynamicTable data={displayedData}/>
                 </Segment>
             </Transition>
+            }
         </Segment.Group>
     )
 }
