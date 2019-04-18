@@ -15,8 +15,8 @@ import {
     initialSelectedIssueTypesState,
     initialSelectedWorkflowState,
     mergeData,
-    newAvailableWorkflowStatusTypes,
-    toggleProperty
+    toggleProperty,
+    updateAvailableWorkflowStatusTypes
 } from "./CumulativeFlowReportService";
 
 export function CumulativeFlowReport(props) {
@@ -37,7 +37,7 @@ export function CumulativeFlowReport(props) {
     const toggleIssueType = issueTypeName => {
         const issueTypes = toggleProperty(selectedIssueTypes, issueTypeName);
         updateSelectedIssueTypes(issueTypes);
-        updateSelectedWorkflowStates(newAvailableWorkflowStatusTypes(issueTypes, props.workflow));
+        updateSelectedWorkflowStates(updateAvailableWorkflowStatusTypes(issueTypes, props.workflow, selectedWorkflowStates));
         updateDisplayedData(mergeData(props.data, issueTypes));
     };
 

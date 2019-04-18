@@ -9,16 +9,33 @@ export const getSelectedWorkflows = workflows => Array.from(workflows.entries())
     .filter(entry => entry[1].selected === true);
 
 export const initialSelectedWorkflowState = workflow => {
-    return newAvailableWorkflowStatusTypes(initialSelectedIssueTypesState(workflow), workflow);
+    const initialIssues = initialSelectedIssueTypesState(workflow);
+    return initializeAvailableWorkflowStatusTypes(initialIssues, workflow);
 };
 
-export const newAvailableWorkflowStatusTypes = (updatedIssueTypes, workflow) => {
-    const filteredIssuesWithStatuses = workflow.filter(issueType => updatedIssueTypes.get(issueType.name).selected);
-    const graphWorkflowStates = filteredIssuesWithStatuses
-        .flatMap(issueType => issueType.statuses)
-        .map(status => [status.name, {"id": status.id, "selected": true}]);
+export const initializeAvailableWorkflowStatusTypes = (updatedIssueTypes, workflow) => {
+    const graphWorkflowStates = getFilteredIssues(workflow, updatedIssueTypes)
+        .map(status => [status.name, {
+            "id": status.id,
+            "selected": true
+        }]);
     graphWorkflowStates.sort();
     return new Map(graphWorkflowStates);
+};
+
+export const updateAvailableWorkflowStatusTypes = (updatedIssueTypes, workflow, selectedWorkflowStates) => {
+    const graphWorkflowStates = getFilteredIssues(workflow, updatedIssueTypes)
+        .map(status => [status.name, {
+            "id": status.id,
+            "selected": selectedWorkflowStates.has(status.name) ? selectedWorkflowStates.get(status.name).selected : false
+        }]);
+    graphWorkflowStates.sort();
+    return new Map(graphWorkflowStates);
+};
+
+const getFilteredIssues = (workflow, updatedIssueTypes) => {
+    const filteredIssuesWithStatuses = workflow.filter(issueType => updatedIssueTypes.get(issueType.name).selected);
+    return filteredIssuesWithStatuses.flatMap(issueType => issueType.statuses)
 };
 
 export const getColoursForNewIssues = (workflow) => {
@@ -54,7 +71,8 @@ export const mergeTwoDataPoints = (...data) => {
 };
 
 export const mergeData = (data, selectedIssueTypes) => {
-    const filteredFlatData = data.filter(issueType => selectedIssueTypes.has(issueType.name) && selectedIssueTypes.get(issueType.name).selected).flatMap(issueType => issueType.data);
+    const filteredFlatData = data.filter(issueType => selectedIssueTypes.has(issueType.name) &&
+        selectedIssueTypes.get(issueType.name).selected).flatMap(issueType => issueType.data);
     const map = new Map();
     filteredFlatData.forEach(dataPoint => {
         if (map.has(dataPoint.date)) {
