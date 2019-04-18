@@ -21,7 +21,8 @@ export const newAvailableWorkflowStatusTypes = (updatedIssueTypes, workflow) => 
     return new Map(graphWorkflowStates);
 };
 
-export const getColoursForNewIssues = (workflow, colours) => {
+export const getColoursForNewIssues = (workflow) => {
+    const colours = new Map();
     const availableColours = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#17becf", "#bcbd22", "#1f77b4", "#ff7f0e",
         "#2ca02c", "#d62728", "#0046bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22"];
 

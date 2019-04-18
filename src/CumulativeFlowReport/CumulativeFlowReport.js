@@ -23,7 +23,7 @@ export function CumulativeFlowReport(props) {
     const [isTableVisible, toggleTableVisibility] = useState(false);
     const [selectedIssueTypes, updateSelectedIssueTypes] = useState(initialSelectedIssueTypesState(props.workflow));
     const [selectedWorkflowStates, updateSelectedWorkflowStates] = useState(initialSelectedWorkflowState(props.workflow));
-    const [statusColours] = useState(getColoursForNewIssues(props.workflow, new Map()));
+    const [statusColours] = useState(getColoursForNewIssues(props.workflow));
 
     const renderAreaChartsForSelectedWorkflows = () => {
         return getSelectedWorkflows(selectedWorkflowStates)

@@ -24,18 +24,13 @@ describe("CumulativeFlowReport", () => {
     ];
 
     it("memorises the status colours", () => {
-        const previousColours = new Map([
-            ["To Do", "#8884d8"],
-            ["In Progress", "#82ca9d"]
-        ]);
-
         const expectedColours = new Map([
             ["On Hold", "#ffc658"],
             ["To Do", "#8884d8"],
             ["In Progress", "#82ca9d"]
         ]);
 
-        expect(getColoursForNewIssues(workflow, previousColours)).toEqual(expectedColours)
+        expect(getColoursForNewIssues(workflow)).toEqual(expectedColours);
     });
 
 });
