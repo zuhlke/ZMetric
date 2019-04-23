@@ -39,7 +39,7 @@ class SelectProject extends Component {
           phase: Phases.READY,
           projects: response.data.map(p => ({key: p.key, value: p.key, text: p.name}))
         }))
-      .catch(error => console.log(error) //&& self.setState({phase: Phases.FAIL, errorMessage: error.response.data.errorMessages})
+      .catch(error => self.setState({phase: Phases.FAIL, errorMessage: error.response.data.errorMessages})
       );
   }
 
@@ -64,14 +64,14 @@ class SelectProject extends Component {
           {phase === Phases.READY &&
           <Form onSubmit={this.selectProject.bind(this)} loading={phase === Phases.LOADING}>
             <Form.Dropdown id="jiraSelectProject"
-              placeholder='Select Project'
-              fluid
-              name={"selectedProject"}
-              search
-              onChange={this.onChange.bind(this)}
-              selection
-              options={projects}
-              value={selectedProject}/>
+                           placeholder='Select Project'
+                           fluid
+                           name={"selectedProject"}
+                           search
+                           onChange={this.onChange.bind(this)}
+                           selection
+                           options={projects}
+                           value={selectedProject}/>
 
             <Button
               loading={this.state.loading}
