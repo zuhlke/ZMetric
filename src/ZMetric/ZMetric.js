@@ -1,5 +1,5 @@
 import Login from "../Login/Login";
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import SelectProject from "../SelectProject/SelectProject";
 
 const Phases = {

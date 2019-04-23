@@ -63,7 +63,7 @@ class SelectProject extends Component {
         <div className="ui stacked segment">
           {phase === Phases.READY &&
           <Form onSubmit={this.selectProject.bind(this)} loading={phase === Phases.LOADING}>
-            <Form.Dropdown
+            <Form.Dropdown id="jiraSelectProject"
               placeholder='Select Project'
               fluid
               name={"selectedProject"}
