@@ -5,6 +5,7 @@ export const getFilteredIssueStatuses = (workflow, updatedIssueTypes) => {
     return workflow.filter(issueType => updatedIssueTypes.get(issueType.name).selected).flatMap(issueType => issueType.statuses);
 };
 
+
 export const updateAvailableWorkflowStatusTypes = (updatedIssueTypes, workflow, selectedWorkflowStates) => {
     const graphWorkflowStates = getFilteredIssueStatuses(workflow, updatedIssueTypes)
         .map(status => [status.name, {
