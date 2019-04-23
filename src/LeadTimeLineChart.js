@@ -31,7 +31,7 @@ export function LeadTimeLineChart(props) {
                                 <Tooltip/>
                                 <CartesianGrid strokeDasharray="3 3"/>
                                 <Legend/>
-                                <XAxis dataKey={"date"} label={{value: "date"}}/>
+                                <XAxis dataKey={"date"}/>
                                 <YAxis
                                     label={{
                                         value: "Lead Time Rolling Average (days)",
@@ -56,7 +56,7 @@ export function LeadTimeLineChart(props) {
                     basic
                     color='green'
                     content='Data Table'
-                    icon={isTableVisible ? 'arrow circle up ' : 'arrow circle down'}
+                    icon={isTableVisible ? 'arrow circle up' : 'arrow circle down'}
                     onClick={() => toggleTableVisibility(!isTableVisible)}
                     label={{
                         as: 'a',
