@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Message, Dropdown, Form} from 'semantic-ui-react'
+import {Button, Form} from 'semantic-ui-react'
 import axios from "axios";
 
 const Phases = {
@@ -16,6 +16,7 @@ class SelectProject extends Component {
     super(props);
     this.state = {
       phase: Phases.INIT,
+      jiraHostURL: 'https://jira.zuehlke.com',
       selectedProject: undefined,
       projects: undefined
     };
@@ -26,37 +27,32 @@ class SelectProject extends Component {
   }
 
   loadProjects() {
-    console.count();
     this.setState({phase: Phases.LOADING});
-    // const {jiraHostURL} = this.props;
-
-    this.setState({projects: [{"key": "1", "value":"ZM-12", "text": "zMetrics"}]});
-
-    this.setState({phase: Phases.READY});
-    // const self = this;
-    // const instance = axios.create({baseURL: jiraHostURL, headers: {}});
-    // instance
-    //   .post('/rest/auth/1/session', {username: jiraUsername, password: jiraPassword})
-    //   .then((response) => {
-    //     if (this.props.onSuccess) this.props.onSuccess(response.data.session);
-    //     self.setState({phase: Phases.SUCCESS});
-    //   })
-    //   .catch(error => self.setState({phase: Phases.FAIL, errorMessage: error.response.data.errorMessages}));
-
+    const self = this;
+    const {name, value} = this.props.session;
+    const {jiraHostURL} = this.state;
+    const instance = axios.create({baseURL: jiraHostURL, headers: {cookie: `${name}=${value}`}});
+    instance
+      .get('/rest/api/2/project')
+      .then((response) =>
+        self.setState({
+          phase: Phases.READY,
+          projects: response.data.map(p => ({key: p.key, value: p.key, text: p.name}))
+        }))
+      .catch(error => console.log(error) //&& self.setState({phase: Phases.FAIL, errorMessage: error.response.data.errorMessages})
+      );
   }
 
   selectProject() {
-    // callback
+    if (this.props.onProjectSelected) this.props.onProjectSelected(this.state.selectedProject);
   }
 
-  onChange() {
-    // set state
+  onChange(event, data) {
+    this.setState({selectedProject: data.value});
   }
 
   render() {
     const {selectedProject, phase, projects} = this.state;
-    // let disableFormControls = [Phases.SUBMITTING, Phases.SUCCESS].includes(phase);
-
     return <div className="ui middle aligned center aligned grid">
       <div className="column">
         <h2 className="ui teal image header">
@@ -65,22 +61,24 @@ class SelectProject extends Component {
           </div>
         </h2>
         <div className="ui stacked segment">
-          <Form onSubmit={this.selectProject}>
-            <Dropdown
-              loading={phase === Phases.LOADING}
+          {phase === Phases.READY &&
+          <Form onSubmit={this.selectProject.bind(this)} loading={phase === Phases.LOADING}>
+            <Form.Dropdown
               placeholder='Select Project'
               fluid
               name={"selectedProject"}
               search
               onChange={this.onChange.bind(this)}
               selection
-              options={this.state.projects}
+              options={projects}
               value={selectedProject}/>
+
             <Button
-              // loading={this.state.loading}
-              // disabled={!(this.state.selectedProject)}
+              loading={this.state.loading}
+              disabled={!(this.state.selectedProject)}
               className="ui fluid large teal submit button">Select Project</Button>
           </Form>
+          }
         </div>
       </div>
     </div>;

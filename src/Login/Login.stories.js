@@ -9,7 +9,13 @@ storiesOf('Login', module)
   .add('Default', () => <Login/>)
   .add('Logged In', () => {
     const mock = new MockAdapter(axios);
-    mock.onPost().reply(200);
+    mock.onPost().reply(200, {
+      "session":
+        {
+          "name": "example.cookie.name",
+          "value": "6E3487971234567896704A9EB4AE501F"
+        }
+    });
 
     Actions.type("#jiraHostURL", "https://jira.zuehlke.com");
     Actions.type("#jiraUsername", "username");

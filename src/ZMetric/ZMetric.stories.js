@@ -1,13 +1,22 @@
 import React from 'react';
 import {storiesOf} from '@storybook/react';
-import SelectProject from "./SelectProject";
-import MockAdapter from "axios-mock-adapter";
+import ZMetric from "./ZMetric";
+import Actions from "../Actions";
+import MockAdapter from 'axios-mock-adapter';
 import axios from "axios";
 
-storiesOf('Select Project', module)
-  .add('Default', () => <SelectProject/>)
-  .add('Loading', () => <SelectProject/>)
-  .add('Loaded', () => {
+storiesOf('ZMetric', module)
+  .add('Log In', () => <ZMetric/>)
+  .add('Select Project', () => {
+    const mock = new MockAdapter(axios);
+    mock.onPost().reply(200, {
+      "session":
+        {
+          "name": "example.cookie.name",
+          "value": "6E3487971234567896704A9EB4AE501F"
+        }
+    });
+
     const projectsMock = [
       {
         "expand": "description,lead,url,projectKeys",
@@ -884,10 +893,26 @@ storiesOf('Select Project', module)
         "projectTypeKey": "software"
       }
     ];
-    const mock = new MockAdapter(axios);
     mock.onGet().reply(200, projectsMock);
-    return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
+
+    Actions.type("#jiraHostURL", "https://jira.zuehlke.com");
+    Actions.type("#jiraUsername", "username");
+    Actions.type("#jiraPassword", "password");
+    Actions.click("#jiraLoginSubmit");
+    return <ZMetric/>;
   })
-  .add('Failed', () => <SelectProject/>)
-  .add('Expanded', () => <SelectProject/>)
-  .add('Selected', () => <SelectProject/>);
+  .add('Dashboard', () => {
+    // const mock = new MockAdapter(axios);
+    // mock.onPost().reply(404, {
+    //   "errorMessages": [
+    //     "The user named 'username' does not exist"
+    //   ],
+    //   "errors": {}
+    // });
+    //
+    // Actions.type("#jiraHostURL", "https://jira.zuehlke.com");
+    // Actions.type("#jiraUsername", "username");
+    // Actions.type("#jiraPassword", "password");
+    // Actions.click("#jiraLoginSubmit");
+    return <ZMetric/>;
+  });

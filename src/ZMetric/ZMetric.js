@@ -1,5 +1,6 @@
 import Login from "../Login/Login";
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
+import SelectProject from "../SelectProject/SelectProject";
 
 const Phases = {
   LOGIN: 'Login',
@@ -12,18 +13,33 @@ class ZMetric extends Component {
     super(props);
     this.state = {
       phase: Phases.LOGIN,
-      session: undefined
+      session: undefined,
+      project: undefined
     };
   }
 
   onLogin(session) {
-    this.setState({session});
+    this.setState({session, phase: Phases.SELECT_PROJECT});
+    console.warn("Session: ", session);
   }
 
-  render() {
-    return <Login onSuccess={this.onLogin.bind(this)}/>;
+  onProjectSelected(project) {
+    this.setState({project, phase: Phases.DASHBOARD});
   }
+
+  renderPhase() {
+    const {phase, session} = this.state;
+    switch (phase) {
+      case Phases.LOGIN:
+        return <Login onSuccess={this.onLogin.bind(this)}/>;
+      case Phases.SELECT_PROJECT:
+        return <SelectProject session={session} onProjectSelected={this.onProjectSelected.bind(this)}/>;
+      default:
+        return <div>Dashboard for project {this.state.project}</div>;
+    }
+  }
+
+  render = () => this.renderPhase();
 }
-
 
 export default ZMetric;

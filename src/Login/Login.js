@@ -26,7 +26,6 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-
   handleSubmit() {
     this.setState({phase: Phases.SUBMITTING});
     const {jiraHostURL, jiraUsername, jiraPassword} = this.state;
@@ -49,79 +48,39 @@ class Login extends Component {
 
   render() {
     const {jiraHostURL, jiraUsername, jiraPassword, phase, errorMessage, successMessage} = this.state;
-    let disableFormControls = [Phases.SUBMITTING, Phases.SUCCESS].includes(phase);
 
     return <div className="ui middle aligned center aligned grid">
       <div className="column">
         <h2 className="ui teal image header">
-          <div className="content">
-            ZMetric
-          </div>
+          <div className="content">ZMetric</div>
         </h2>
         <div className="ui stacked segment">
-          <Form className="ui large form error success" onSubmit={this.handleSubmit}>
+          <Form className="ui large form error success"
+                onSubmit={this.handleSubmit}
+                loading={phase === Phases.SUBMITTING}>
             <Form.Input icon="globe" iconPosition='left' type="text" id="jiraHostURL"
                         value={jiraHostURL} onChange={this.handleChange}
-                        disabled={disableFormControls}
                         placeholder="Jira URL"/>
 
             <Form.Input icon="user" iconPosition='left' type="text" id="jiraUsername"
                         value={jiraUsername} onChange={this.handleChange}
-                        disabled={disableFormControls}
                         placeholder="Jira Username"/>
 
             <Form.Input icon="lock" iconPosition='left' type="password" id="jiraPassword"
                         value={jiraPassword} onChange={this.handleChange}
-                        disabled={disableFormControls}
                         placeholder="Jira Password"/>
 
-            <Button loading={phase === Phases.SUBMITTING} id="jiraLoginSubmit"
-                    disabled={disableFormControls}
+            <Button id="jiraLoginSubmit"
                     className="ui fluid large teal submit button">Login</Button>
 
             <Message error hidden={phase !== Phases.FAIL} content={errorMessage}/>
             <Message success hidden={phase !== Phases.SUCCESS} content={successMessage}/>
-
           </Form>
-          {/* <Transition visible={!this.state.isLoginForm} animation='fade' duration={1000}>
-            <Form onSubmit={this.getIssues}>
-              <Dropdown
-                placeholder='Select Project'
-                fluid
-                name={"selectedProject"}
-                search
-                onChange={this.handleChange}
-                selection
-                options={this.state.projects}
-                value={value}
-              />
-              <Button loading={this.state.loading}
-                      disabled={!(this.state.selectedProject)}
-                      className="ui fluid large teal submit button">Select Project</Button>
-            </Form>
-          </Transition>*/}
-
         </div>
       </div>
     </div>;
   }
 
-  //handleChange = (e, { value }) => this.setState({selectedProject: value });
-  getIssues(event) {
-    this.setState({loading: true});
-    // const jiraClient = new JiraApi({
-    //   protocol: 'https',
-    //   host: this.state.jiraHostURL,
-    //   username: this.state.jiraUsername,
-    //   password: this.state.jiraPassword,
-    //   apiVersion: '2',
-    //   strictSSL: true,
-    //
-    // });
-    // const jiraConnector = new JiraConnector(jiraClient);
-    // jiraConnector.getAllIssuesForProject(this.state.selectedProject)
-    //   .then((res) => (this.props.onSuccess(convert(res), this.state.selectedProject)));
-  }
 }
 
 
