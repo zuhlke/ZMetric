@@ -25,11 +25,11 @@ export function CumulativeFlowReport(props) {
     const [isTableVisible, toggleTableVisibility] = useState(false);
     const [selectedIssueTypes, updateSelectedIssueTypes] = useState(initialSelectedIssueTypesState(props.workflow));
     const [displayedData, updateDisplayedData] = useState(mergeData(props.data, selectedIssueTypes));
-    const [selectedWorkflowStates, updateSelectedWorkflowStates] = useState(initialSelectedWorkflowState(props.workflow));
+    const [selectedWorkflowStatuses, updateSelectedWorkflowStatuses] = useState(initialSelectedWorkflowState(props.workflow));
     const [statusColours] = useState(getColoursForNewIssues(props.workflow));
 
     const renderAreaChartsForSelectedWorkflows = () => {
-        return getSelectedWorkflows(selectedWorkflowStates)
+        return getSelectedWorkflows(selectedWorkflowStatuses)
             .map(entry => <Area type="monotone" id={entry[0]} key={entry[0]} dataKey={entry[0]} stackId="1"
                                 stroke={statusColours.get(entry[0])}
                                 fill={statusColours.get(entry[0])}
@@ -39,13 +39,13 @@ export function CumulativeFlowReport(props) {
     const toggleIssueType = issueTypeName => {
         const issueTypes = toggleProperty(selectedIssueTypes, issueTypeName);
         updateSelectedIssueTypes(issueTypes);
-        updateSelectedWorkflowStates(updateAvailableWorkflowStatusTypes(issueTypes, props.workflow, selectedWorkflowStates));
+        updateSelectedWorkflowStatuses(updateAvailableWorkflowStatusTypes(issueTypes, props.workflow, selectedWorkflowStatuses));
         updateDisplayedData(mergeData(props.data, issueTypes));
     };
 
     const toggleWorkflowStatus = statusName => {
-        const workflowStatuses = toggleProperty(selectedWorkflowStates, statusName);
-        updateSelectedWorkflowStates(workflowStatuses);
+        const workflowStatuses = toggleProperty(selectedWorkflowStatuses, statusName);
+        updateSelectedWorkflowStatuses(workflowStatuses);
     };
 
     const filterData = dateRange => {
@@ -96,7 +96,7 @@ export function CumulativeFlowReport(props) {
                         </Segment>
                         <Segment>
                             <h4>Select Workflow States</h4>
-                            <MultipleWorkflowStatesSelector workflowStates={selectedWorkflowStates}
+                            <MultipleWorkflowStatesSelector workflowStates={selectedWorkflowStatuses}
                                                             toggleWorkflowStatus={toggleWorkflowStatus}/>
                         </Segment>
                     </Segment.Group>
