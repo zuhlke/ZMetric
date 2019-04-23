@@ -1,13 +1,11 @@
 import React from 'react';
 import {storiesOf} from '@storybook/react';
 import ZMetric from "./ZMetric";
-import Actions from "../Actions";
 import MockAdapter from 'axios-mock-adapter';
 import axios from "axios";
 
 storiesOf('ZMetric', module)
-  .add('Log In', () => <ZMetric/>)
-  .add('Select Project', () => {
+  .add('Happy path', () => {
     const mock = new MockAdapter(axios);
     mock.onPost().reply(200, {
       "session":
@@ -894,25 +892,5 @@ storiesOf('ZMetric', module)
       }
     ];
     mock.onGet().reply(200, projectsMock);
-
-    Actions.type("#jiraHostURL", "https://jira.zuehlke.com");
-    Actions.type("#jiraUsername", "username");
-    Actions.type("#jiraPassword", "password");
-    Actions.click("#jiraLoginSubmit");
-    return <ZMetric/>;
-  })
-  .add('Dashboard', () => {
-    // const mock = new MockAdapter(axios);
-    // mock.onPost().reply(404, {
-    //   "errorMessages": [
-    //     "The user named 'username' does not exist"
-    //   ],
-    //   "errors": {}
-    // });
-    //
-    // Actions.type("#jiraHostURL", "https://jira.zuehlke.com");
-    // Actions.type("#jiraUsername", "username");
-    // Actions.type("#jiraPassword", "password");
-    // Actions.click("#jiraLoginSubmit");
     return <ZMetric/>;
   });

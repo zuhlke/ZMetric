@@ -883,15 +883,17 @@ const projectsMock = [
 ];
 
 storiesOf('Select Project', module)
-  .add('Default', () => <SelectProject/>)
-  .add('Loading', () => <SelectProject/>)
   .add('Loaded', () => {
     const mock = new MockAdapter(axios);
     mock.onGet().reply(200, projectsMock);
     return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
   })
+  .add('Loading', () => {
+    const mock = new MockAdapter(axios, {delayResponse: 100000});
+    return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
+  })
   .add('Failed', () => {
-    const mock = new MockAdapter(axios, {delayResponse: 1000});
+    const mock = new MockAdapter(axios);
     mock.onGet().replyOnce(404, {
       "errorMessages": [
         "The user named 'username' does not exist"
