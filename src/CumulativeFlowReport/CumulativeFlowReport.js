@@ -10,14 +10,16 @@ import {MultipleIssueTypeSelector} from "../MultipleIssueTypeSelector";
 import {MultipleWorkflowStatesSelector} from "../MultipleWorkflowStatesSelector";
 import PropTypes from "prop-types";
 import {
-    getColoursForNewIssues,
     getSelectedWorkflows,
-    initialSelectedIssueTypesState,
-    initialSelectedWorkflowState,
     mergeData,
     toggleProperty,
     updateAvailableWorkflowStatusTypes
 } from "./CumulativeFlowReportService";
+import {
+    getColoursForNewIssues,
+    initialSelectedIssueTypesState,
+    initialSelectedWorkflowState
+} from "./CumulativeFlowStateInitialization";
 
 export function CumulativeFlowReport(props) {
     const [isTableVisible, toggleTableVisibility] = useState(false);
