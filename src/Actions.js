@@ -5,7 +5,7 @@ export default class Actions {
         const element = document.getElementById(selector.substring(1, selector.length));
         if (element) element.click();
       } else {
-        const elements = document.getElementsByClassName(selector);
+        const elements = document.querySelector(selector);
         if (elements && elements.length) elements[0].click();
       }
     }, 1);

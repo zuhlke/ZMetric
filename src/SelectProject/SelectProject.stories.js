@@ -893,13 +893,14 @@ storiesOf('Select Project', module)
     return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
   })
   .add('Failed', () => {
-    const mock = new MockAdapter(axios);
-    mock.onPost().reply(404, {
+    const mock = new MockAdapter(axios, {delayResponse: 1000});
+    mock.onGet().replyOnce(404, {
       "errorMessages": [
         "The user named 'username' does not exist"
       ],
       "errors": {}
-    });    return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
+    });
+    return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
   })
   .add('Expanded', () => {
     const projectsMock = [
