@@ -890,7 +890,16 @@ storiesOf('Select Project', module)
     mock.onGet().reply(200, projectsMock);
     return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
   })
-  .add('Failed', () => <SelectProject/>)
+  .add('Failed', () => {
+    const mock = new MockAdapter(axios, {delayResponse: 1000});
+    mock.onGet().replyOnce(404, {
+      "errorMessages": [
+        "The user named 'username' does not exist"
+      ],
+      "errors": {}
+    });
+    return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
+  })
   .add('Expanded', () => {
     const mock = new MockAdapter(axios);
     mock.onGet().reply(200, projectsMock);
