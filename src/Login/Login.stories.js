@@ -9,7 +9,7 @@ storiesOf('Login', module)
   .add('Default', () => <Login/>)
   .add('Logged In', () => {
     const mock = new MockAdapter(axios);
-    mock.onGet().reply(200);
+    mock.onPost().reply(200);
 
     Actions.type("#jiraHostURL", "https://jira.zuehlke.com");
     Actions.type("#jiraUsername", "username");
@@ -28,7 +28,7 @@ storiesOf('Login', module)
   })
   .add('Error', () => {
     const mock = new MockAdapter(axios);
-    mock.onGet().reply(404, {
+    mock.onPost().reply(404, {
       "errorMessages": [
         "The user named 'username' does not exist"
       ],
