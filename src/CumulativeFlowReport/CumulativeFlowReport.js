@@ -6,8 +6,8 @@ import {applyDateRangeFilter} from "../DateFiltering/DateFilter";
 import {DynamicTable} from "../DynamicTable";
 import {DateRangePicker} from "../DateRangePicker";
 import moment from "moment";
-import {MultipleIssueTypeSelector} from "../MultipleIssueTypeSelector";
-import {MultipleWorkflowStatesSelector} from "../MultipleWorkflowStatesSelector";
+import {MultipleIssueTypeSelector} from "./Selectors/MultipleIssueTypeSelector";
+import {MultipleWorkflowStatusesSelector} from "./Selectors/MultipleWorkflowStatusesSelector";
 import PropTypes from "prop-types";
 import {
     getSelectedWorkflows,
@@ -95,9 +95,9 @@ export function CumulativeFlowReport(props) {
                                                        toggleIssueType={toggleIssueType}/>
                         </Segment>
                         <Segment>
-                            <h4>Select Workflow States</h4>
-                            <MultipleWorkflowStatesSelector workflowStates={selectedWorkflowStatuses}
-                                                            toggleWorkflowStatus={toggleWorkflowStatus}/>
+                            <h4>Select Workflow Statuses</h4>
+                            <MultipleWorkflowStatusesSelector workflowStatuses={selectedWorkflowStatuses}
+                                                              toggleWorkflowStatus={toggleWorkflowStatus}/>
                         </Segment>
                     </Segment.Group>
                 </Segment>

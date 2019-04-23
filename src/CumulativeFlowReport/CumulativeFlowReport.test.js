@@ -6,8 +6,8 @@ import {DatesRangeInput} from "semantic-ui-calendar-react/dist/commonjs/index";
 import {Checkbox} from "semantic-ui-react";
 import {act} from "react-dom/test-utils";
 import {Area, AreaChart} from "recharts";
-import {MultipleWorkflowStatesSelector} from "../MultipleWorkflowStatesSelector";
-import {MultipleIssueTypeSelector} from "../MultipleIssueTypeSelector";
+import {MultipleWorkflowStatusesSelector} from "./Selectors/MultipleWorkflowStatusesSelector";
+import {MultipleIssueTypeSelector} from "./Selectors/MultipleIssueTypeSelector";
 
 describe("CumulativeFlowReport", () => {
     const workflow = [
@@ -128,7 +128,7 @@ describe("CumulativeFlowReport", () => {
 
     it("updates graph when deselecting workflow state", () => {
         const wrapper = mount(<CumulativeFlowReport data={data} workflow={workflow} graphWidth={400}/>);
-        const workflowSelector = wrapper.find(MultipleWorkflowStatesSelector);
+        const workflowSelector = wrapper.find(MultipleWorkflowStatusesSelector);
 
         expect(wrapper.find(Area).length).toEqual(2);
 
@@ -143,7 +143,7 @@ describe("CumulativeFlowReport", () => {
 
         issueTypeSelector.find(Checkbox).first().simulate('change');
 
-        const workflowSelector = wrapper.find(MultipleWorkflowStatesSelector);
+        const workflowSelector = wrapper.find(MultipleWorkflowStatusesSelector);
         const workflowStates = workflowSelector.find(Checkbox);
         expect(workflowStates.length).toEqual(3);
     });

@@ -1,6 +1,6 @@
 import React from 'react'
-import {Checkbox} from "semantic-ui-react";
 import PropTypes from "prop-types";
+import {Checkbox} from "semantic-ui-react";
 
 export function MultipleIssueTypeSelector(props){
     return (
