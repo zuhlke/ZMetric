@@ -20,7 +20,7 @@ class Login extends Component {
       jiraUsername: 'username',
       jiraPassword: 'password',
       successMessage: 'Successfully logged in',
-      errorMessage: ''
+      errorMessage: 'Can\'t connect to Jira'
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,12 +34,12 @@ class Login extends Component {
     const instance = axios.create({baseURL: jiraHostURL, headers: {}});
     //https://developer.atlassian.com/cloud/jira/platform/jira-rest-api-cookie-based-authentication/
     instance
-      .post('/rest/auth/1/session', {username: jiraUsername, password: jiraPassword})
+      .post('/rest/auth/1/session', {username: jiraUsername, password: jiraPassword}, { headers: {"X-Atlassian-Token" : "no-check"}})
       .then((response) => {
         if (this.props.onSuccess) this.props.onSuccess(response.data.session);
         self.setState({phase: Phases.SUCCESS});
       })
-      .catch(error => self.setState({phase: Phases.FAIL, errorMessage: error.response.data.errorMessages}));
+      .catch(error => self.setState({phase: Phases.FAIL, errorMessage: error.response && error.response.data ? error.response.data.errorMessages : this.state.errorMessage}));
   }
 
   handleChange(event, data) {
