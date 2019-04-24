@@ -1,9 +1,12 @@
 language: node_js
 node_js:
   - "stable"
+env:
+  - DOMAIN_NAME=$(if [ $TRAVIS_BRANCH = "none/master_deployment" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "https://zmetric.surge.sh"; else echo "https://"$TRAVIS_BRANCH"-zmetric.surge.sh"; fi)
+
 before_install:
-  - set DOMAIN_NAME=$(if [ "$TRAVIS_BRANCH" = "none/master_deployment" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "https://zmetric.surge.sh"; else echo "https://"$TRAVIS_BRANCH"-zmetric.surge.sh"; fi)
-  - echo $TRAVIS_BRANCH
+#  - set DOMAIN_NAME=$(if [ $TRAVIS_BRANCH = "none/master_deployment" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "https://zmetric.surge.sh"; else echo "https://"$TRAVIS_BRANCH"-zmetric.surge.sh"; fi)
+  - echo $DOMAIN_NAME
 #  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
 #  - export PATH=$HOME/.yarn/bin:$PATH
 #cache:
