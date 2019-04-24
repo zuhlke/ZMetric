@@ -10,6 +10,7 @@
     "axios-mock-adapter": "^1.16.0",
     "electron-is-dev": "^1.1.0",
     "expect": "^24.7.1",
+    "jest-mock-axios": "^2.4.0",
     "jira-client": "^6.7.1",
     "moment": "^2.24.0",
     "prop-types": "latest",
@@ -75,9 +76,11 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!src/index.js",
+      "!src/Actions.js",
       "!src/serviceWorker.js",
       "!src/setupTests.js",
-      "!scripts/*.js"
+      "!scripts/*.js",
+      "!src/**/*.stories.{js,jsx}"
     ],
     "coverageThreshold": {
       "global": {

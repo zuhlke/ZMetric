@@ -20,7 +20,6 @@ class ZMetric extends Component {
 
   onLogin(session) {
     this.setState({session, phase: Phases.SELECT_PROJECT});
-    console.warn("Session: ", session);
   }
 
   onProjectSelected(project) {
