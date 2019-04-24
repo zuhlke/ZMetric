@@ -2,26 +2,27 @@ language: node_js
 node_js:
   - "stable"
 env:
-  - DOMAIN_NAME=$(if [ $TRAVIS_BRANCH = "master" ]; then echo "https://zmetric.surge.sh"; else echo "https://"$TRAVIS_BRANCH"-zmetric.surge.sh"; fi)
+  - DOMAIN_NAME=$(if [ $TRAVIS_BRANCH = "none/master_deployment" ]; then echo "https://zmetric.surge.sh"; else echo "https://"$TRAVIS_BRANCH"-zmetric.surge.sh"; fi)
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
-  - export PATH=$HOME/.yarn/bin:$PATH
-cache:
-  yarn: true
-  directories:
-    - node_modules
-script:
-  - yarn run audit # customised yarn audit
-  - yarn build
-  - yarn test-coverage
-  - yarn lint
-after_script:
-  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
-deploy:
-  provider: surge
-  project: ./build/
-  domain: $DOMAIN_NAME
-  skip_cleanup: true
-  keep_history: true
-  on:
-    all_branches: true
+  - echo $DOMAIN_NAME
+#  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+#  - export PATH=$HOME/.yarn/bin:$PATH
+#cache:
+#  yarn: true
+#  directories:
+#    - node_modules
+#script:
+#  - yarn run audit # customised yarn audit
+#  - yarn build
+#  - yarn test-coverage
+#  - yarn lint
+#after_script:
+#  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
+#deploy:
+#  provider: surge
+#  project: ./build/
+#  domain: $DOMAIN_NAME
+#  skip_cleanup: true
+#  keep_history: true
+#  on:
+#    all_branches: true
