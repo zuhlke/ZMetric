@@ -27,14 +27,14 @@ class ZMetric extends Component {
   }
 
   renderPhase() {
-    const {phase, session} = this.state;
+    const {phase, session, project} = this.state;
     switch (phase) {
       case Phases.LOGIN:
         return <Login onSuccess={this.onLogin.bind(this)}/>;
       case Phases.SELECT_PROJECT:
         return <SelectProject session={session} onProjectSelected={this.onProjectSelected.bind(this)}/>;
       default:
-        return <div>Dashboard for project {this.state.project}</div>;
+        return <div>Dashboard for project {project}</div>;
     }
   }
 
