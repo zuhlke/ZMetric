@@ -28,7 +28,7 @@ class ZMetric extends Component {
   }
 
   renderPhase() {
-    const {phase, session, project} = this.state;
+    const {phase, session} = this.state;
     switch (phase) {
       case Phases.LOGIN:
         return <Login onSuccess={this.onLogin.bind(this)}/>;
