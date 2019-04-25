@@ -1,4 +1,4 @@
-import {getThroughput} from "../DataFetcher";
+import {getMockThroughput} from "../MockDataFetcher";
 import {
     generateTrendLineDays,
     generateTrendLineDays2,
@@ -50,7 +50,7 @@ const throughputData = [
 ];
 
 describe("TrendLine", () => {
-    const dataSets = [throughputData, getThroughput()];
+    const dataSets = [throughputData, getMockThroughput()];
     const functions = [generateTrendLineTimestamp, generateTrendLineDays, generateTrendLineDays2, generateTrendLineDaysIfDataSetOrderedAndRegularlySpaced];
 
     dataSets.forEach((dataset, dataIndex) => {

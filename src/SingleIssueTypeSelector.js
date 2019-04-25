@@ -2,7 +2,7 @@ import React from 'react';
 import {Button} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-export function IssueTypeSelector(props) {
+export function SingleIssueTypeSelector(props) {
     return (
         <Button.Group vertical>
             <h3>Issue Type:</h3>
@@ -20,7 +20,7 @@ export function IssueTypeSelector(props) {
     )
 }
 
-IssueTypeSelector.propTypes = {
+SingleIssueTypeSelector.propTypes = {
     updateSelectedIssueType: PropTypes.func.isRequired,
     selectedIssueType: PropTypes.number.isRequired,
     workflow: PropTypes.arrayOf(PropTypes.shape({
