@@ -22,7 +22,7 @@ it('changes phase state to Submit and show loading on submit ', () => {
 
 });
 
-it('changes phase state to Error and shows error message on error after submit ', async () => {
+it('changes phase state to Error and shows user does not exist error message on error after submit ', async () => {
     const mock = new MockAdapter(axios);
     mock.onPost().reply(404, {
         "errorMessages": [
@@ -36,6 +36,19 @@ it('changes phase state to Error and shows error message on error after submit '
     await tick();
     expect(wrapper.state().phase).toBe("Fail");
     expect(wrapper.find('Message').at(0).text()).toEqual("The user named 'username' does not exist");
+
+
+});
+
+it('changes phase state to Error and shows general error message on error after submit ', async () => {
+    const mock = new MockAdapter(axios);
+    mock.onPost().reply(404)
+
+    const wrapper = mount(<Login/>);
+    wrapper.find('Button').simulate('submit')
+    await tick();
+    expect(wrapper.state().phase).toBe("Fail");
+    expect(wrapper.find('Message').at(0).text()).toEqual("Can't connect to Jira");
 
 
 });
