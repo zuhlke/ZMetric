@@ -42,6 +42,7 @@ class Login extends Component {
   }
 
   handleChange(event) {
+    console.log(event)
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -61,15 +62,15 @@ class Login extends Component {
           <Form className="ui large form error success"
                 onSubmit={this.handleSubmit}
                 loading={phase === Phases.SUBMITTING}>
-            <Form.Input icon="globe" iconPosition='left' type="text" id="jiraHostURL"
+            <Form.Input icon="globe" iconPosition='left' type="text" name="jiraHostURL"
                         value={jiraHostURL} onChange={this.handleChange}
                         placeholder="Jira URL"/>
 
-            <Form.Input icon="user" iconPosition='left' type="text" id="jiraUsername"
+            <Form.Input icon="user" iconPosition='left' type="text" name="jiraUsername"
                         value={jiraUsername} onChange={this.handleChange}
                         placeholder="Jira Username"/>
 
-            <Form.Input icon="lock" iconPosition='left' type="password" id="jiraPassword"
+            <Form.Input icon="lock" iconPosition='left' type="password" name="jiraPassword"
                         value={jiraPassword} onChange={this.handleChange}
                         placeholder="Jira Password"/>
 

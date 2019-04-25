@@ -1,6 +1,7 @@
 import Login from "../Login/Login";
 import React, {Component} from 'react';
 import SelectProject from "../SelectProject/SelectProject";
+import App from "../App";
 
 const Phases = {
   LOGIN: 'Login',
@@ -34,7 +35,7 @@ class ZMetric extends Component {
       case Phases.SELECT_PROJECT:
         return <SelectProject session={session} onProjectSelected={this.onProjectSelected.bind(this)}/>;
       default:
-        return <div>Dashboard for project {project}</div>;
+        return <App/>;
     }
   }
 
