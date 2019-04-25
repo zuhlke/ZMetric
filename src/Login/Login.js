@@ -5,7 +5,6 @@ import axios from "axios";
 
 const Phases = {
   INIT: 'Init',
-  LOADING: 'Loading',
   SUBMITTING: 'Submitting',
   SUCCESS: 'Success',
   FAIL: 'Fail'
@@ -42,10 +41,14 @@ class Login extends Component {
       .catch(error => self.setState({phase: Phases.FAIL, errorMessage: error.response && error.response.data ? error.response.data.errorMessages : this.state.errorMessage}));
   }
 
-  handleChange(event, data) {
-    this.setState({[data.id]: data.value});
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
   }
-
   render() {
     const {jiraHostURL, jiraUsername, jiraPassword, phase, errorMessage, successMessage} = this.state;
 
