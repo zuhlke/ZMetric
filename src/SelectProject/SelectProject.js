@@ -8,7 +8,7 @@ const Phases = {
   READY: 'Ready',
   SUBMITTING: 'Submitting',
   SUCCESS: 'Success',
-  FAIL: 'Fail'
+  FAILED: 'Failed'
 };
 
 class SelectProject extends Component {
@@ -28,7 +28,6 @@ class SelectProject extends Component {
   }
 
   loadProjects() {
-    console.log("Loading Projects");
     this.setState({phase: Phases.LOADING});
     const self = this;
     const {name, value} = this.props.session;
@@ -39,16 +38,15 @@ class SelectProject extends Component {
       .then((response) =>
         self.setState({
           phase: Phases.READY,
-          projects: response.data.map(p => ({key: p.key, value: p.key, text: p.name}))
+          projects: response.data.map(p => ({key: p.key, value: p.key, text: `${p.key} - ${p.name}`}))
         }))
       .catch(error => self.setState({
-          phase: Phases.FAIL,
-          errorMessage: `Response code: ${error.response.status}`
-        }) //&& self.setState({phase: Phases.FAIL, errorMessage: error.response.data.errorMessages})
-      );
+        phase: Phases.FAILED,
+        errorMessage: `${error}`
+      }));
   }
 
-  selectProject() {
+  onProjectSelected() {
     if (this.props.onProjectSelected) this.props.onProjectSelected(this.state.selectedProject);
   }
 
@@ -67,10 +65,9 @@ class SelectProject extends Component {
           </div>
         </h2>
         <div className="ui stacked segment">
-
-          {(phase === Phases.READY || phase === Phases.LOADING || phase === Phases.FAIL) &&
-          <Form onSubmit={this.selectProject.bind(this)} id="jiraSelectProjectForm"
-                disabled={phase === Phases.LOADING || phase === Phases.FAIL}>
+          {(phase === Phases.READY || phase === Phases.LOADING || phase === Phases.FAILED) &&
+          <Form onSubmit={this.onProjectSelected.bind(this)} id="jiraSelectProjectForm"
+                disabled={phase !== Phases.READY}>
             <Form.Dropdown id="jiraSelectProject"
                            placeholder='Select Project'
                            fluid
@@ -83,21 +80,20 @@ class SelectProject extends Component {
                            options={projects}
                            value={selectedProject}/>
 
-            {phase === Phases.FAIL ? <Button
-                hidden={true}
+            {phase === Phases.FAILED ?
+              <Button
                 onClick={this.loadProjects.bind(this)}
-                loading={this.state.loading}
                 className="ui fluid large teal submit button">Try again</Button>
-              : <Button
-                hidden={true}
-                loading={this.state.loading}
-
+              :
+              <Button
                 disabled={!(this.state.selectedProject)}
-                className="ui fluid large teal submit button">Select Project</Button>}
-
+                className="ui fluid large teal submit button">Select Project</Button>
+            }
           </Form>
           }
-          <Message error hidden={phase !== Phases.FAIL} header="Can't load projects from JIRA" content={errorMessage}/>
+
+          <Message error hidden={phase !== Phases.FAILED} header="Can't load projects from JIRA"
+                   content={errorMessage}/>
 
         </div>
       </div>

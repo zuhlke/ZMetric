@@ -885,7 +885,7 @@ const projectsMock = [
 storiesOf('Select Project', module)
   .add('Loaded', () => {
     const mock = new MockAdapter(axios);
-    mock.onGet().reply(200, projectsMock);
+    mock.onGet().replyOnce(200, projectsMock);
     return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
   })
   .add('Loading', () => {
@@ -894,12 +894,7 @@ storiesOf('Select Project', module)
   })
   .add('Failed', () => {
     const mock = new MockAdapter(axios);
-    mock.onGet().replyOnce(404, {
-      "errorMessages": [
-        "The user named 'username' does not exist"
-      ],
-      "errors": {}
-    });
+    mock.onGet().replyOnce(403);
     return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
   })
   .add('Expanded', () => {
@@ -910,7 +905,7 @@ storiesOf('Select Project', module)
   })
   .add('Selected', () => {
     const mock = new MockAdapter(axios);
-    mock.onGet().reply(200, projectsMock);
+    mock.onGet().replyOnce(200, projectsMock);
 
     Actions.click("#jiraSelectProject");
     Actions.click("#jiraSelectProject .item .text");
