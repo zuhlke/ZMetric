@@ -5,10 +5,10 @@ export function convert(issue, workflow) {
         id: issue.id,
         key: issue.key,
         fields: issue.fields,
-        cumulativeFlow: updateData(issue, workflow)
+        cumulativeFlow: calculateCumulativeFlowData(issue, workflow)
     };
 
-    function updateData(issue, workflow) {
+    function calculateCumulativeFlowData(issue, workflow) {
         const sampleEntry = createEmptyEntry(issue, workflow);
         const data = [];
         const filteredHistories = pruneHistories(issue);
@@ -33,7 +33,9 @@ export function convert(issue, workflow) {
     function createEmptyEntry(issue, workflow) {
         const entry = {};
         const issueType = workflow.filter(issueType => issueType.name === issue.fields.issuetype.name);
-        //TODO: if this returns anything other than exactly one element, throw error -> more error checking elsewhere?
+        if(!issueType){
+            throw new Error("issue " + issue.key + " has issue type that is not present in the valid issueType values for the project (provided by the 'GET /rest/api/2/project/{projectIdOrKey}/statuses' endpoint)")
+        }
         issueType[0].statuses.forEach(status => entry[status.name] = 0);
         pruneHistories(issue).forEach(history => {
             if(!(history.items[0].fromString in entry)){
