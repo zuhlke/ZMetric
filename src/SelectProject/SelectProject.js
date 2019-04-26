@@ -54,7 +54,6 @@ class SelectProject extends Component {
     this.setState({selectedProject: data.value});
   }
 
-
   render() {
     const {selectedProject, phase, projects, errorMessage} = this.state;
     return <div className="ui middle aligned center aligned grid">
@@ -77,7 +76,7 @@ class SelectProject extends Component {
                            onChange={this.onChange.bind(this)}
                            selection
                            noResultsMessage='No projects found for this JIRA Account'
-                           options={projects}
+                           options={projects || []}
                            value={selectedProject}/>
 
             {phase === Phases.FAILED ?
