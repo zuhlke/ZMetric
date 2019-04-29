@@ -1018,7 +1018,7 @@ describe('Select Project', () => {
   async function loaded() {
     const mock = new MockAdapter(axios);
     mock.onGet().replyOnce(200, projectsMock);
-    const wrapper = mount(<SelectProject jiraHostURL='https://jira.atlassian.com/' session={session}
+    const wrapper = mount(<SelectProject jiraUrl='https://jira.atlassian.com/' session={session}
                                          onProjectSelected={onProjectSelected}/>);
     // TODO: what is it? not clear why it is here and what it's purpose
     await tick();
@@ -1027,7 +1027,7 @@ describe('Select Project', () => {
 
   async function loading() {
     const mock = new MockAdapter(axios, {delayResponse: 5000});
-    const wrapper = mount(<SelectProject jiraHostURL='https://jira.atlassian.com/' session={session}
+    const wrapper = mount(<SelectProject jiraUrl='https://jira.atlassian.com/' session={session}
                                          onProjectSelected={onProjectSelected}/>);
     // TODO: what is it? not clear why it is here and what it's purpose
     await tick();
@@ -1037,7 +1037,7 @@ describe('Select Project', () => {
   async function failed() {
     const mock = new MockAdapter(axios);
     mock.onGet().replyOnce(403);
-    const wrapper = mount(<SelectProject jiraHostURL='https://jira.atlassian.com/' session={session}
+    const wrapper = mount(<SelectProject jiraUrl='https://jira.atlassian.com/' session={session}
                                          onProjectSelected={onProjectSelected}/>);
     // TODO: what is it? not clear why it is here and what it's purpose
     await tick();

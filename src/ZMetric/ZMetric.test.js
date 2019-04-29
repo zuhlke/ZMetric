@@ -7,6 +7,7 @@ import App from "../App";
 
 describe("ZMetric", () => {
   const session = {session: {name: 'cookie', value: 'cookie'}};
+  const jiraUrl = 'https://jira.url';
 
   it('should render login screen by default', () => {
     const wrapper = shallow(<ZMetric/>);
@@ -16,7 +17,7 @@ describe("ZMetric", () => {
 
   it('should render select screen after successful login', () => {
     const wrapper = shallow(<ZMetric/>);
-    wrapper.instance().onLogin(session);
+    wrapper.instance().onLogin(session, jiraUrl);
     expect(wrapper.state().phase).toEqual('Select Project');
     expect(wrapper.state().session).toEqual(session);
     expect(wrapper.find(SelectProject)).toHaveLength(1);
@@ -24,7 +25,7 @@ describe("ZMetric", () => {
 
   it('should render dashboard once project selected', () => {
     const wrapper = shallow(<ZMetric/>);
-    wrapper.instance().onLogin(session);
+    wrapper.instance().onLogin(session, jiraUrl);
     const testProject = "selected project";
     wrapper.instance().onProjectSelected(testProject);
     expect(wrapper.state().phase).toEqual('Dashboard');

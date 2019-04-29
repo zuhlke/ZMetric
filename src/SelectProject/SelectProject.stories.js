@@ -881,27 +881,33 @@ const projectsMock = [
     "projectTypeKey": "software"
   }
 ];
+const onProjectSelectedMock = () => {
+};
 
 storiesOf('Select Project', module)
   .add('Loaded', () => {
     const mock = new MockAdapter(axios);
     mock.onGet().replyOnce(200, projectsMock);
-    return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
+    return <SelectProject onProjectSelected={onProjectSelectedMock} jiraUrl='https://jira.atlassian.com/'
+                          session={{name: 'cookie', value: '123'}}/>;
   })
   .add('Loading', () => {
     const mock = new MockAdapter(axios, {delayResponse: 100000});
-    return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
+    return <SelectProject onProjectSelected={onProjectSelectedMock} jiraUrl='https://jira.atlassian.com/'
+                          session={{name: 'cookie', value: '123'}}/>;
   })
   .add('Failed', () => {
     const mock = new MockAdapter(axios);
     mock.onGet().replyOnce(403);
-    return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
+    return <SelectProject onProjectSelected={onProjectSelectedMock} jiraUrl='https://jira.atlassian.com/'
+                          session={{name: 'cookie', value: '123'}}/>;
   })
   .add('Expanded', () => {
     const mock = new MockAdapter(axios);
     mock.onGet().reply(200, projectsMock);
     Actions.click("#jiraSelectProject");
-    return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
+    return <SelectProject onProjectSelected={onProjectSelectedMock} jiraUrl='https://jira.atlassian.com/'
+                          session={{name: 'cookie', value: '123'}}/>;
   })
   .add('Selected', () => {
     const mock = new MockAdapter(axios);
@@ -910,5 +916,6 @@ storiesOf('Select Project', module)
     Actions.click("#jiraSelectProject");
     Actions.click("#jiraSelectProject .item .text");
 
-    return <SelectProject jiraHostURL='https://jira.atlassian.com/' session={{name: 'cookie', value: '123'}}/>;
+    return <SelectProject onProjectSelected={onProjectSelectedMock} jiraUrl='https://jira.atlassian.com/'
+                          session={{name: 'cookie', value: '123'}}/>;
   });

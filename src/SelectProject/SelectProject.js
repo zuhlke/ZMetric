@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Form, Message} from 'semantic-ui-react'
 import axios from "axios";
+import PropTypes from "prop-types";
 
 const Phases = {
   INIT: 'Init',
@@ -16,7 +17,7 @@ class SelectProject extends Component {
     super(props);
     this.state = {
       phase: Phases.INIT,
-      jiraHostURL: 'https://jira.zuehlke.com',
+      jiraUrl: 'https://jira.zuehlke.com',
       selectedProject: undefined,
       projects: undefined,
       errorMessage: undefined
@@ -31,8 +32,8 @@ class SelectProject extends Component {
     this.setState({phase: Phases.LOADING});
     const self = this;
     const {name, value} = this.props.session;
-    const {jiraHostURL} = this.state;
-    const instance = axios.create({baseURL: jiraHostURL, headers: {cookie: `${name}=${value}`}});
+    const {jiraUrl} = this.props;
+    const instance = axios.create({baseURL: jiraUrl, headers: {cookie: `${name}=${value}`}});
     instance
       .get('/rest/api/2/project')
       .then((response) =>
@@ -47,7 +48,7 @@ class SelectProject extends Component {
   }
 
   onProjectSelected() {
-    if (this.props.onProjectSelected) this.props.onProjectSelected(this.state.selectedProject);
+    this.props.onProjectSelected(this.state.selectedProject);
   }
 
   onChange(event, data) {
@@ -99,5 +100,12 @@ class SelectProject extends Component {
     </div>;
   }
 }
+
+SelectProject.propTypes = {
+  jiraUrl: PropTypes.string.isRequired,
+  session: PropTypes.object.isRequired,
+  onProjectSelected: PropTypes.func.isRequired
+};
+
 
 export default SelectProject;
