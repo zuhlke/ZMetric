@@ -86,9 +86,9 @@ export function mergeCumulativeFlowData(data1, data2) {
         laterStartIndex++;
         date.add(1, 'days');
     }
-    let laterEndIndex = (data1HasEarlierStart === data1HasLaterEnd) ? earlierStartIndex : laterStartIndex;
+    let laterEndIndex= (data1HasEarlierStart === data1HasLaterEnd) ? earlierStartIndex: laterStartIndex;
     while (date.isSameOrBefore(dataWithLaterEnd[dataWithLaterEnd.length - 1].date)) {
-        result[earlierStartIndex] = dataWithLaterEnd[laterEndIndex];
+        result[earlierStartIndex] = sumEntries(dataWithLaterEnd[laterEndIndex], dataWithEarlierEnd[dataWithEarlierEnd.length - 1]);
         earlierStartIndex++;
         laterEndIndex++;
         date.add(1, 'days');

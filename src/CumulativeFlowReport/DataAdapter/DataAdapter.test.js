@@ -755,7 +755,7 @@ describe("DataAdapter", () =>{
                 "Not Being Considered": 0,
                 "In Progress": 0,
                 "Waiting for Release": 0,
-                Resolved: 1
+                Resolved: 2
             }
         ];
 
