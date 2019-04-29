@@ -4,7 +4,7 @@ import {LeadTimeLineChart} from "./LeadTimeLineChart";
 import {mount} from "enzyme";
 import {DatesRangeInput} from "semantic-ui-calendar-react";
 import {act} from "react-dom/test-utils";
-import {BarChart, LineChart} from "recharts";
+import {LineChart} from "recharts";
 
 
 describe("LeadTimeLineChart", () => {
