@@ -30,14 +30,16 @@ class ZMetric extends Component {
 
   renderPhase() {
     const {phase, session, jiraUrl} = this.state;
-    switch (phase) {
-      case Phases.LOGIN:
-        return <Login onSuccess={this.onLogin.bind(this)}/>;
-      case Phases.SELECT_PROJECT:
-        return <SelectProject jiraUrl={jiraUrl} session={session} onProjectSelected={this.onProjectSelected.bind(this)}/>;
-      default:
-        return <App/>;
-    }
+    return <div className="ui middle aligned center aligned grid">
+      <div className="column">
+        <h2 className="ui teal image header">
+          <div className="content">ZMetric</div>
+        </h2>
+        {this.state.phase === Phases.LOGIN && <Login onSuccess={this.onLogin.bind(this)}/>}
+        {this.state.phase === Phases.SELECT_PROJECT && <SelectProject jiraUrl={jiraUrl}  session={session} onProjectSelected={this.onProjectSelected.bind(this)}/>}
+        {this.state.phase ===Phases.DASHBOARD && <App/>}
+      </div>
+    </div>;
   }
 
   render = () => this.renderPhase();
