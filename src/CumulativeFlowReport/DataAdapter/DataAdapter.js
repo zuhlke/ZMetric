@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export function convert(issue, workflow) {
+export function convertIssueChangelogToCumulativeFlow(issue, workflow) {
     return {
         id: issue.id,
         key: issue.key,
@@ -64,12 +64,66 @@ export function convert(issue, workflow) {
     }
 }
 
-export function merge(data1, data2) {
-    return data1;
+
+export function mergeCumulativeFlowData(data1, data2) {
+    const result = [];
+    const data1HasEarlierStart = moment(data1[0].date).isBefore(moment(data2[0].date));
+    const data1HasLaterEnd = moment(data1[data1.length - 1].date).isAfter(moment(data2[data2.length - 1].date));
+    const [dataWithEarlierStart, dataWithLaterStart] = data1HasEarlierStart ? [data1, data2] : [data2, data1];
+    const [dataWithLaterEnd, dataWithEarlierEnd] = data1HasLaterEnd ? [data1, data2] : [data2, data1];
+
+    const date = data1HasEarlierStart ? moment(data1[0].date).clone() : moment(data2[0].date).clone();
+    let earlierStartIndex = 0;
+    let laterStartIndex = 0;
+    while (date.isBefore(dataWithLaterStart[0].date)) {
+        result[earlierStartIndex] = dataWithEarlierStart[earlierStartIndex];
+        earlierStartIndex++;
+        date.add(1, 'days');
+    }
+    while (date.isSameOrBefore(dataWithEarlierEnd[dataWithEarlierEnd.length - 1].date)) {
+        result[earlierStartIndex] = sumEntries(dataWithEarlierStart[earlierStartIndex], dataWithLaterStart[laterStartIndex]);
+        earlierStartIndex++;
+        laterStartIndex++;
+        date.add(1, 'days');
+    }
+    let laterEndIndex = (data1HasEarlierStart === data1HasLaterEnd) ? earlierStartIndex : laterStartIndex;
+    while (date.isSameOrBefore(dataWithLaterEnd[dataWithLaterEnd.length - 1].date)) {
+        result[earlierStartIndex] = dataWithLaterEnd[laterEndIndex];
+        earlierStartIndex++;
+        laterEndIndex++;
+        date.add(1, 'days');
+    }
+    return result;
+
+    function sumEntries(entry1, entry2) {
+        const result = {};
+        Object.entries(entry1).forEach(keyValuePair => {
+            result[keyValuePair[0]] = (keyValuePair[0] === "date") ? keyValuePair[1] : keyValuePair[1] + entry2[keyValuePair[0]];
+        });
+        return result;
+    }
 }
 
-export function mergeIssues(issues){
-    return {}
-    // issues.map(issue => convert(issue)).reduce(merge);
-}
 
+export function mergeIssues(issues, workflow){
+    const convertedIssues = issues.map(issue => convertIssueChangelogToCumulativeFlow(issue, workflow));
+    const objResult = {
+        Suggestion: {data:undefined, id:"1000"},
+        Bug: {data:undefined, id:"1"}
+    };
+    convertedIssues.forEach(issue => {
+        if(objResult[issue.fields.issuetype.name].data){
+            objResult[issue.fields.issuetype.name].data = mergeCumulativeFlowData(objResult[issue.fields.issuetype.name].data, issue.cumulativeFlow);
+        }
+        else{
+            objResult[issue.fields.issuetype.name].data = issue.cumulativeFlow;
+        }
+    });
+    return Object.entries(objResult).map(entry => {
+        return {
+            id: entry[1].id,
+            name: entry[0],
+            data: entry[1].data
+        };
+    })
+}

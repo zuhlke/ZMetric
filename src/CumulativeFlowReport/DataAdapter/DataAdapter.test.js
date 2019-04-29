@@ -1,4 +1,4 @@
-import {convert, merge, mergeIssues} from "./DataAdapter";
+import {convertIssueChangelogToCumulativeFlow, mergeCumulativeFlowData, mergeIssues} from "./DataAdapter";
 
 describe("DataAdapter", () =>{
     describe("converts issues to cumulative flow data", () => {
@@ -679,33 +679,115 @@ describe("DataAdapter", () =>{
             ]
         };
 
-        describe("convert", () => {
+        const issue1And2MergedCumulativeFlowData = [
+            {
+                date: "2019-02-19",
+                "Gathering Interest": 0,
+                Reviewing: 1,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-20",
+                "Gathering Interest": 1,
+                Reviewing: 1,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-21",
+                "Gathering Interest": 1,
+                Reviewing: 1,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-22",
+                "Gathering Interest": 0,
+                Reviewing: 2,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-23",
+                "Gathering Interest": 0,
+                Reviewing: 1,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 1,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-24",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 1,
+                "Waiting for Release": 0,
+                Resolved: 1
+            },
+            {
+                date: "2019-02-25",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 1
+            }
+        ];
+
+        describe("convertIssueChangelogToCumulativeFlow", () => {
             it("converts issue1 to cumulative flow for that issue", () => {
-                expect(convert(issue1, workflow)).toEqual(issue1CumulativeFlowData);
+                expect(convertIssueChangelogToCumulativeFlow(issue1, workflow)).toEqual(issue1CumulativeFlowData);
             });
 
             it("converts issue2 to cumulative flow for that issue", () => {
-                expect(convert(issue2, workflow)).toEqual(issue2CumulativeFlowData);
+                expect(convertIssueChangelogToCumulativeFlow(issue2, workflow)).toEqual(issue2CumulativeFlowData);
             });
 
             it("converts issue3 to cumulative flow for that issue", () => {
-                expect(convert(issue3, workflow)).toEqual(issue3CumulativeFlowData);
+                expect(convertIssueChangelogToCumulativeFlow(issue3, workflow)).toEqual(issue3CumulativeFlowData);
             });
         });
 
         it("merges cumulative flow data for two issues of the same type into one", () => {
-            const issue1And2MergedCumulativeFlowData = {};
-            expect(merge(issue2CumulativeFlowData, issue1CumulativeFlowData)).toEqual(issue1And2MergedCumulativeFlowData);
-        });
-
-        it("merges cumulative flow data for issues with different types into one", () => {
-            const issue2And3MergedCumulativeFlowData = {};
-            expect(merge(issue2CumulativeFlowData, issue3CumulativeFlowData)).toEqual(issue2And3MergedCumulativeFlowData)
+            expect(mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow, issue1CumulativeFlowData.cumulativeFlow)).toEqual(issue1And2MergedCumulativeFlowData);
         });
 
         it("converts bug and Suggestion issues to combined cumulative flow data", () => {
-            const combinedCumulativeFlowData = {};
-            expect(mergeIssues(issues)).toEqual(combinedCumulativeFlowData);
+            const combinedCumulativeFlowData = [{
+                id: "1000",
+                name: "Suggestion",
+                data: issue1And2MergedCumulativeFlowData
+            },{
+                id: "1",
+                name: "Bug",
+                data: issue3CumulativeFlowData.cumulativeFlow
+            }];
+            expect(mergeIssues(issues, workflow)).toEqual(combinedCumulativeFlowData);
         });
     });
 
