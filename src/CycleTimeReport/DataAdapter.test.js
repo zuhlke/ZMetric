@@ -1,4 +1,4 @@
-import {convert} from "./DataAdapter";
+import {convertFromJiraToLeadtime} from "./DataAdapter";
 import moment from "moment";
 
 describe('DataAdapter', () => {
@@ -21,7 +21,7 @@ describe('DataAdapter', () => {
                 }
             ]
         };
-        const result = convert(jiraIssue);
+        const result = convertFromJiraToLeadtime(jiraIssue);
         expect(result).toEqual([{date: "2019-02-08", averageLeadTime: 0}])
     });
     it('should return two entries when given two jira issue entries on that have been created and resolved on consecutive dates', () => {
@@ -53,7 +53,7 @@ describe('DataAdapter', () => {
                 }
             ]
         };
-        const result = convert(jiraIssue);
+        const result = convertFromJiraToLeadtime(jiraIssue);
         expect(result).toEqual([{date: "2019-02-08", averageLeadTime: 0}, {date: "2019-02-09", averageLeadTime: 0}])
     });
     it('should return the same number of date entries for every date between creation and resolution date of jira issue entry', () => {
@@ -76,7 +76,7 @@ describe('DataAdapter', () => {
             ]
         };
 
-        const result = convert(jiraIssue);
+        const result = convertFromJiraToLeadtime(jiraIssue);
 
         expect(result.length).toEqual(13)
 
@@ -111,7 +111,7 @@ describe('DataAdapter', () => {
             ]
         };
 
-        const result = convert(jiraIssue);
+        const result = convertFromJiraToLeadtime(jiraIssue);
 
         expect(result.length).toEqual(13)
 
@@ -147,7 +147,7 @@ describe('DataAdapter', () => {
             ]
         };
 
-        const result =  convert(jiraIssue);
+        const result =  convertFromJiraToLeadtime(jiraIssue);
         expect(result.length).toEqual(72)
 
     });
@@ -182,7 +182,7 @@ describe('DataAdapter', () => {
             ]
         };
 
-        const result =  convert(jiraIssue);
+        const result =  convertFromJiraToLeadtime(jiraIssue);
         expect(result.length).toEqual(72)
 
     });
@@ -207,7 +207,7 @@ describe('DataAdapter', () => {
             ]
         };
 
-        const result =  convert(jiraIssue);
+        const result =  convertFromJiraToLeadtime(jiraIssue);
         expect(result[result.length - 1].date).toEqual(moment().format('YYYY-MM-DD'))
 
     });
@@ -231,7 +231,7 @@ describe('DataAdapter', () => {
             ]
         };
 
-        const result =  convert(jiraIssue);
+        const result =  convertFromJiraToLeadtime(jiraIssue);
         expect(result).toEqual([{date: "2019-04-02", averageLeadTime: 0}, {date: "2019-04-03", averageLeadTime: 1}])
 
     });
@@ -256,7 +256,7 @@ describe('DataAdapter', () => {
             ]
         };
 
-        const result =  convert(jiraIssue);
+        const result =  convertFromJiraToLeadtime(jiraIssue);
         expect(result[result.length - 1]).toEqual({date: moment().format('YYYY-MM-DD'), averageLeadTime: 0})
 
     });
@@ -291,7 +291,7 @@ describe('DataAdapter', () => {
             ]
         };
 
-        const result =  convert(jiraIssue).splice(0,4);
+        const result =  convertFromJiraToLeadtime(jiraIssue).splice(0,4);
         expect(result).toEqual([{
             date: moment("2019-04-02").format('YYYY-MM-DD'),
             averageLeadTime: 0
@@ -347,7 +347,7 @@ describe('DataAdapter', () => {
             ]
         };
 
-        const result =  convert(jiraIssue);
+        const result =  convertFromJiraToLeadtime(jiraIssue);
         expect(result).toEqual([{
             date: moment("2019-01-01").format('YYYY-MM-DD'),
             averageLeadTime: 0
@@ -412,7 +412,7 @@ describe('DataAdapter', () => {
             ]
         };
 
-        const result =  convert(jiraIssue);
+        const result =  convertFromJiraToLeadtime(jiraIssue);
         expect(result).toEqual([{
             date: moment("2019-01-01").format('YYYY-MM-DD'),
             averageLeadTime: 0

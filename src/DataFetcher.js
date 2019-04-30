@@ -1,4 +1,4 @@
-import {convert} from "./CycleTimeReport/DataAdapter";
+import {convertFromJiraToLeadtime} from "./CycleTimeReport/DataAdapter";
 
 const workflow = [
     {
@@ -2557,7 +2557,7 @@ const jiraResponse = {
 };
 
 
-export const getCycleTimeReportData = () => convert(jiraResponse);
+export const getCycleTimeReportData = () => convertFromJiraToLeadtime(jiraResponse);
 export const getWorkflow = () => workflow;
 export const getLeadAndCycleTimeData = () => leadAndCycleTimeData;
 export const getThroughput = () => throughputData;

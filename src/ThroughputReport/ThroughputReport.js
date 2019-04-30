@@ -12,15 +12,15 @@ import {
     XAxis,
     YAxis
 } from "recharts";
-import {DateRangePicker} from "./DateRangePicker";
+import {DateRangePicker} from "../DateRangePicker";
 import moment from "moment";
-import {applyDateRangeFilter} from "./DateFiltering/DateFilter";
+import {applyDateRangeFilter} from "../DateFiltering/DateFilter";
 import PropTypes from 'prop-types';
-import {calculateAverageThroughput} from "./ThroughputReport/ThroughputDataAdapter";
+import {calculateAverageThroughput} from "./ThroughputDataAdapter";
 import {Button, Label as SemanticLabel, Segment, Transition} from "semantic-ui-react";
-import {DynamicTable} from "./DynamicTable";
-import './global.css';
-import {generateTrendLineData} from "./TrendLine/TrendLine";
+import {DynamicTable} from "../DynamicTable";
+import '../global.css';
+import {generateTrendLineData} from "../TrendLine/TrendLine";
 
 export function ThroughputReport(props) {
     const initialAverageThroughput = calculateAverageThroughput(props.data);
@@ -38,7 +38,7 @@ export function ThroughputReport(props) {
             <Segment.Group horizontal>
                 <Segment>
                     <SemanticLabel size={'medium'} color='blue' attached='top left'>
-                        Throughput (Mock)
+                        Throughput
                     </SemanticLabel>
                     <div className={'chart-segment'}>
                         <ResponsiveContainer width={props.graphWidth} height={400}>
