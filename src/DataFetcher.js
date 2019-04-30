@@ -1,4 +1,5 @@
 import {convert} from "./CycleTimeReport/DataAdapter";
+// import {mergeIssues} from "./CumulativeFlowReport/DataAdapter/DataAdapter";
 
 const workflow = [
     {
@@ -10653,5 +10654,5 @@ export const getIssues = () => issues;
 export const getWorkflow = () => workflow;
 export const getLeadAndCycleTimeData = () => leadAndCycleTimeData;
 export const getThroughput = () => throughputData;
-export const getCumulativeFlowData = () => cumulativeFlowData;
+export const getCumulativeFlowData = () => cumulativeFlowData; //mergeIssues(issues,workflow)
 

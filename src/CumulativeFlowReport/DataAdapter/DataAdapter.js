@@ -19,7 +19,12 @@ export function convertIssueChangelogToCumulativeFlow(issue, workflow) {
             const status = history.items[0].fromString;
             const transitionDate = moment(history.created, 'YYYY-MM-DD');
             while (currDate.isBefore(transitionDate)) {
-                data[dataIndex] = Object.assign({}, sampleEntry, {[status]: 1}, {date: currDate.toISOString().split("T")[0]});
+                const value = Object.assign({}, sampleEntry, {[status]: 1}, {date: currDate.toISOString().split("T")[0]});
+                if(!value){
+                    console.log("hello");
+                    throw new Error("value is undefined");
+                }
+                data[dataIndex] = value;
                 dataIndex++;
                 currDate.add(1, 'days');
             }
@@ -33,7 +38,7 @@ export function convertIssueChangelogToCumulativeFlow(issue, workflow) {
     function createEmptyEntry(issue, workflow) {
         const entry = {};
         const issueType = workflow.filter(issueType => issueType.name === issue.fields.issuetype.name);
-        if(!issueType){
+        if(!issueType || issueType.length === 0){
             throw new Error("issue " + issue.key + " has issue type that is not present in the valid issueType values for the project (provided by the 'GET /rest/api/2/project/{projectIdOrKey}/statuses' endpoint)")
         }
         issueType[0].statuses.forEach(status => entry[status.name] = 0);
@@ -81,13 +86,20 @@ export function mergeCumulativeFlowData(data1, data2) {
         date.add(1, 'days');
     }
     while (date.isSameOrBefore(dataWithEarlierEnd[dataWithEarlierEnd.length - 1].date)) {
+        if(!(dataWithEarlierStart[earlierStartIndex] && dataWithLaterStart[laterStartIndex])){
+            console.log("hi!");
+        }
         result[earlierStartIndex] = sumEntries(dataWithEarlierStart[earlierStartIndex], dataWithLaterStart[laterStartIndex]);
         earlierStartIndex++;
         laterStartIndex++;
         date.add(1, 'days');
     }
-    let laterEndIndex= (data1HasEarlierStart === data1HasLaterEnd) ? earlierStartIndex: laterStartIndex;
-    while (date.isSameOrBefore(dataWithLaterEnd[dataWithLaterEnd.length - 1].date)) {
+    let laterEndIndex = (data1HasEarlierStart === data1HasLaterEnd) ? earlierStartIndex: laterStartIndex;
+    while ((laterEndIndex < dataWithLaterEnd.length) && date.isSameOrBefore(dataWithLaterEnd[dataWithLaterEnd.length - 1].date)) {
+        // console.log(date.toISOString());
+        if(laterEndIndex === dataWithLaterEnd.length - 1){
+            // console.log("Hi");
+        }
         result[earlierStartIndex] = sumEntries(dataWithLaterEnd[laterEndIndex], dataWithEarlierEnd[dataWithEarlierEnd.length - 1]);
         earlierStartIndex++;
         laterEndIndex++;
@@ -96,11 +108,18 @@ export function mergeCumulativeFlowData(data1, data2) {
     return result;
 
     function sumEntries(entry1, entry2) {
-        const result = {};
-        Object.entries(entry1).forEach(keyValuePair => {
-            result[keyValuePair[0]] = (keyValuePair[0] === "date") ? keyValuePair[1] : keyValuePair[1] + entry2[keyValuePair[0]];
-        });
-        return result;
+        console.log("entry1 = " + JSON.stringify(entry1));
+        console.log("entry2 = " + JSON.stringify(entry2));
+        if(entry1 && entry2){
+            const result = {};
+            Object.entries(entry1).forEach(keyValuePair => {
+                result[keyValuePair[0]] = (keyValuePair[0] === "date") ? keyValuePair[1] : keyValuePair[1] + entry2[keyValuePair[0]];
+            });
+            return result;
+        }
+        else{
+            throw new Error("Encountered undefined entry when attempting to sum entries. \n entry1 = " + JSON.stringify(entry1) + " entry2 = " + JSON.stringify(entry2));
+        }
     }
 }
 
