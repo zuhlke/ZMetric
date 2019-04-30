@@ -1,6 +1,4 @@
 import {convertIssueChangelogToCumulativeFlow, mergeCumulativeFlowData, mergeIssues} from "./DataAdapter";
-import {getIssues} from "../../DataFetcher";
-import moment from "moment";
 
 describe("DataAdapter", () =>{
     const workflow = [
@@ -1171,18 +1169,6 @@ describe("DataAdapter", () =>{
                 "Short Term Backlog": 0,
                 "Waiting for Release": 0,
                 "date": "2019-03-17"
-            },
-            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-03-18"
             },
             {
                 "Closed": 1,

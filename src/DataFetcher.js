@@ -5451,7 +5451,7 @@ const issues = {
                     "subtask": false,
                     "avatarId": 51505
                 },
-                "resolutiondate": "2019-02-15T17:30:43.000+0000",
+                "resolutiondate": "2019-02-15T17:30:43.000+0000", //TODO: Problem date
                 "created": "2017-05-09T10:05:29.000+0000"
             },
             "changelog": {

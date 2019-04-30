@@ -75,18 +75,29 @@ export function mergeCumulativeFlowData(data1, data2) {
     const date = data1HasEarlierStart ? moment(data1[0].date).clone() : moment(data2[0].date).clone();
     let earlierStartIndex = 0;
     let laterStartIndex = 0;
+    let resultIndex = 0;
     while (date.isBefore(dataWithLaterStart[0].date)) {
-        result[earlierStartIndex] = dataWithEarlierStart[earlierStartIndex]; //TODO: undefined problem
-        earlierStartIndex++;
+        if(earlierStartIndex < dataWithEarlierStart.length){
+            result[resultIndex] = dataWithEarlierStart[earlierStartIndex]; //TODO: undefined problem
+            earlierStartIndex++;
+        }
+        else{
+            result[resultIndex] = Object.assign({}, dataWithEarlierStart[dataWithEarlierStart.length-1], {date: date.toISOString().split("T")[0]});
+        }
+        resultIndex++;
         date.add(1, 'days');
     }
     while (date.isSameOrBefore(dataWithEarlierEnd[dataWithEarlierEnd.length - 1].date)) {
         if(!(dataWithEarlierStart[earlierStartIndex] && dataWithLaterStart[laterStartIndex])){
             console.log("hi!");
         }
-        result[earlierStartIndex] = sumEntries(dataWithEarlierStart[earlierStartIndex], dataWithLaterStart[laterStartIndex]);
+        if(earlierStartIndex === dataWithEarlierEnd.length - 1)          {
+            console.log("hey!")
+        }
+        result[resultIndex] = sumEntries(dataWithEarlierStart[earlierStartIndex], dataWithLaterStart[laterStartIndex]);
         earlierStartIndex++;
         laterStartIndex++;
+        resultIndex++;
         date.add(1, 'days');
     }
     let laterEndIndex = (data1HasEarlierStart === data1HasLaterEnd) ? earlierStartIndex: laterStartIndex;
@@ -94,14 +105,16 @@ export function mergeCumulativeFlowData(data1, data2) {
         if(laterEndIndex === dataWithLaterEnd.length - 1){
             // console.log("Hi");
         }
-        result[earlierStartIndex] = sumEntries(dataWithLaterEnd[laterEndIndex], dataWithEarlierEnd[dataWithEarlierEnd.length - 1]);
-        earlierStartIndex++;
+        result[resultIndex] = sumEntries(dataWithLaterEnd[laterEndIndex], dataWithEarlierEnd[dataWithEarlierEnd.length - 1]);
+        resultIndex++;
         laterEndIndex++;
         date.add(1, 'days');
     }
     return result;
 
     function sumEntries(entry1, entry2) {
+        // console.log("entry1 = " + JSON.stringify(entry1));
+        // console.log("entry2 = " + JSON.stringify(entry2));
         if(entry1 && entry2){
             const result = {};
             Object.entries(entry1).forEach(keyValuePair => {
