@@ -1,12 +1,12 @@
 import React from 'react';
-import './App.css';
+import './Dashboard.css';
 import {LeadTimeLineChart} from "./LeadTimeLineChart";
 import {getCumulativeFlowData, getLeadAndCycleTimeData, getThroughput, getWorkflow} from "./DataFetcher";
 import {ThroughputReport} from "./ThroughputReport";
 import {Label, Segment} from "semantic-ui-react";
 import {CumulativeFlowReport} from "./CumulativeFlowReport/CumulativeFlowReport";
 
-export default function App() {
+export default function Dashboard() {
     const leadAndCycleTimeData = getLeadAndCycleTimeData();
     const workflow = getWorkflow();
     const throughputData = getThroughput();

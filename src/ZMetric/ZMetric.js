@@ -1,7 +1,7 @@
 import Login from "../Login/Login";
 import React, {Component} from 'react';
 import SelectProject from "../SelectProject/SelectProject";
-import App from "../App";
+import Dashboard from "../Dashboard/Dashboard";
 
 const Phases = {
   LOGIN: 'Login',
@@ -37,7 +37,7 @@ class ZMetric extends Component {
         </h2>
         {this.state.phase === Phases.LOGIN && <Login onSuccess={this.onLogin.bind(this)}/>}
         {this.state.phase === Phases.SELECT_PROJECT && <SelectProject jiraUrl={jiraUrl}  session={session} onProjectSelected={this.onProjectSelected.bind(this)}/>}
-        {this.state.phase ===Phases.DASHBOARD && <App/>}
+        {this.state.phase ===Phases.DASHBOARD && <Dashboard/>}
       </div>
     </div>;
   }
