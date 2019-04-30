@@ -38,7 +38,7 @@ export default function Dashboard(props) {
                     <Label size={'large'} color='red' ribbon>
                         {props.project}
                     </Label>
-                    {<CumulativeFlowReport data={cumulativeFlowDataMock} workflow={workflowMock}/>}
+                    {workflow && <CumulativeFlowReport data={cumulativeFlowDataMock} workflow={workflow}/>}
                     {leadCycleTimeData && <LeadTimeLineChart data={leadCycleTimeData}/>}
                     {<ThroughputReport data={throughputDataMock}/>}
                     {workflow && <WorkflowContainer workflow={workflow}/>}
