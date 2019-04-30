@@ -60,12 +60,7 @@ class Login extends Component {
   render() {
     const {jiraUrl, jiraUsername, jiraPassword, phase, errorMessage, successMessage} = this.state;
 
-    return <div className="ui middle aligned center aligned grid">
-      <div className="column">
-        <h2 className="ui teal image header">
-          <div className="content">ZMetric</div>
-        </h2>
-        <div className="ui stacked segment">
+    return <div className="ui stacked segment">
           <Form className="ui large form error success"
                 onSubmit={this.handleSubmit}
                 loading={phase === Phases.SUBMITTING}>
@@ -88,8 +83,6 @@ class Login extends Component {
             <Message success hidden={phase !== Phases.SUCCESS} content={successMessage}/>
           </Form>
         </div>
-      </div>
-    </div>;
   }
 
 }

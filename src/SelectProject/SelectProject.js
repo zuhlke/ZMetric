@@ -57,14 +57,7 @@ class SelectProject extends Component {
 
   render() {
     const {selectedProject, phase, projects, errorMessage} = this.state;
-    return <div className="ui middle aligned center aligned grid">
-      <div className="column">
-        <h2 className="ui teal image header">
-          <div className="content">
-            ZMetric
-          </div>
-        </h2>
-        <div className="ui stacked segment">
+    return<div className="ui stacked segment">
           {(phase === Phases.READY || phase === Phases.LOADING || phase === Phases.FAILED) &&
           <Form onSubmit={this.onProjectSelected.bind(this)} id="jiraSelectProjectForm"
                 disabled={phase !== Phases.READY}>
@@ -96,8 +89,6 @@ class SelectProject extends Component {
                    content={errorMessage}/>
 
         </div>
-      </div>
-    </div>;
   }
 }
 
