@@ -58,7 +58,7 @@ export function CumulativeFlowReport(props) {
             <Segment.Group horizontal>
                 <Segment>
                     <Label size={'medium'} color='blue' attached='top left'>
-                        Cumulative Flow
+                        Cumulative Flow (Mock)
                     </Label>
                     <div className={'chart-segment'}>
                         <ResponsiveContainer width={props.graphWidth} height={400}>

@@ -10649,6 +10649,7 @@ const jiraResponse = {
     ]
 };
 
+
 export const getCycleTimeReportData = () => convert(jiraResponse);
 export const getIssues = () => issues;
 export const getWorkflow = () => workflow;

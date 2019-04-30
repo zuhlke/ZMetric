@@ -3,7 +3,7 @@ import React from "react";
 import Login from '../Login/Login.js';
 import SelectProject from '../SelectProject/SelectProject.js'
 import {shallow} from "enzyme";
-import App from "../App";
+import Dashboard from "../Dashboard/Dashboard";
 
 describe("ZMetric", () => {
   const session = {session: {name: 'cookie', value: 'cookie'}};
@@ -30,7 +30,7 @@ describe("ZMetric", () => {
     wrapper.instance().onProjectSelected(testProject);
     expect(wrapper.state().phase).toEqual('Dashboard');
     expect(wrapper.state().project).toEqual(testProject);
-    expect(wrapper.find(App)).toHaveLength(1);
+    expect(wrapper.find(Dashboard)).toHaveLength(1);
   });
 
 });
