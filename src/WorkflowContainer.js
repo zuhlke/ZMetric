@@ -5,6 +5,7 @@ import Label from "semantic-ui-react/dist/commonjs/elements/Label";
 import {SingleIssueTypeSelector} from "./SingleIssueTypeSelector";
 
 export function WorkflowContainer(props) {
+
     const [startStatus, setStartStatus] = useState(undefined);
     const [endStatus, setEndStatus] = useState(undefined);
     const [selectedIssueType, setSelectedIssueType] = useState(0);
@@ -38,7 +39,6 @@ export function WorkflowContainer(props) {
     const calculateButtonColour = (statusName) => {
         return statusName === startStatus ? "green" : (statusName === endStatus ? "red" : "grey");
     };
-
     return (
         <Segment stacked>
             <Label size={'medium'} color='blue' attached='top left'>
@@ -50,6 +50,7 @@ export function WorkflowContainer(props) {
                 </Grid.Column>
                 <Grid.Column>
                 <Button.Group vertical>
+
                     <h3>{props.workflow[selectedIssueType].name} Workflow:</h3>
                     {
                         props.workflow[selectedIssueType].statuses.map((status) =>
