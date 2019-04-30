@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
 import {LeadTimeLineChart} from "../LeadTimeLineChart";
-import {getCumulativeFlowData, getThroughput, getWorkflow} from "../DataFetcher";
+import {getCumulativeFlowData, getThroughput} from "../DataFetcher";
 import {ThroughputReport} from "../ThroughputReport";
 import {WorkflowContainer} from "../WorkflowContainer"
 import {Label, Segment} from "semantic-ui-react";
@@ -19,7 +19,6 @@ export default function Dashboard(props) {
     const instance = axios.create({baseURL: jiraUrl, headers: {cookie: `${name}=${value}`}});
     const cumulativeFlowDataMock = getCumulativeFlowData();
     const throughputDataMock = getThroughput();
-    const workflowMock = getWorkflow();
 
     useEffect(() => {
     axios
