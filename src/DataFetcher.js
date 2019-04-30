@@ -1,5 +1,4 @@
 import {convert} from "./CycleTimeReport/DataAdapter";
-import axios from "axios";
 
 const workflow = [
     {
