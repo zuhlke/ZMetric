@@ -38,7 +38,7 @@ export function ThroughputReport(props) {
             <Segment.Group horizontal>
                 <Segment>
                     <SemanticLabel size={'medium'} color='blue' attached='top left'>
-                        Throughput
+                        Throughput (Mock)
                     </SemanticLabel>
                     <div className={'chart-segment'}>
                         <ResponsiveContainer width={props.graphWidth} height={400}>

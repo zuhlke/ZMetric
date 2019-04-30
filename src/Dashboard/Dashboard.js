@@ -1,28 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
-import {LeadTimeLineChart} from "./LeadTimeLineChart";
-import {getCumulativeFlowData, getLeadAndCycleTimeData, getThroughput, getWorkflow} from "./DataFetcher";
-import {ThroughputReport} from "./ThroughputReport";
+import {LeadTimeLineChart} from "../LeadTimeLineChart";
+import {getCumulativeFlowData, getThroughput, getWorkflow} from "../DataFetcher";
+import {ThroughputReport} from "../ThroughputReport";
+import {WorkflowContainer} from "../WorkflowContainer"
 import {Label, Segment} from "semantic-ui-react";
-import {CumulativeFlowReport} from "./CumulativeFlowReport/CumulativeFlowReport";
+import {CumulativeFlowReport} from "../CumulativeFlowReport/CumulativeFlowReport";
+import {convert} from "../CycleTimeReport/DataAdapter";
 
-export default function Dashboard() {
-    const leadAndCycleTimeData = getLeadAndCycleTimeData();
-    const workflow = getWorkflow();
-    const throughputData = getThroughput();
-    const cumulativeFlowData = getCumulativeFlowData();
+import axios from "axios";
+
+
+export default function Dashboard(props) {
+    const {name, value} = props.session;
+    const {jiraUrl,project} = props;
+    const [workflow, setWorkflow] = useState(undefined);
+    const [leadCycleTimeData, setLeadCycleTimeData] = useState(undefined);
+    const instance = axios.create({baseURL: jiraUrl, headers: {cookie: `${name}=${value}`}});
+    const cumulativeFlowDataMock = getCumulativeFlowData();
+    const throughputDataMock = getThroughput();
+    const workflowMock = getWorkflow();
+
+    useEffect(() => {
+    axios
+        .all([instance.get(`rest/api/2/search?maxResults=10000&fields=resolutiondate,created&jql=project=${project}`),
+              instance.get(`/rest/api/2/project/${project}/statuses`)])
+        .then(axios.spread((issueResponse,workflowResponse) =>{
+                setLeadCycleTimeData(convert(issueResponse.data));
+                setWorkflow(workflowResponse.data);
+        }
+            ))},[] );
 
     return (
         <div>
             <Segment.Group raised id={"main-segment"}>
                 <Segment stacked>
                     <Label size={'large'} color='red' ribbon>
-                        ZMetric
+                        {props.project}
                     </Label>
-                    <CumulativeFlowReport data={cumulativeFlowData} workflow={workflow}/>
-                    <LeadTimeLineChart data={leadAndCycleTimeData}/>
-                    <ThroughputReport data={throughputData}/>
-                    {/*<WorkflowContainer workflow={workflow}/>*/}
+                    {<CumulativeFlowReport data={cumulativeFlowDataMock} workflow={workflowMock}/>}
+                    {leadCycleTimeData && <LeadTimeLineChart data={leadCycleTimeData}/>}
+                    {<ThroughputReport data={throughputDataMock}/>}
+                    {workflow && <WorkflowContainer workflow={workflow}/>}
                 </Segment>
             </Segment.Group>
         </div>
