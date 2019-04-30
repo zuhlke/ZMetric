@@ -29,7 +29,7 @@ class ZMetric extends Component {
   }
 
   renderPhase() {
-    const {phase, session, jiraUrl} = this.state;
+    const {session, jiraUrl} = this.state;
     return <div className="ui middle aligned center aligned grid">
       <div className="column">
         <h2 className="ui teal image header">
