@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export const convert = (data)  => {
+export const convertFromJiraToLeadtime = (data)  => {
     let dateEntries = [];
     const periodStartDate = data.issues
         .map((issue) => new moment(issue.fields.created))
