@@ -7,7 +7,7 @@ export const convertFromJiraToThroughput = (data)  => {
         .sort((a, b) => a - b)[0];
 
     const periodEndDate = data.issues
-        .map((issue) => moment.max(new moment(issue.fields.created), issue.fields.resolutiondate ? new moment(issue.fields.resolutiondate) : new moment()))
+        .map((issue) => issue.fields.resolutiondate ? new moment(issue.fields.resolutiondate) : new moment())
         .sort((a, b) => b - a)[0];
 
     const issues = data.issues.map( issue => { return {
