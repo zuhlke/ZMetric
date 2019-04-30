@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Dashboard from './Dashboard';
-import {getWorkflow} from "../DataFetcher";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
 const session = {name: 'cookie', value: '123'};
 const project = "MockProject";
-const projectsMock = getWorkflow();
 const jiraUrl = "jira.url";
 describe("Dashboard", () => {
     it('renders without crashing', () => {
