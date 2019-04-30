@@ -755,131 +755,6 @@ describe("DataAdapter", () =>{
             ]
         };
 
-        const issue4CumulativeFlowData = {
-            id: "1052324",
-            key: "JRASERVER-68020",
-            fields:
-                {
-                    issuetype:{
-                        id: "1",
-                        name: "Bug",
-                        subtask: false
-                    },
-                    "resolutiondate": "2019-03-26T09:19:20.000+0000",
-                    "created": "2019-03-18T23:00:43.000+0000"
-                },
-            cumulativeFlow: [
-                {
-                    date: "2019-03-18",
-                    "Needs Triage": 1,
-                    "Gathering Impact": 0,
-                    "Long Term Backlog": 0,
-                    "Short Term Backlog": 0,
-                    "In Progress": 0,
-                    "In Review": 0,
-                    "Waiting for Release": 0,
-                    Resolved: 0,
-                    Closed: 0
-                },
-                {
-                    date: "2019-03-19",
-                    "Needs Triage": 1,
-                    "Gathering Impact": 0,
-                    "Long Term Backlog": 0,
-                    "Short Term Backlog": 0,
-                    "In Progress": 0,
-                    "In Review": 0,
-                    "Waiting for Release": 0,
-                    Resolved: 0,
-                    Closed: 0
-                },
-                {
-                    date: "2019-03-20",
-                    "Needs Triage": 1,
-                    "Gathering Impact": 0,
-                    "Long Term Backlog": 0,
-                    "Short Term Backlog": 0,
-                    "In Progress": 0,
-                    "In Review": 0,
-                    "Waiting for Release": 0,
-                    Resolved: 0,
-                    Closed: 0
-                },
-                {
-                    date: "2019-03-21",
-                    "Needs Triage": 0,
-                    "Gathering Impact": 0,
-                    "Long Term Backlog": 0,
-                    "Short Term Backlog": 0,
-                    "In Progress": 1,
-                    "In Review": 0,
-                    "Waiting for Release": 0,
-                    Resolved: 0,
-                    Closed: 0
-                },
-                {
-                    date: "2019-03-22",
-                    "Needs Triage": 0,
-                    "Gathering Impact": 0,
-                    "Long Term Backlog": 0,
-                    "Short Term Backlog": 0,
-                    "In Progress": 1,
-                    "In Review": 0,
-                    "Waiting for Release": 0,
-                    Resolved: 0,
-                    Closed: 0
-                },
-                {
-                    date: "2019-03-23",
-                    "Needs Triage": 0,
-                    "Gathering Impact": 0,
-                    "Long Term Backlog": 0,
-                    "Short Term Backlog": 0,
-                    "In Progress": 1,
-                    "In Review": 0,
-                    "Waiting for Release": 0,
-                    Resolved: 0,
-                    Closed: 0
-                },
-                {
-                    date: "2019-03-24",
-                    "Needs Triage": 0,
-                    "Gathering Impact": 0,
-                    "Long Term Backlog": 0,
-                    "Short Term Backlog": 0,
-                    "In Progress": 0,
-                    "In Review": 0,
-                    "Waiting for Release": 0,
-                    Resolved: 1,
-                    Closed: 0
-                },
-                {
-                    date: "2019-03-25",
-                    "Needs Triage": 0,
-                    "Gathering Impact": 0,
-                    "Long Term Backlog": 0,
-                    "Short Term Backlog": 0,
-                    "In Progress": 0,
-                    "In Review": 0,
-                    "Waiting for Release": 0,
-                    Resolved: 1,
-                    Closed: 0
-                },
-                {
-                    date: "2019-03-26",
-                    "Needs Triage": 0,
-                    "Gathering Impact": 0,
-                    "Long Term Backlog": 0,
-                    "Short Term Backlog": 0,
-                    "In Progress": 0,
-                    "In Review": 0,
-                    "Waiting for Release": 0,
-                    Resolved: 0,
-                    Closed: 1
-                }
-            ]
-        };
-
         const issue1And2MergedCumulativeFlowData = [
             {
                 date: "2019-02-19",
@@ -960,40 +835,464 @@ describe("DataAdapter", () =>{
             }
         ];
 
-        const issue3And4MergedCumulativeFlowData = [];
-
-        function createEmptyEntry(issue, workflow) {
-            const entry = {};
-            const issueType = workflow.filter(issueType => issueType.name === issue.fields.issuetype.name);
-            if(!issueType || issueType.length === 0){
-                throw new Error("issue " + issue.key + " has issue type that is not present in the valid issueType values for the project (provided by the 'GET /rest/api/2/project/{projectIdOrKey}/statuses' endpoint)")
+        const issue3And4MergedCumulativeFlowData = [
+            {
+                "Closed": 0,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 1,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-02-18"
+            },
+            {
+                "Closed": 0,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 1,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-02-19"
+            },
+            {
+                "Closed": 0,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 1,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-02-20"
+            },
+            {
+                "Closed": 0,
+                "Gathering Impact": 0,
+                "In Progress": 1,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-02-21"
+            },
+            {
+                "Closed": 0,
+                "Gathering Impact": 0,
+                "In Progress": 1,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-02-22"
+            },
+            {
+                "Closed": 0,
+                "Gathering Impact": 0,
+                "In Progress": 1,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-02-23"
+            },
+            {
+                "Closed": 0,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 1,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-02-24"
+            },
+            {
+                "Closed": 0,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 1,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-02-25"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-02-26"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-02-27"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-02-28"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-01"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-02"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-03"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-04"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-05"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-06"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-07"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-08"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-09"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-10"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-11"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-12"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-13"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-14"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-15"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-16"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-17"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-18"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 1,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-18"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 1,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-19"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 1,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-20"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 1,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-21"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 1,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-22"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 1,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-23"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 1,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-24"
+            },
+            {
+                "Closed": 1,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 1,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-25"
+            },
+            {
+                "Closed": 2,
+                "Gathering Impact": 0,
+                "In Progress": 0,
+                "In Review": 0,
+                "Long Term Backlog": 0,
+                "Needs Triage": 0,
+                "Resolved": 0,
+                "Short Term Backlog": 0,
+                "Waiting for Release": 0,
+                "date": "2019-03-26"
             }
-            issueType[0].statuses.forEach(status => entry[status.name] = 0);
-            pruneHistories(issue).forEach(history => {
-                if(!(history.items[0].fromString in entry)){
-                    entry[history.items[0].fromString] = 0;
-                }
-                if(!(history.items[0].toString in entry)){
-                    entry[history.items[0].toString] = 0;
-                }
-            });
-
-            return entry;
-        }
-
-        function pruneHistories(issue) {
-            return issue.changelog.histories
-                .filter(history => history.items.some(item => item.field === "status"))
-                .map(history => {
-                    const items = history.items;
-                    history.items.forEach((item, index) => {
-                        if (item.field !== "status") {
-                            items.splice(index, 1)
-                        }
-                    });
-                    return history;
-                });
-        }
+        ];
 
         describe("convertIssueChangelogToCumulativeFlow", () => {
             it("converts issue1 to cumulative flow for that issue", () => {
@@ -1026,21 +1325,17 @@ describe("DataAdapter", () =>{
             expect(mergeIssues(issues, workflow)).toEqual(combinedCumulativeFlowData);
         });
 
-        it("printIssue3And4TestData", () => {
-            const result = []
-            const sampleEntry = createEmptyEntry(issue3, workflow);
-            const date = moment("2019-02-27");
-            let index = 0;
-            while(date.isSameOrBefore(moment("2019-03-18"))){
-                date.add(1, 'days');
-            }
-        });
-
-        it("failing test", () => {
+        it("merge cumulative flow data for issues with non-overlapping date ranges", () => {
             const issuesAtDifferentTimes = [issue3, issue4];
-            expect(mergeIssues(issuesAtDifferentTimes, workflow)).toEqual([]);
+            const combinedCumulativeFlow = [
+                {
+                    "data": issue3And4MergedCumulativeFlowData,
+                    "id": "1",
+                    "name": "Bug"
+                }
+            ];
+            expect(mergeIssues(issuesAtDifferentTimes, workflow)).toEqual(combinedCumulativeFlow);
         });
-
 
     });
 
@@ -2165,28 +2460,4 @@ describe("DataAdapter", () =>{
             expect(mergeIssues(JRAIssues, workflow)).toEqual(combinedJRACumulativeFlowData);
         });
     });
-
-    it("print out pruned issues", () => {
-        const issues = getIssues().issues.map(issue => {
-            delete issue.expand;
-            delete issue.self;
-            delete issue.fields.issuetype.self;
-            delete issue.fields.issuetype.description;
-            delete issue.fields.issuetype.iconUrl;
-            delete issue.fields.issuetype.avatarId;
-            delete issue.changelog.startAt;
-            delete issue.changelog.maxResults;
-            delete issue.changelog.total;
-            issue.changelog.histories = issue.changelog.histories
-                .filter(history => history.items.some(item => item.field === "status"))
-                .map(history => {
-                    delete history.id;
-                    delete history.author;
-                    return history;
-                });
-            return issue;
-        });
-        const issuesJson = JSON.stringify(issues);
-        console.log(issuesJson);
-    })
 });

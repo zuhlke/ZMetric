@@ -19,12 +19,7 @@ export function convertIssueChangelogToCumulativeFlow(issue, workflow) {
             const status = history.items[0].fromString;
             const transitionDate = moment(history.created, 'YYYY-MM-DD');
             while (currDate.isBefore(transitionDate)) {
-                const value = Object.assign({}, sampleEntry, {[status]: 1}, {date: currDate.toISOString().split("T")[0]});
-                if(!value){
-                    console.log("hello");
-                    throw new Error("value is undefined");
-                }
-                data[dataIndex] = value;
+                data[dataIndex] = Object.assign({}, sampleEntry, {[status]: 1}, {date: currDate.toISOString().split("T")[0]});
                 dataIndex++;
                 currDate.add(1, 'days');
             }
@@ -43,7 +38,7 @@ export function convertIssueChangelogToCumulativeFlow(issue, workflow) {
         }
         issueType[0].statuses.forEach(status => entry[status.name] = 0);
         pruneHistories(issue).forEach(history => {
-            if(!(history.items[0].fromString in entry)){
+            if(!(history.items[0].fromString in entry)){//TODO: change to has own property?
                 entry[history.items[0].fromString] = 0;
             }
             if(!(history.items[0].toString in entry)){
@@ -81,7 +76,7 @@ export function mergeCumulativeFlowData(data1, data2) {
     let earlierStartIndex = 0;
     let laterStartIndex = 0;
     while (date.isBefore(dataWithLaterStart[0].date)) {
-        result[earlierStartIndex] = dataWithEarlierStart[earlierStartIndex];
+        result[earlierStartIndex] = dataWithEarlierStart[earlierStartIndex]; //TODO: undefined problem
         earlierStartIndex++;
         date.add(1, 'days');
     }
@@ -96,7 +91,6 @@ export function mergeCumulativeFlowData(data1, data2) {
     }
     let laterEndIndex = (data1HasEarlierStart === data1HasLaterEnd) ? earlierStartIndex: laterStartIndex;
     while ((laterEndIndex < dataWithLaterEnd.length) && date.isSameOrBefore(dataWithLaterEnd[dataWithLaterEnd.length - 1].date)) {
-        // console.log(date.toISOString());
         if(laterEndIndex === dataWithLaterEnd.length - 1){
             // console.log("Hi");
         }
@@ -108,8 +102,6 @@ export function mergeCumulativeFlowData(data1, data2) {
     return result;
 
     function sumEntries(entry1, entry2) {
-        console.log("entry1 = " + JSON.stringify(entry1));
-        console.log("entry2 = " + JSON.stringify(entry2));
         if(entry1 && entry2){
             const result = {};
             Object.entries(entry1).forEach(keyValuePair => {
@@ -126,12 +118,9 @@ export function mergeCumulativeFlowData(data1, data2) {
 
 export function mergeIssues(issues, workflow){
     const convertedIssues = issues.map(issue => convertIssueChangelogToCumulativeFlow(issue, workflow));
-    const objResult = {
-        Suggestion: {data:undefined, id:"1000"},
-        Bug: {data:undefined, id:"1"}
-    };
+    const objResult = createIssueTypeObjectFromIssues(issues);
     convertedIssues.forEach(issue => {
-        if(objResult[issue.fields.issuetype.name].data){
+        if(objResult[issue.fields.issuetype.name].data && objResult[issue.fields.issuetype.name].data.length > 0){
             objResult[issue.fields.issuetype.name].data = mergeCumulativeFlowData(objResult[issue.fields.issuetype.name].data, issue.cumulativeFlow);
         }
         else{
@@ -145,4 +134,28 @@ export function mergeIssues(issues, workflow){
             data: entry[1].data
         };
     })
+}
+
+function createIssueTypeObjectFromIssues(issues){
+    const result = {};
+    issues.forEach(issue => {
+        if(!result.hasOwnProperty(issue.fields.issuetype.name)){
+            result[issue.fields.issuetype.name] = {data:[], id:issue.fields.issuetype.id}
+        }
+    });
+    return result;
+}
+
+function createIssueTypeObjectFromWorkflow(workflow){
+    const result = {};
+    workflow.forEach(issueType =>{
+        if(!result.hasOwnProperty(issueType.name)){
+            result[issueType.name] = {data:[], id:issueType.id}
+        }
+    });
+    return result;
+}
+
+function generateEmptyDataForUnusedIssueType(){ //TODO: do this
+
 }
