@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
 import {LeadTimeLineChart} from "../LeadTimeLineChart";
-import {getCumulativeFlowData, getThroughput} from "../DataFetcher";
+import {getCumulativeFlowData} from "../DataFetcher";
 import {ThroughputReport} from "../ThroughputReport/ThroughputReport";
 import {WorkflowContainer} from "../WorkflowContainer"
 import {Label, Segment} from "semantic-ui-react";
