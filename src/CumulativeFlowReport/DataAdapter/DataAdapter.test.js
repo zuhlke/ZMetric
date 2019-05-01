@@ -525,6 +525,28 @@ describe("DataAdapter", () =>{
                 },
             cumulativeFlow: [
                 {
+                    date: "2019-02-18",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
+                    date: "2019-02-19",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
                     date: "2019-02-20",
                     "Gathering Interest": 1,
                     Reviewing: 0,
@@ -578,6 +600,28 @@ describe("DataAdapter", () =>{
                     "In Progress": 0,
                     "Waiting for Release": 0,
                     Resolved: 1
+                },
+                {
+                    date: "2019-02-25",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 1
+                },
+                {
+                    date: "2019-02-26",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 1
                 }
             ]
         };
@@ -596,6 +640,17 @@ describe("DataAdapter", () =>{
                     created: "2019-02-19T19:19:27.000+0000"
                 },
             cumulativeFlow: [
+                {
+                    date: "2019-02-18",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
                 {
                     date: "2019-02-19",
                     "Gathering Interest": 0,
@@ -664,6 +719,17 @@ describe("DataAdapter", () =>{
                 },
                 {
                     date: "2019-02-25",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 1
+                },
+                {
+                    date: "2019-02-26",
                     "Gathering Interest": 0,
                     Reviewing: 0,
                     "Under Consideration": 0,
@@ -816,6 +882,28 @@ describe("DataAdapter", () =>{
                 },
             cumulativeFlow: [
                 {
+                    date: "2019-02-18",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
+                    date: "2019-02-19",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
                     date: "2019-02-20",
                     "Gathering Interest": 1,
                     Reviewing: 0,
@@ -861,6 +949,28 @@ describe("DataAdapter", () =>{
                 },
                 {
                     date: "2019-02-24",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 1,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
+                    date: "2019-02-25",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 1,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
+                    date: "2019-02-26",
                     "Gathering Interest": 0,
                     Reviewing: 0,
                     "Under Consideration": 0,
@@ -1578,41 +1688,45 @@ describe("DataAdapter", () =>{
             });
         });
 
-        it("merges cumulative flow data for two issues of the same type into one", () => {
-            expect(mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow, issue1CumulativeFlowData.cumulativeFlow)).toEqual(issue1And2MergedCumulativeFlowData);
+        describe("mergeCumulativeFlowData", () => {
+            it("merges cumulative flow data for two issues of the same type into one", () => {
+                expect(mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow, issue1CumulativeFlowData.cumulativeFlow)).toEqual(issue1And2MergedCumulativeFlowData);
+            });
+
+            it("merges cumulative flow data for two issues where one is unresolved", () => {
+                expect(mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow, issue5CumulativeFlowData.cumulativeFlow)).toEqual(issue2And5MergedCumulativeFlowData);
+            });
+
+            it("merges cumulative flow data for three issues where one is unresolved", () => {
+                expect(mergeCumulativeFlowData(mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow, issue1CumulativeFlowData.cumulativeFlow),issue5CumulativeFlowData.cumulativeFlow)).toEqual(issue1And2And5MergedCumulativeFlowData);
+            });
         });
 
-        it("merges cumulative flow data for two issues where one is unresolved", () => {
-            expect(mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow, issue5CumulativeFlowData.cumulativeFlow)).toEqual(issue2And5MergedCumulativeFlowData);
-        });
+        describe("mergeIssues", ()=> {
+            it("converts bug and Suggestion issues to combined cumulative flow data", () => {
+                const combinedCumulativeFlowData = [{
+                    id: "1000",
+                    name: "Suggestion",
+                    data: issue1And2MergedCumulativeFlowData
+                },{
+                    id: "1",
+                    name: "Bug",
+                    data: issue3CumulativeFlowData.cumulativeFlow
+                }];
+                expect(mergeIssues(issues, jiraServerWorkflow)).toEqual(combinedCumulativeFlowData);
+            });
 
-        it("merges cumulative flow data for three issues where one is unresolved", () => {
-            expect(mergeCumulativeFlowData(mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow, issue1CumulativeFlowData.cumulativeFlow),issue5CumulativeFlowData.cumulativeFlow)).toEqual(issue1And2And5MergedCumulativeFlowData);
-        });
-
-        it("converts bug and Suggestion issues to combined cumulative flow data", () => {
-            const combinedCumulativeFlowData = [{
-                id: "1000",
-                name: "Suggestion",
-                data: issue1And2MergedCumulativeFlowData
-            },{
-                id: "1",
-                name: "Bug",
-                data: issue3CumulativeFlowData.cumulativeFlow
-            }];
-            expect(mergeIssues(issues, jiraServerWorkflow)).toEqual(combinedCumulativeFlowData);
-        });
-
-        it("merge cumulative flow data for issues with non-overlapping date ranges", () => {
-            const issuesAtDifferentTimes = [issue3, issue4];
-            const combinedCumulativeFlow = [
-                {
-                    "data": issue3And4MergedCumulativeFlowData,
-                    "id": "1",
-                    "name": "Bug"
-                }
-            ];
-            expect(mergeIssues(issuesAtDifferentTimes, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);
+            it("merge cumulative flow data for issues with non-overlapping date ranges", () => {
+                const issuesAtDifferentTimes = [issue3, issue4];
+                const combinedCumulativeFlow = [
+                    {
+                        "data": issue3And4MergedCumulativeFlowData,
+                        "id": "1",
+                        "name": "Bug"
+                    }
+                ];
+                expect(mergeIssues(issuesAtDifferentTimes, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);
+            });
         });
 
     });
