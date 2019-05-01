@@ -1,5 +1,9 @@
 import moment from "moment";
 
+function dateString(date){
+    return date.toISOString(true).split("T")[0];
+}
+
 export function convertIssueChangelogToCumulativeFlow(issue, workflow, startDate, endDate) {
     return {
         id: issue.id,
@@ -12,21 +16,30 @@ export function convertIssueChangelogToCumulativeFlow(issue, workflow, startDate
         const sampleEntry = createEmptyEntry(issue, workflow);
         const data = [];
         const filteredHistories = pruneHistories(issue);
+        const dummyIssueCreatedHistory = {
+            created: moment(issue.fields.created, 'YYYY-MM-DD'),
+            items: [{
+                fromString: null,
+            }]
+        };
         if(filteredHistories.length > 0){
-            let currDate = moment(issue.fields.created, 'YYYY-MM-DD');
-            let dataIndex = 0;
-            filteredHistories.forEach(history => {
+            let currDate = moment(startDate);
+            [dummyIssueCreatedHistory, ...filteredHistories].forEach(history => {
                 const status = history.items[0].fromString;
                 const transitionDate = moment(history.created, 'YYYY-MM-DD');
                 while (currDate.isBefore(transitionDate)) {
-                    data[dataIndex] = Object.assign({}, sampleEntry, {[status]: 1}, {date: currDate.toISOString(true).split("T")[0]});
-                    dataIndex++;
+                    const entry = status ? Object.assign({}, sampleEntry, {[status]: 1}, {date: dateString(currDate)}) : Object.assign({}, sampleEntry,  {date: dateString(currDate)});
+                    data.push(entry);
                     currDate.add(1, 'days');
                 }
                 currDate = transitionDate;
             });
             const lastStatus = filteredHistories[filteredHistories.length - 1].items[0].toString;
-            data[dataIndex] = Object.assign({}, sampleEntry, {[lastStatus]: 1}, {date: currDate.toISOString(true).split("T")[0]});
+            while(currDate.isSameOrBefore(endDate)){
+                data.push(Object.assign({}, sampleEntry, {[lastStatus]: 1}, {date: dateString(currDate)}));
+                currDate.add(1, 'days');
+            }
+
         }
         return data
     }

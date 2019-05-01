@@ -1061,7 +1061,7 @@ describe("DataAdapter", () =>{
                 "Waiting for Release": 0,
                 Resolved: 2
             }
-        ];
+        ]; //TODO: UPDATE
 
         const issue2And5MergedCumulativeFlowData = [
             {
@@ -1141,7 +1141,7 @@ describe("DataAdapter", () =>{
                 "Waiting for Release": 0,
                 Resolved: 1
             }
-        ];
+        ]; //TODO: UPDATE
 
         const issue1And2And5MergedCumulativeFlowData = [
             {
@@ -1221,7 +1221,7 @@ describe("DataAdapter", () =>{
                 "Waiting for Release": 0,
                 Resolved: 2
             }
-        ];
+        ]; //TODO: UPDATE
 
         const issue3And4MergedCumulativeFlowData = [
             {
@@ -1668,7 +1668,7 @@ describe("DataAdapter", () =>{
                 "Waiting for Release": 0,
                 "date": "2019-03-26"
             }
-        ];
+        ]; //TODO: UPDATE
 
         describe("convertIssueChangelogToCumulativeFlow", () => {
             it("converts issue1 to cumulative flow for that issue", () => {
@@ -1720,7 +1720,7 @@ describe("DataAdapter", () =>{
                 const issuesAtDifferentTimes = [issue3, issue4];
                 const combinedCumulativeFlow = [
                     {
-                        "data": issue3And4MergedCumulativeFlowData,
+                        "data": issue3And4MergedCumulativeFlowData,// TODO: UPDATE
                         "id": "1",
                         "name": "Bug"
                     }
