@@ -985,6 +985,17 @@ describe("DataAdapter", () =>{
 
         const issue1And2MergedCumulativeFlowData = [
             {
+                date: "2019-02-18",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
                 date: "2019-02-19",
                 "Gathering Interest": 0,
                 Reviewing: 1,
@@ -1060,10 +1071,32 @@ describe("DataAdapter", () =>{
                 "In Progress": 0,
                 "Waiting for Release": 0,
                 Resolved: 2
+            },
+            {
+                date: "2019-02-26",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 2
             }
-        ]; //TODO: UPDATE
+        ];
 
         const issue2And5MergedCumulativeFlowData = [
+            {
+                date: "2019-02-18",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
             {
                 date: "2019-02-19",
                 "Gathering Interest": 0,
@@ -1140,10 +1173,31 @@ describe("DataAdapter", () =>{
                 "In Progress": 1,
                 "Waiting for Release": 0,
                 Resolved: 1
+            },{
+                date: "2019-02-26",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 1,
+                "Waiting for Release": 0,
+                Resolved: 1
             }
-        ]; //TODO: UPDATE
+        ];
 
         const issue1And2And5MergedCumulativeFlowData = [
+            {
+                date: "2019-02-18",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
             {
                 date: "2019-02-19",
                 "Gathering Interest": 0,
@@ -1220,8 +1274,18 @@ describe("DataAdapter", () =>{
                 "In Progress": 1,
                 "Waiting for Release": 0,
                 Resolved: 2
-            }
-        ]; //TODO: UPDATE
+            },            {
+                date: "2019-02-26",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 1,
+                "Waiting for Release": 0,
+                Resolved: 2
+            },
+        ];
 
         const issue3And4MergedCumulativeFlowData = [
             {
@@ -1668,9 +1732,9 @@ describe("DataAdapter", () =>{
                 "Waiting for Release": 0,
                 "date": "2019-03-26"
             }
-        ]; //TODO: UPDATE
+        ];
 
-        describe("convertIssueChangelogToCumulativeFlow", () => {
+        describe("convertIssueChangelogToCumulativeFlow", () => { //TODO: Add test data for: issue that has no status transition, issue with no transitions at all, issue with only one status transition
             it("converts issue1 to cumulative flow for that issue", () => {
                 expect(convertIssueChangelogToCumulativeFlow(issue1, jiraServerWorkflow,"2019-02-18", "2019-02-26")).toEqual(issue1CumulativeFlowData);
             });
@@ -1702,7 +1766,7 @@ describe("DataAdapter", () =>{
             });
         });
 
-        describe("mergeIssues", ()=> {
+        describe("mergeIssues", ()=> { //TODO: Add test data for: issue that has no status transition, issue with no transitions at all, issue with only one status transition
             it("converts bug and Suggestion issues to combined cumulative flow data", () => {
                 const combinedCumulativeFlowData = [{
                     id: "1000",
@@ -1720,7 +1784,7 @@ describe("DataAdapter", () =>{
                 const issuesAtDifferentTimes = [issue3, issue4];
                 const combinedCumulativeFlow = [
                     {
-                        "data": issue3And4MergedCumulativeFlowData,// TODO: UPDATE
+                        "data": issue3And4MergedCumulativeFlowData,
                         "id": "1",
                         "name": "Bug"
                     }
