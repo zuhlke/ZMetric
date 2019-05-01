@@ -148,8 +148,8 @@ export function mergeCumulativeFlowData(data1, data2) {
 export function mergeIssues(issues, workflow){
     const convertedIssues = issues.map(issue => convertIssueChangelogToCumulativeFlow(issue, workflow));
     const objResult = createIssueTypeObjectFromWorkflow(issues);
-    const startDate = ""; //TODO: CALCULATE THESE
-    const endDate = "";
+    const startDate = issues.map(issue => moment(issue.fields.created, 'YYYY-MM-DD')).sort((a, b) => a - b)[0];
+    const endDate = issues.map(issue => moment(issue.fields.resolutiondate, 'YYYY-MM-DD')).sort((a, b) => b - a)[0];
     convertedIssues.forEach(issue => {
         if(objResult[issue.fields.issuetype.name].data && objResult[issue.fields.issuetype.name].data.length > 0){
             objResult[issue.fields.issuetype.name].data = mergeCumulativeFlowData(objResult[issue.fields.issuetype.name].data, issue.cumulativeFlow);
@@ -164,16 +164,13 @@ export function mergeIssues(issues, workflow){
             name: entry[0],
             data: entry[1].data.length > 0 ? expandTimeRange(entry[1].data, entry[0], workflow, startDate, endDate) : generateEmptyDataForUnusedIssueType(entry[0], workflow, startDate, endDate) //TODO: all issueTypes must have matching start end dates?
         };
-    })
+    });
 }
 
-function earliestStartDate(issues){
-    issues.map(issue => moment(issue.fields.created, 'YYYY-MM-DD'))
-        .sort()
-}
+
 
 function expandTimeRange(data, issueType, workflow, startDate, endDate){
-    return data //TODO: Implement
+    return data //TODO: Move into convertIssueChangeLogToCumulativeFlow?
 }
 
 function createIssueTypeObjectFromIssues(issues){
