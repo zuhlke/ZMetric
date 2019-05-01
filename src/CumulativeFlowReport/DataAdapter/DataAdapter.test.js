@@ -1,7 +1,8 @@
 import {convertIssueChangelogToCumulativeFlow, mergeCumulativeFlowData, mergeIssues} from "./DataAdapter";
 
+//TODO: Test for unfinished issue
 describe("DataAdapter", () =>{
-    const workflow = [
+    const jiraServerWorkflow = [
         {
             "id": "1",
             "name": "Bug",
@@ -175,73 +176,74 @@ describe("DataAdapter", () =>{
             ]
         }
     ];
-    const issue1 = {
-        id: "1123412",
-        key: "JRASERVER-68895",
-        fields:
-            {
-                issuetype:{
-                    id: "1000",
-                    name: "Suggestion",
-                    subtask: false
-                },
-                resolutiondate: "2019-02-24T02:27:28.000+0000",
-                created: "2019-02-20T23:52:36.000+0000"
-            },
-        changelog: {
-            histories: [
-                {
-                    created: "2019-02-20T23:52:48.362+0000",
-                    items: [
-                        {
-                            field: "assignee",
-                            fieldtype: "jira",
-                            from: "tbartyzel",
-                            fromString: "Tomasz Bartyzel",
-                            to: "znoorsazali",
-                            toString: "Zulfadli Noor Sazali"
-                        }
-                    ]
-                },
-                {
-                    created: "2019-02-22T00:05:19.853+0000",
-                    items: [
-                        {
-                            field: "status",
-                            fieldtype: "jira",
-                            from: "11772",
-                            fromString: "Gathering Interest",
-                            to: "11773",
-                            toString: "Reviewing"
-                        }
-                    ]
-                },
-                {
-                    created: "2019-02-24T02:27:28.482+0000",//2019-02-24T23:52:36.000+0000
-                    items: [
-                        {
-                            field: "resolution",
-                            fieldtype: "jira",
-                            from: null,
-                            fromString: null,
-                            to: "17",
-                            toString: "Done"
-                        },
-                        {
-                            field: "status",
-                            fieldtype: "jira",
-                            from: "11773",
-                            fromString: "Reviewing",
-                            to: "5",
-                            toString: "Resolved"
-                        }
-                    ]
-                }
 
-            ]
-        }
-    };
     describe("converts issues to cumulative flow data", () => {
+        const issue1 = {
+            id: "1123412",
+            key: "JRASERVER-68895",
+            fields:
+                {
+                    issuetype:{
+                        id: "1000",
+                        name: "Suggestion",
+                        subtask: false
+                    },
+                    resolutiondate: "2019-02-24T02:27:28.000+0000",
+                    created: "2019-02-20T23:52:36.000+0000"
+                },
+            changelog: {
+                histories: [
+                    {
+                        created: "2019-02-20T23:52:48.362+0000",
+                        items: [
+                            {
+                                field: "assignee",
+                                fieldtype: "jira",
+                                from: "tbartyzel",
+                                fromString: "Tomasz Bartyzel",
+                                to: "znoorsazali",
+                                toString: "Zulfadli Noor Sazali"
+                            }
+                        ]
+                    },
+                    {
+                        created: "2019-02-22T00:05:19.853+0000",
+                        items: [
+                            {
+                                field: "status",
+                                fieldtype: "jira",
+                                from: "11772",
+                                fromString: "Gathering Interest",
+                                to: "11773",
+                                toString: "Reviewing"
+                            }
+                        ]
+                    },
+                    {
+                        created: "2019-02-24T02:27:28.482+0000",//2019-02-24T23:52:36.000+0000
+                        items: [
+                            {
+                                field: "resolution",
+                                fieldtype: "jira",
+                                from: null,
+                                fromString: null,
+                                to: "17",
+                                toString: "Done"
+                            },
+                            {
+                                field: "status",
+                                fieldtype: "jira",
+                                from: "11773",
+                                fromString: "Reviewing",
+                                to: "5",
+                                toString: "Resolved"
+                            }
+                        ]
+                    }
+
+                ]
+            }
+        };
 
         const issue2 = {
             id: "968691",
@@ -452,6 +454,52 @@ describe("DataAdapter", () =>{
                                 "fromString": "Resolved",
                                 "to": "6",
                                 "toString": "Closed"
+                            }
+                        ]
+                    }
+
+                ]
+            }
+        };
+
+        const issue5Unresolved = {
+            id: "1123413",
+            key: "JRASERVER-68899",
+            fields:
+                {
+                    issuetype:{
+                        id: "1000",
+                        name: "Suggestion",
+                        subtask: false
+                    },
+                    resolutiondate: null,
+                    created: "2019-02-20T23:52:36.000+0000"
+                },
+            changelog: {
+                histories: [
+                    {
+                        created: "2019-02-22T00:05:19.853+0000",
+                        items: [
+                            {
+                                field: "status",
+                                fieldtype: "jira",
+                                from: "11772",
+                                fromString: "Gathering Interest",
+                                to: "11773",
+                                toString: "Reviewing"
+                            }
+                        ]
+                    },
+                    {
+                        created: "2019-02-24T02:27:28.482+0000",
+                        items: [
+                            {
+                                field: "status",
+                                fieldtype: "jira",
+                                from: "11773",
+                                fromString: "Reviewing",
+                                to: "3",
+                                toString: "In Progress"
                             }
                         ]
                     }
@@ -753,6 +801,78 @@ describe("DataAdapter", () =>{
             ]
         };
 
+        const issue5CumulativeFlowData = {
+            id: "1123413",
+            key: "JRASERVER-68899",
+            fields:
+                {
+                    issuetype:{
+                        id: "1000",
+                        name: "Suggestion",
+                        subtask: false
+                    },
+                    resolutiondate: null,
+                    created: "2019-02-20T23:52:36.000+0000"
+                },
+            cumulativeFlow: [
+                {
+                    date: "2019-02-20",
+                    "Gathering Interest": 1,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
+                    date: "2019-02-21",
+                    "Gathering Interest": 1,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
+                    date: "2019-02-22",
+                    "Gathering Interest": 0,
+                    Reviewing: 1,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
+                    date: "2019-02-23",
+                    "Gathering Interest": 0,
+                    Reviewing: 1,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
+                    date: "2019-02-24",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 1,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                }
+            ]
+        };
+
         const issue1And2MergedCumulativeFlowData = [
             {
                 date: "2019-02-19",
@@ -828,6 +948,166 @@ describe("DataAdapter", () =>{
                 "Future Consideration": 0,
                 "Not Being Considered": 0,
                 "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 2
+            }
+        ];
+
+        const issue2And5MergedCumulativeFlowData = [
+            {
+                date: "2019-02-19",
+                "Gathering Interest": 0,
+                Reviewing: 1,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-20",
+                "Gathering Interest": 1,
+                Reviewing: 1,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-21",
+                "Gathering Interest": 1,
+                Reviewing: 1,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-22",
+                "Gathering Interest": 0,
+                Reviewing: 2,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-23",
+                "Gathering Interest": 0,
+                Reviewing: 1,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 1,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-24",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 2,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-25",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 1,
+                "Waiting for Release": 0,
+                Resolved: 1
+            }
+        ];
+
+        const issue1And2And5MergedCumulativeFlowData = [
+            {
+                date: "2019-02-19",
+                "Gathering Interest": 0,
+                Reviewing: 1,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-20",
+                "Gathering Interest": 2,
+                Reviewing: 1,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-21",
+                "Gathering Interest": 2,
+                Reviewing: 1,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-22",
+                "Gathering Interest": 0,
+                Reviewing: 3,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-23",
+                "Gathering Interest": 0,
+                Reviewing: 2,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 1,
+                "Waiting for Release": 0,
+                Resolved: 0
+            },
+            {
+                date: "2019-02-24",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 2,
+                "Waiting for Release": 0,
+                Resolved: 1
+            },
+            {
+                date: "2019-02-25",
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 1,
                 "Waiting for Release": 0,
                 Resolved: 2
             }
@@ -1282,20 +1562,32 @@ describe("DataAdapter", () =>{
 
         describe("convertIssueChangelogToCumulativeFlow", () => {
             it("converts issue1 to cumulative flow for that issue", () => {
-                expect(convertIssueChangelogToCumulativeFlow(issue1, workflow)).toEqual(issue1CumulativeFlowData);
+                expect(convertIssueChangelogToCumulativeFlow(issue1, jiraServerWorkflow)).toEqual(issue1CumulativeFlowData);
             });
 
             it("converts issue2 to cumulative flow for that issue", () => {
-                expect(convertIssueChangelogToCumulativeFlow(issue2, workflow)).toEqual(issue2CumulativeFlowData);
+                expect(convertIssueChangelogToCumulativeFlow(issue2, jiraServerWorkflow)).toEqual(issue2CumulativeFlowData);
             });
 
             it("converts issue3 to cumulative flow for that issue", () => {
-                expect(convertIssueChangelogToCumulativeFlow(issue3, workflow)).toEqual(issue3CumulativeFlowData);
+                expect(convertIssueChangelogToCumulativeFlow(issue3, jiraServerWorkflow)).toEqual(issue3CumulativeFlowData);
+            });
+
+            it("converts issue5 to cumulative flow for that issue", () => {
+                expect(convertIssueChangelogToCumulativeFlow(issue5Unresolved, jiraServerWorkflow)).toEqual(issue5CumulativeFlowData);
             });
         });
 
         it("merges cumulative flow data for two issues of the same type into one", () => {
             expect(mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow, issue1CumulativeFlowData.cumulativeFlow)).toEqual(issue1And2MergedCumulativeFlowData);
+        });
+
+        it("merges cumulative flow data for two issues where one is unresolved", () => {
+            expect(mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow, issue5CumulativeFlowData.cumulativeFlow)).toEqual(issue2And5MergedCumulativeFlowData);
+        });
+
+        it("merges cumulative flow data for three issues where one is unresolved", () => {
+            expect(mergeCumulativeFlowData(mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow, issue1CumulativeFlowData.cumulativeFlow),issue5CumulativeFlowData.cumulativeFlow)).toEqual(issue1And2And5MergedCumulativeFlowData);
         });
 
         it("converts bug and Suggestion issues to combined cumulative flow data", () => {
@@ -1308,7 +1600,7 @@ describe("DataAdapter", () =>{
                 name: "Bug",
                 data: issue3CumulativeFlowData.cumulativeFlow
             }];
-            expect(mergeIssues(issues, workflow)).toEqual(combinedCumulativeFlowData);
+            expect(mergeIssues(issues, jiraServerWorkflow)).toEqual(combinedCumulativeFlowData);
         });
 
         it("merge cumulative flow data for issues with non-overlapping date ranges", () => {
@@ -1320,7 +1612,7 @@ describe("DataAdapter", () =>{
                     "name": "Bug"
                 }
             ];
-            expect(mergeIssues(issuesAtDifferentTimes, workflow)).toEqual(combinedCumulativeFlow);
+            expect(mergeIssues(issuesAtDifferentTimes, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);
         });
 
     });
@@ -2441,384 +2733,618 @@ describe("DataAdapter", () =>{
                 }
             }
         ];
+        it("mergeIssues to combined cumulative flow data with throwing any exceptions", () => {
+            mergeIssues(JRAIssues, jiraServerWorkflow);
+        });
 
-        const problemIssue = [{
-            "id": "800042",
-            "key": "JRASERVER-65262",
-            "fields": {
-                "issuetype": {
-                    "id": "10000",
-                    "name": "Suggestion",
-                    "subtask": false
+        const zMetricIssues = [
+            {
+                "id": "107402",
+                "key": "ZMETRIC-127",
+                "fields": {
+                    "issuetype": {
+                        "id": "10001",
+                        "name": "Story",
+                        "subtask": false
+                    },
+                    "resolutiondate": null,
+                    "created": "2019-05-01T12:07:30.000+0200"
                 },
-                "resolutiondate": "2019-02-15T17:30:43.000+0000",//TODO: problem date
-                "created": "2017-05-09T10:05:29.000+0000"
+                "changelog": {
+                    "histories": [
+                        {
+                            "created": "2019-05-01T12:07:34.156+0200",
+                            "items": [
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "10100",
+                                    "fromString": "To Do",
+                                    "to": "3",
+                                    "toString": "In Progress"
+                                }
+                            ]
+                        }
+                    ]
+                }
             },
-            "changelog": {
-                "histories": [
+            {
+                "id": "107383",
+                "key": "ZMETRIC-126",
+                "fields": {
+                    "issuetype": {
+                        "id": "3",
+                        "name": "Task",
+                        "subtask": false
+                    },
+                    "resolutiondate": "2019-04-30T17:52:46.000+0200",
+                    "created": "2019-04-30T14:32:38.000+0200"
+                },
+                "changelog": {
+                    "histories": [
+                        {
+                            "created": "2019-04-30T14:32:44.235+0200",
+                            "items": [
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "10100",
+                                    "fromString": "To Do",
+                                    "to": "3",
+                                    "toString": "In Progress"
+                                }
+                            ]
+                        },
+                        {
+                            "created": "2019-04-30T17:52:46.803+0200",
+                            "items": [
+                                {
+                                    "field": "resolution",
+                                    "fieldtype": "jira",
+                                    "from": null,
+                                    "fromString": null,
+                                    "to": "10000",
+                                    "toString": "Done"
+                                },
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "3",
+                                    "fromString": "In Progress",
+                                    "to": "11803",
+                                    "toString": "Done"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "107216",
+                "key": "ZMETRIC-125",
+                "fields": {
+                    "issuetype": {
+                        "id": "3",
+                        "name": "Task",
+                        "subtask": false
+                    },
+                    "resolutiondate": "2019-04-30T14:31:55.000+0200",
+                    "created": "2019-04-26T18:37:12.000+0200"
+                },
+                "changelog": {
+                    "histories": [
+                        {
+                            "created": "2019-04-29T15:42:08.507+0200",
+                            "items": [
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "10100",
+                                    "fromString": "To Do",
+                                    "to": "3",
+                                    "toString": "In Progress"
+                                }
+                            ]
+                        },
+                        {
+                            "created": "2019-04-30T14:31:55.968+0200",
+                            "items": [
+                                {
+                                    "field": "resolution",
+                                    "fieldtype": "jira",
+                                    "from": null,
+                                    "fromString": null,
+                                    "to": "10000",
+                                    "toString": "Done"
+                                },
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "3",
+                                    "fromString": "In Progress",
+                                    "to": "11803",
+                                    "toString": "Done"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "107215",
+                "key": "ZMETRIC-124",
+                "fields": {
+                    "issuetype": {
+                        "id": "10000",
+                        "name": "Epic",
+                        "subtask": false
+                    },
+                    "resolutiondate": null,
+                    "created": "2019-04-26T18:36:03.000+0200"
+                },
+                "changelog": {
+                    "histories": []
+                }
+            },
+            {
+                "id": "106403",
+                "key": "ZMETRIC-123",
+                "fields": {
+                    "issuetype": {
+                        "id": "10001",
+                        "name": "Story",
+                        "subtask": false
+                    },
+                    "resolutiondate": null,
+                    "created": "2019-04-15T12:51:21.000+0200"
+                },
+                "changelog": {
+                    "histories": [
+                        {
+                            "created": "2019-04-25T14:43:12.802+0200",
+                            "items": [
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "10100",
+                                    "fromString": "To Do",
+                                    "to": "3",
+                                    "toString": "In Progress"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "106398",
+                "key": "ZMETRIC-122",
+                "fields": {
+                    "issuetype": {
+                        "id": "1",
+                        "name": "Bug",
+                        "subtask": false
+                    },
+                    "resolutiondate": "2019-04-15T12:33:32.000+0200",
+                    "created": "2019-04-15T11:34:58.000+0200"
+                },
+                "changelog": {
+                    "histories": [
+                        {
+                            "created": "2019-04-15T11:35:01.362+0200",
+                            "items": [
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "10100",
+                                    "fromString": "To Do",
+                                    "to": "3",
+                                    "toString": "In Progress"
+                                }
+                            ]
+                        },
+                        {
+                            "created": "2019-04-15T12:09:19.179+0200",
+                            "items": [
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "3",
+                                    "fromString": "In Progress",
+                                    "to": "10202",
+                                    "toString": "Review"
+                                }
+                            ]
+                        },
+                        {
+                            "created": "2019-04-15T12:33:32.411+0200",
+                            "items": [
+                                {
+                                    "field": "resolution",
+                                    "fieldtype": "jira",
+                                    "from": null,
+                                    "fromString": null,
+                                    "to": "10000",
+                                    "toString": "Done"
+                                },
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "10202",
+                                    "fromString": "Review",
+                                    "to": "11803",
+                                    "toString": "Done"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "106322",
+                "key": "ZMETRIC-121",
+                "fields": {
+                    "issuetype": {
+                        "id": "10001",
+                        "name": "Story",
+                        "subtask": false
+                    },
+                    "resolutiondate": "2019-04-12T13:00:08.000+0200",
+                    "created": "2019-04-12T12:44:51.000+0200"
+                },
+                "changelog": {
+                    "histories": [
+                        {
+                            "created": "2019-04-12T12:44:58.788+0200",
+                            "items": [
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "10100",
+                                    "fromString": "To Do",
+                                    "to": "3",
+                                    "toString": "In Progress"
+                                }
+                            ]
+                        },
+                        {
+                            "created": "2019-04-12T13:00:08.349+0200",
+                            "items": [
+                                {
+                                    "field": "resolution",
+                                    "fieldtype": "jira",
+                                    "from": null,
+                                    "fromString": null,
+                                    "to": "10000",
+                                    "toString": "Done"
+                                },
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "3",
+                                    "fromString": "In Progress",
+                                    "to": "11803",
+                                    "toString": "Done"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "106319",
+                "key": "ZMETRIC-120",
+                "fields": {
+                    "issuetype": {
+                        "id": "10001",
+                        "name": "Story",
+                        "subtask": false
+                    },
+                    "resolutiondate": "2019-04-15T14:57:33.000+0200",
+                    "created": "2019-04-12T12:32:31.000+0200"
+                },
+                "changelog": {
+                    "histories": [
+                        {
+                            "created": "2019-04-12T13:00:48.935+0200",
+                            "items": [
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "10100",
+                                    "fromString": "To Do",
+                                    "to": "3",
+                                    "toString": "In Progress"
+                                }
+                            ]
+                        },
+                        {
+                            "created": "2019-04-15T14:57:33.809+0200",
+                            "items": [
+                                {
+                                    "field": "resolution",
+                                    "fieldtype": "jira",
+                                    "from": null,
+                                    "fromString": null,
+                                    "to": "10000",
+                                    "toString": "Done"
+                                },
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "3",
+                                    "fromString": "In Progress",
+                                    "to": "11803",
+                                    "toString": "Done"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "id": "106315",
+                "key": "ZMETRIC-119",
+                "fields": {
+                    "issuetype": {
+                        "id": "10000",
+                        "name": "Epic",
+                        "subtask": false
+                    },
+                    "resolutiondate": null,
+                    "created": "2019-04-12T11:51:45.000+0200"
+                },
+                "changelog": {
+                    "histories": []
+                }
+            },
+            {
+                "id": "106160",
+                "key": "ZMETRIC-118",
+                "fields": {
+                    "issuetype": {
+                        "id": "10001",
+                        "name": "Story",
+                        "subtask": false
+                    },
+                    "resolutiondate": "2019-04-12T19:11:51.000+0200",
+                    "created": "2019-04-10T17:42:59.000+0200"
+                },
+                "changelog": {
+                    "histories": [
+                        {
+                            "created": "2019-04-10T18:50:57.907+0200",
+                            "items": [
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "10100",
+                                    "fromString": "To Do",
+                                    "to": "3",
+                                    "toString": "In Progress"
+                                }
+                            ]
+                        },
+                        {
+                            "created": "2019-04-12T19:11:51.082+0200",
+                            "items": [
+                                {
+                                    "field": "resolution",
+                                    "fieldtype": "jira",
+                                    "from": null,
+                                    "fromString": null,
+                                    "to": "10000",
+                                    "toString": "Done"
+                                },
+                                {
+                                    "field": "status",
+                                    "fieldtype": "jira",
+                                    "from": "3",
+                                    "fromString": "In Progress",
+                                    "to": "11803",
+                                    "toString": "Done"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ];
+        const zMetricWorkflow = [
+            {
+                "id": "1",
+                "name": "Bug",
+                "subtask": false,
+                "statuses": [
                     {
-                        "created": "2018-02-08T06:57:47.185+0000",
-                        "items": [
-                            {
-                                "field": "Workflow",
-                                "fieldtype": "jira",
-                                "from": "2593697",
-                                "fromString": "JIRA PM Feature Request Workflow v2 - TEMP",
-                                "to": "2619826",
-                                "toString": "Confluence Workflow - Public Facing v4"
-                            },
-                            {
-                                "field": "status",
-                                "fieldtype": "jira",
-                                "from": "1",
-                                "fromString": "Open",
-                                "to": "11772",
-                                "toString": "Gathering Interest"
-                            }
-                        ]
+                        "name": "To Do",
+                        "id": "10100"
                     },
                     {
-                        "created": "2019-02-15T17:30:43.743+0000",
-                        "items": [
-                            {
-                                "field": "resolution",
-                                "fieldtype": "jira",
-                                "from": null,
-                                "fromString": null,
-                                "to": "17",
-                                "toString": "Done"
-                            },
-                            {
-                                "field": "status",
-                                "fieldtype": "jira",
-                                "from": "11772",
-                                "fromString": "Gathering Interest",
-                                "to": "5",
-                                "toString": "Resolved"
-                            }
-                        ]
+                        "name": "In Progress",
+                        "id": "3"
+                    },
+                    {
+                        "name": "Review",
+                        "id": "10202"
+                    },
+                    {
+                        "name": "Done",
+                        "id": "11803"
+                    },
+                    {
+                        "name": "On Hold",
+                        "id": "10804"
+                    },
+                    {
+                        "name": "Ready For Test",
+                        "id": "11903"
+                    }
+                ]
+            },
+            {
+                "id": "10000",
+                "name": "Epic",
+                "subtask": false,
+                "statuses": [
+                    {
+                        "name": "To Do",
+                        "id": "10100"
+                    },
+                    {
+                        "name": "In Progress",
+                        "id": "3"
+                    },
+                    {
+                        "name": "Review",
+                        "id": "10202"
+                    },
+                    {
+                        "name": "Done",
+                        "id": "11803"
+                    },
+                    {
+                        "name": "On Hold",
+                        "id": "10804"
+                    },
+                    {
+                        "name": "Ready For Test",
+                        "id": "11903"
+                    }
+                ]
+            },
+            {
+                "id": "11201",
+                "name": "Spike",
+                "subtask": false,
+                "statuses": [
+                    {
+                        "name": "To Do",
+                        "id": "10100"
+                    },
+                    {
+                        "name": "In Progress",
+                        "id": "3"
+                    },
+                    {
+                        "name": "Review",
+                        "id": "10202"
+                    },
+                    {
+                        "name": "Done",
+                        "id": "11803"
+                    },
+                    {
+                        "name": "On Hold",
+                        "id": "10804"
+                    },
+                    {
+                        "name": "Ready For Test",
+                        "id": "11903"
+                    }
+                ]
+            },
+            {
+                "id": "10001",
+                "name": "Story",
+                "subtask": false,
+                "statuses": [
+                    {
+                        "name": "To Do",
+                        "id": "10100"
+                    },
+                    {
+                        "name": "In Progress",
+                        "id": "3"
+                    },
+                    {
+                        "name": "Review",
+                        "id": "10202"
+                    },
+                    {
+                        "name": "Done",
+                        "id": "11803"
+                    },
+                    {
+                        "name": "On Hold",
+                        "id": "10804"
+                    },
+                    {
+                        "name": "Ready For Test",
+                        "id": "11903"
+                    }
+                ]
+            },
+            {
+                "id": "5",
+                "name": "Sub-task",
+                "subtask": true,
+                "statuses": [
+                    {
+                        "name": "To Do",
+                        "id": "10100"
+                    },
+                    {
+                        "name": "In Progress",
+                        "id": "3"
+                    },
+                    {
+                        "name": "Review",
+                        "id": "10202"
+                    },
+                    {
+                        "name": "Done",
+                        "id": "11803"
+                    },
+                    {
+                        "name": "On Hold",
+                        "id": "10804"
+                    },
+                    {
+                        "name": "Ready For Test",
+                        "id": "11903"
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "name": "Task",
+                "subtask": false,
+                "statuses": [
+                    {
+                        "name": "To Do",
+                        "id": "10100"
+                    },
+                    {
+                        "name": "In Progress",
+                        "id": "3"
+                    },
+                    {
+                        "name": "Review",
+                        "id": "10202"
+                    },
+                    {
+                        "name": "Done",
+                        "id": "11803"
+                    },
+                    {
+                        "name": "On Hold",
+                        "id": "10804"
+                    },
+                    {
+                        "name": "Ready For Test",
+                        "id": "11903"
                     }
                 ]
             }
-        }];
-        const problemIssue2 = [issue1,{
-            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
-            "id": "968691",
-            "self": "https://jira.atlassian.com/rest/api/2/issue/968691",
-            "key": "JRASERVER-67265",//TODO: problem at array index 174-175
-            "fields": {
-                "issuetype": {
-                    "self": "https://jira.atlassian.com/rest/api/2/issuetype/10000",
-                    "id": "10000",
-                    "description": "",
-                    "iconUrl": "https://jira.atlassian.com/secure/viewavatar?size=xsmall&avatarId=51505&avatarType=issuetype",
-                    "name": "Suggestion",
-                    "subtask": false,
-                    "avatarId": 51505
-                },
-                "resolutiondate": "2019-03-13T14:55:02.000+0000",
-                "created": "2018-05-07T19:19:27.000+0000"
-            },
-            "changelog": {
-                "startAt": 0,
-                "maxResults": 9,
-                "total": 9,
-                "histories": [
-                    {
-                        "id": "7746048",
-                        "author": {
-                            "self": "https://jira.atlassian.com/rest/api/2/user?username=tevans",
-                            "name": "tevans",
-                            "key": "tevans",
-                            "emailAddress": "tevans at atlassian dot com",
-                            "avatarUrls": {
-                                "48x48": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=48",
-                                "24x24": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=24",
-                                "16x16": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=16",
-                                "32x32": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=32"
-                            },
-                            "displayName": "Tim Evans",
-                            "active": true,
-                            "timeZone": "America/Chicago"
-                        },
-                        "created": "2018-05-07T19:23:55.140+0000",
-                        "items": [
-                            {
-                                "field": "Link",
-                                "fieldtype": "jira",
-                                "from": null,
-                                "fromString": null,
-                                "to": "JRASERVER-65693",
-                                "toString": "This issue supersedes JRASERVER-65693"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "7746049",
-                        "author": {
-                            "self": "https://jira.atlassian.com/rest/api/2/user?username=tevans",
-                            "name": "tevans",
-                            "key": "tevans",
-                            "emailAddress": "tevans at atlassian dot com",
-                            "avatarUrls": {
-                                "48x48": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=48",
-                                "24x24": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=24",
-                                "16x16": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=16",
-                                "32x32": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=32"
-                            },
-                            "displayName": "Tim Evans",
-                            "active": true,
-                            "timeZone": "America/Chicago"
-                        },
-                        "created": "2018-05-07T19:25:46.009+0000",
-                        "items": [
-                            {
-                                "field": "labels",
-                                "fieldtype": "jira",
-                                "from": null,
-                                "fromString": "",
-                                "to": null,
-                                "toString": "aws-cf-doc aws-cf-use"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "7746050",
-                        "author": {
-                            "self": "https://jira.atlassian.com/rest/api/2/user?username=tevans",
-                            "name": "tevans",
-                            "key": "tevans",
-                            "emailAddress": "tevans at atlassian dot com",
-                            "avatarUrls": {
-                                "48x48": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=48",
-                                "24x24": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=24",
-                                "16x16": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=16",
-                                "32x32": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=32"
-                            },
-                            "displayName": "Tim Evans",
-                            "active": true,
-                            "timeZone": "America/Chicago"
-                        },
-                        "created": "2018-05-07T19:25:54.287+0000",
-                        "items": [
-                            {
-                                "field": "labels",
-                                "fieldtype": "jira",
-                                "from": null,
-                                "fromString": "aws-cf-doc aws-cf-use",
-                                "to": null,
-                                "toString": "aws aws-cf-doc aws-cf-use"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "7746051",
-                        "author": {
-                            "self": "https://jira.atlassian.com/rest/api/2/user?username=tevans",
-                            "name": "tevans",
-                            "key": "tevans",
-                            "emailAddress": "tevans at atlassian dot com",
-                            "avatarUrls": {
-                                "48x48": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=48",
-                                "24x24": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=24",
-                                "16x16": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=16",
-                                "32x32": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=32"
-                            },
-                            "displayName": "Tim Evans",
-                            "active": true,
-                            "timeZone": "America/Chicago"
-                        },
-                        "created": "2018-05-07T19:26:10.867+0000",
-                        "items": [
-                            {
-                                "field": "Version",
-                                "fieldtype": "jira",
-                                "from": null,
-                                "fromString": null,
-                                "to": "78610",
-                                "toString": "7.9.1"
-                            },
-                            {
-                                "field": "Version",
-                                "fieldtype": "jira",
-                                "from": null,
-                                "fromString": null,
-                                "to": "78306",
-                                "toString": "7.2.14"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "7749115",
-                        "author": {
-                            "self": "https://jira.atlassian.com/rest/api/2/user?username=set-analytics-bot",
-                            "name": "set-analytics-bot",
-                            "key": "set-analytics-bot",
-                            "emailAddress": "set-analytics-bot at atlassian dot com",
-                            "avatarUrls": {
-                                "48x48": "https://avatar-cdn.atlassian.com/288d3882d0ca2083927ceef68aa1a506?d=mm&s=48",
-                                "24x24": "https://avatar-cdn.atlassian.com/288d3882d0ca2083927ceef68aa1a506?d=mm&s=24",
-                                "16x16": "https://avatar-cdn.atlassian.com/288d3882d0ca2083927ceef68aa1a506?d=mm&s=16",
-                                "32x32": "https://avatar-cdn.atlassian.com/288d3882d0ca2083927ceef68aa1a506?d=mm&s=32"
-                            },
-                            "displayName": "SET Analytics Bot",
-                            "active": true,
-                            "timeZone": "Etc/Universal"
-                        },
-                        "created": "2018-05-09T00:53:33.296+0000",
-                        "items": [
-                            {
-                                "field": "Support reference count",
-                                "fieldtype": "custom",
-                                "from": null,
-                                "fromString": null,
-                                "to": null,
-                                "toString": "1"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "7961687",
-                        "author": {
-                            "self": "https://jira.atlassian.com/rest/api/2/user?username=dunterwurzacher",
-                            "name": "dunterwurzacher",
-                            "key": "dunterwurzacher",
-                            "emailAddress": "dunterwurzacher at atlassian dot com",
-                            "avatarUrls": {
-                                "48x48": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=48",
-                                "24x24": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=24",
-                                "16x16": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=16",
-                                "32x32": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=32"
-                            },
-                            "displayName": "Denise Unterwurzacher",
-                            "active": true,
-                            "timeZone": "Australia/Sydney"
-                        },
-                        "created": "2018-08-06T18:27:03.992+0000",
-                        "items": [
-                            {
-                                "field": "assignee",
-                                "fieldtype": "jira",
-                                "from": "tbartyzel",
-                                "fromString": "Tomasz Bartyzel",
-                                "to": "dunterwurzacher",
-                                "toString": "Denise Unterwurzacher"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "7964361",
-                        "author": {
-                            "self": "https://jira.atlassian.com/rest/api/2/user?username=dunterwurzacher",
-                            "name": "dunterwurzacher",
-                            "key": "dunterwurzacher",
-                            "emailAddress": "dunterwurzacher at atlassian dot com",
-                            "avatarUrls": {
-                                "48x48": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=48",
-                                "24x24": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=24",
-                                "16x16": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=16",
-                                "32x32": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=32"
-                            },
-                            "displayName": "Denise Unterwurzacher",
-                            "active": true,
-                            "timeZone": "Australia/Sydney"
-                        },
-                        "created": "2018-08-07T20:01:58.605+0000",
-                        "items": [
-                            {
-                                "field": "labels",
-                                "fieldtype": "jira",
-                                "from": null,
-                                "fromString": "aws aws-cf-doc aws-cf-use",
-                                "to": null,
-                                "toString": "aws aws-cf-doc aws-cf-use wpe-enhanced"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "8381460",
-                        "author": {
-                            "self": "https://jira.atlassian.com/rest/api/2/user?username=osanico",
-                            "name": "osanico",
-                            "key": "osanico",
-                            "emailAddress": "osanico at atlassian dot com",
-                            "avatarUrls": {
-                                "48x48": "https://avatar-cdn.atlassian.com/ba8e4c1d466c65f724211df8fe7c75d8?d=mm&s=48",
-                                "24x24": "https://avatar-cdn.atlassian.com/ba8e4c1d466c65f724211df8fe7c75d8?d=mm&s=24",
-                                "16x16": "https://avatar-cdn.atlassian.com/ba8e4c1d466c65f724211df8fe7c75d8?d=mm&s=16",
-                                "32x32": "https://avatar-cdn.atlassian.com/ba8e4c1d466c65f724211df8fe7c75d8?d=mm&s=32"
-                            },
-                            "displayName": "Owen Sanico",
-                            "active": true,
-                            "timeZone": "Asia/Manila"
-                        },
-                        "created": "2018-11-21T06:54:01.774+0000",
-                        "items": [
-                            {
-                                "field": "Workflow",
-                                "fieldtype": "jira",
-                                "from": "2670544",
-                                "fromString": "Confluence Workflow - Public Facing v4",
-                                "to": "3056686",
-                                "toString": "JAC Suggestion Workflow"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "8529109",
-                        "author": {
-                            "self": "https://jira.atlassian.com/rest/api/2/user?username=dunterwurzacher",
-                            "name": "dunterwurzacher",
-                            "key": "dunterwurzacher",
-                            "emailAddress": "dunterwurzacher at atlassian dot com",
-                            "avatarUrls": {
-                                "48x48": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=48",
-                                "24x24": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=24",
-                                "16x16": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=16",
-                                "32x32": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=32"
-                            },
-                            "displayName": "Denise Unterwurzacher",
-                            "active": true,
-                            "timeZone": "Australia/Sydney"
-                        },
-                        "created": "2019-03-13T14:55:02.731+0000",
-                        "items": [
-                            {
-                                "field": "resolution",
-                                "fieldtype": "jira",
-                                "from": null,
-                                "fromString": null,
-                                "to": "17",
-                                "toString": "Done"
-                            },
-                            {
-                                "field": "status",
-                                "fieldtype": "jira",
-                                "from": "11772",
-                                "fromString": "Gathering Interest",
-                                "to": "5",
-                                "toString": "Resolved"
-                            }
-                        ]
-                    }
-                ]
-            }
-        }];
-        it("mergeIssues to combined cumulative flow data", () => {
-            const combinedJRACumulativeFlowData = [];
-            expect(mergeIssues(JRAIssues, workflow)).toEqual(combinedJRACumulativeFlowData);
+        ];
+        it("ZMETRIC issues", () => {
+            mergeIssues(zMetricIssues, zMetricWorkflow);
         });
 
-        it("check problem issue in isolation", () => {
-            const combinedJRACumulativeFlowData = [];
-            expect(mergeIssues(problemIssue, workflow)).toEqual(combinedJRACumulativeFlowData);
-        });
+        //TODO: test data with empty pruneHistories
 
-        it("check problem issue2 in isolation", () => {
-            const combinedJRACumulativeFlowData = [];
-            expect(mergeIssues(problemIssue2, workflow)).toEqual(combinedJRACumulativeFlowData);
-        });
-
+        //TODO: test data with two empty data arrays for mergeCumulativeFlowData
 
     });
 });
