@@ -19,14 +19,17 @@ export function convertIssueChangelogToCumulativeFlow(issue, workflow) {
             const status = history.items[0].fromString;
             const transitionDate = moment(history.created, 'YYYY-MM-DD');
             while (currDate.isBefore(transitionDate)) {
-                data[dataIndex] = Object.assign({}, sampleEntry, {[status]: 1}, {date: currDate.toISOString().split("T")[0]});
+                if(data[dataIndex-1]&&!currDate.clone().subtract(1, 'days').isSame(data[dataIndex-1].date)){
+                    console.log("gap!");
+                }
+                data[dataIndex] = Object.assign({}, sampleEntry, {[status]: 1}, {date: currDate.toISOString(true).split("T")[0]});
                 dataIndex++;
                 currDate.add(1, 'days');
             }
             currDate = transitionDate;
         });
         const lastStatus = filteredHistories[filteredHistories.length - 1].items[0].toString;
-        data[dataIndex] = Object.assign({}, sampleEntry, {[lastStatus]: 1}, {date: currDate.toISOString().split("T")[0]});
+        data[dataIndex] = Object.assign({}, sampleEntry, {[lastStatus]: 1}, {date: currDate.toISOString(true).split("T")[0]});
         return data
     }
 
@@ -78,22 +81,28 @@ export function mergeCumulativeFlowData(data1, data2) {
     let resultIndex = 0;
     while (date.isBefore(dataWithLaterStart[0].date)) {
         if(earlierStartIndex < dataWithEarlierStart.length){
+            if(!(date.isSame(dataWithEarlierStart[earlierStartIndex].date))){
+                console.log("date = " + date.toISOString(true) + " dataWithEarlierStart[earlierStartIndex].date = " + dataWithEarlierStart[earlierStartIndex].date);
+            }
             result[resultIndex] = dataWithEarlierStart[earlierStartIndex]; //TODO: undefined problem
             earlierStartIndex++;
         }
         else{
-            result[resultIndex] = Object.assign({}, dataWithEarlierStart[dataWithEarlierStart.length-1], {date: date.toISOString().split("T")[0]});
+            result[resultIndex] = Object.assign({}, dataWithEarlierStart[dataWithEarlierStart.length-1], {date: date.toISOString(true).split("T")[0]});
         }
         resultIndex++;
         date.add(1, 'days');
     }
     while (date.isSameOrBefore(dataWithEarlierEnd[dataWithEarlierEnd.length - 1].date)) {
-        if(!(dataWithEarlierStart[earlierStartIndex] && dataWithLaterStart[laterStartIndex])){
-            console.log("hi!");
+        if(!(date.isSame(dataWithEarlierStart[earlierStartIndex].date) && date.isSame(dataWithLaterStart[laterStartIndex].date))){
+            console.log("date = " + date.toISOString(true) + " dataWithEarlierStart.date = " + dataWithEarlierStart[earlierStartIndex].date + " dataWithLaterStart.date = " + dataWithLaterStart[laterStartIndex].date)
         }
-        if(earlierStartIndex === dataWithEarlierEnd.length - 1)          {
-            console.log("hey!")
-        }
+        // if(!(dataWithEarlierStart[earlierStartIndex] && dataWithLaterStart[laterStartIndex])){
+        //     console.log("hi!");
+        // }
+        // if(earlierStartIndex === dataWithEarlierEnd.length - 1)          {
+        //     console.log("hey!")
+        // }
         result[resultIndex] = sumEntries(dataWithEarlierStart[earlierStartIndex], dataWithLaterStart[laterStartIndex]);
         earlierStartIndex++;
         laterStartIndex++;

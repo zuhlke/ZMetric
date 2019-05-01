@@ -175,73 +175,73 @@ describe("DataAdapter", () =>{
             ]
         }
     ];
-    describe("converts issues to cumulative flow data", () => {
-        const issue1 = {
-            id: "1123412",
-            key: "JRASERVER-68895",
-            fields:
-                {
-                    issuetype:{
-                        id: "1000",
-                        name: "Suggestion",
-                        subtask: false
-                    },
-                    resolutiondate: "2019-02-24T02:27:28.000+0000",
-                    created: "2019-02-20T23:52:36.000+0000"
+    const issue1 = {
+        id: "1123412",
+        key: "JRASERVER-68895",
+        fields:
+            {
+                issuetype:{
+                    id: "1000",
+                    name: "Suggestion",
+                    subtask: false
                 },
-            changelog: {
-                histories: [
-                    {
-                        created: "2019-02-20T23:52:48.362+0000",
-                        items: [
-                            {
-                                field: "assignee",
-                                fieldtype: "jira",
-                                from: "tbartyzel",
-                                fromString: "Tomasz Bartyzel",
-                                to: "znoorsazali",
-                                toString: "Zulfadli Noor Sazali"
-                            }
-                        ]
-                    },
-                    {
-                        created: "2019-02-22T00:05:19.853+0000",
-                        items: [
-                            {
-                                field: "status",
-                                fieldtype: "jira",
-                                from: "11772",
-                                fromString: "Gathering Interest",
-                                to: "11773",
-                                toString: "Reviewing"
-                            }
-                        ]
-                    },
-                    {
-                        created: "2019-02-24T02:27:28.482+0000",//2019-02-24T23:52:36.000+0000
-                        items: [
-                            {
-                                field: "resolution",
-                                fieldtype: "jira",
-                                from: null,
-                                fromString: null,
-                                to: "17",
-                                toString: "Done"
-                            },
-                            {
-                                field: "status",
-                                fieldtype: "jira",
-                                from: "11773",
-                                fromString: "Reviewing",
-                                to: "5",
-                                toString: "Resolved"
-                            }
-                        ]
-                    }
+                resolutiondate: "2019-02-24T02:27:28.000+0000",
+                created: "2019-02-20T23:52:36.000+0000"
+            },
+        changelog: {
+            histories: [
+                {
+                    created: "2019-02-20T23:52:48.362+0000",
+                    items: [
+                        {
+                            field: "assignee",
+                            fieldtype: "jira",
+                            from: "tbartyzel",
+                            fromString: "Tomasz Bartyzel",
+                            to: "znoorsazali",
+                            toString: "Zulfadli Noor Sazali"
+                        }
+                    ]
+                },
+                {
+                    created: "2019-02-22T00:05:19.853+0000",
+                    items: [
+                        {
+                            field: "status",
+                            fieldtype: "jira",
+                            from: "11772",
+                            fromString: "Gathering Interest",
+                            to: "11773",
+                            toString: "Reviewing"
+                        }
+                    ]
+                },
+                {
+                    created: "2019-02-24T02:27:28.482+0000",//2019-02-24T23:52:36.000+0000
+                    items: [
+                        {
+                            field: "resolution",
+                            fieldtype: "jira",
+                            from: null,
+                            fromString: null,
+                            to: "17",
+                            toString: "Done"
+                        },
+                        {
+                            field: "status",
+                            fieldtype: "jira",
+                            from: "11773",
+                            fromString: "Reviewing",
+                            to: "5",
+                            toString: "Resolved"
+                        }
+                    ]
+                }
 
-                ]
-            }
-        };
+            ]
+        }
+    };
+    describe("converts issues to cumulative flow data", () => {
 
         const issue2 = {
             id: "968691",
@@ -1939,7 +1939,7 @@ describe("DataAdapter", () =>{
                         "name": "Suggestion",
                         "subtask": false
                     },
-                    "resolutiondate": "2019-02-15T17:30:43.000+0000",
+                    "resolutiondate": "2019-02-15T17:30:43.000+0000",//TODO: problem date
                     "created": "2017-05-09T10:05:29.000+0000"
                 },
                 "changelog": {
@@ -1988,7 +1988,7 @@ describe("DataAdapter", () =>{
                         }
                     ]
                 }
-            },
+            }, //TODO: Problem Issue
             {
                 "id": "670902",
                 "key": "JRASERVER-64363",
@@ -2441,9 +2441,384 @@ describe("DataAdapter", () =>{
                 }
             }
         ];
+
+        const problemIssue = [{
+            "id": "800042",
+            "key": "JRASERVER-65262",
+            "fields": {
+                "issuetype": {
+                    "id": "10000",
+                    "name": "Suggestion",
+                    "subtask": false
+                },
+                "resolutiondate": "2019-02-15T17:30:43.000+0000",//TODO: problem date
+                "created": "2017-05-09T10:05:29.000+0000"
+            },
+            "changelog": {
+                "histories": [
+                    {
+                        "created": "2018-02-08T06:57:47.185+0000",
+                        "items": [
+                            {
+                                "field": "Workflow",
+                                "fieldtype": "jira",
+                                "from": "2593697",
+                                "fromString": "JIRA PM Feature Request Workflow v2 - TEMP",
+                                "to": "2619826",
+                                "toString": "Confluence Workflow - Public Facing v4"
+                            },
+                            {
+                                "field": "status",
+                                "fieldtype": "jira",
+                                "from": "1",
+                                "fromString": "Open",
+                                "to": "11772",
+                                "toString": "Gathering Interest"
+                            }
+                        ]
+                    },
+                    {
+                        "created": "2019-02-15T17:30:43.743+0000",
+                        "items": [
+                            {
+                                "field": "resolution",
+                                "fieldtype": "jira",
+                                "from": null,
+                                "fromString": null,
+                                "to": "17",
+                                "toString": "Done"
+                            },
+                            {
+                                "field": "status",
+                                "fieldtype": "jira",
+                                "from": "11772",
+                                "fromString": "Gathering Interest",
+                                "to": "5",
+                                "toString": "Resolved"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }];
+        const problemIssue2 = [issue1,{
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "968691",
+            "self": "https://jira.atlassian.com/rest/api/2/issue/968691",
+            "key": "JRASERVER-67265",//TODO: problem at array index 174-175
+            "fields": {
+                "issuetype": {
+                    "self": "https://jira.atlassian.com/rest/api/2/issuetype/10000",
+                    "id": "10000",
+                    "description": "",
+                    "iconUrl": "https://jira.atlassian.com/secure/viewavatar?size=xsmall&avatarId=51505&avatarType=issuetype",
+                    "name": "Suggestion",
+                    "subtask": false,
+                    "avatarId": 51505
+                },
+                "resolutiondate": "2019-03-13T14:55:02.000+0000",
+                "created": "2018-05-07T19:19:27.000+0000"
+            },
+            "changelog": {
+                "startAt": 0,
+                "maxResults": 9,
+                "total": 9,
+                "histories": [
+                    {
+                        "id": "7746048",
+                        "author": {
+                            "self": "https://jira.atlassian.com/rest/api/2/user?username=tevans",
+                            "name": "tevans",
+                            "key": "tevans",
+                            "emailAddress": "tevans at atlassian dot com",
+                            "avatarUrls": {
+                                "48x48": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=48",
+                                "24x24": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=24",
+                                "16x16": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=16",
+                                "32x32": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=32"
+                            },
+                            "displayName": "Tim Evans",
+                            "active": true,
+                            "timeZone": "America/Chicago"
+                        },
+                        "created": "2018-05-07T19:23:55.140+0000",
+                        "items": [
+                            {
+                                "field": "Link",
+                                "fieldtype": "jira",
+                                "from": null,
+                                "fromString": null,
+                                "to": "JRASERVER-65693",
+                                "toString": "This issue supersedes JRASERVER-65693"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "7746049",
+                        "author": {
+                            "self": "https://jira.atlassian.com/rest/api/2/user?username=tevans",
+                            "name": "tevans",
+                            "key": "tevans",
+                            "emailAddress": "tevans at atlassian dot com",
+                            "avatarUrls": {
+                                "48x48": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=48",
+                                "24x24": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=24",
+                                "16x16": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=16",
+                                "32x32": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=32"
+                            },
+                            "displayName": "Tim Evans",
+                            "active": true,
+                            "timeZone": "America/Chicago"
+                        },
+                        "created": "2018-05-07T19:25:46.009+0000",
+                        "items": [
+                            {
+                                "field": "labels",
+                                "fieldtype": "jira",
+                                "from": null,
+                                "fromString": "",
+                                "to": null,
+                                "toString": "aws-cf-doc aws-cf-use"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "7746050",
+                        "author": {
+                            "self": "https://jira.atlassian.com/rest/api/2/user?username=tevans",
+                            "name": "tevans",
+                            "key": "tevans",
+                            "emailAddress": "tevans at atlassian dot com",
+                            "avatarUrls": {
+                                "48x48": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=48",
+                                "24x24": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=24",
+                                "16x16": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=16",
+                                "32x32": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=32"
+                            },
+                            "displayName": "Tim Evans",
+                            "active": true,
+                            "timeZone": "America/Chicago"
+                        },
+                        "created": "2018-05-07T19:25:54.287+0000",
+                        "items": [
+                            {
+                                "field": "labels",
+                                "fieldtype": "jira",
+                                "from": null,
+                                "fromString": "aws-cf-doc aws-cf-use",
+                                "to": null,
+                                "toString": "aws aws-cf-doc aws-cf-use"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "7746051",
+                        "author": {
+                            "self": "https://jira.atlassian.com/rest/api/2/user?username=tevans",
+                            "name": "tevans",
+                            "key": "tevans",
+                            "emailAddress": "tevans at atlassian dot com",
+                            "avatarUrls": {
+                                "48x48": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=48",
+                                "24x24": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=24",
+                                "16x16": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=16",
+                                "32x32": "https://avatar-cdn.atlassian.com/2ec7dad2bb2810af58e9fb1cc35c9e34?d=mm&s=32"
+                            },
+                            "displayName": "Tim Evans",
+                            "active": true,
+                            "timeZone": "America/Chicago"
+                        },
+                        "created": "2018-05-07T19:26:10.867+0000",
+                        "items": [
+                            {
+                                "field": "Version",
+                                "fieldtype": "jira",
+                                "from": null,
+                                "fromString": null,
+                                "to": "78610",
+                                "toString": "7.9.1"
+                            },
+                            {
+                                "field": "Version",
+                                "fieldtype": "jira",
+                                "from": null,
+                                "fromString": null,
+                                "to": "78306",
+                                "toString": "7.2.14"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "7749115",
+                        "author": {
+                            "self": "https://jira.atlassian.com/rest/api/2/user?username=set-analytics-bot",
+                            "name": "set-analytics-bot",
+                            "key": "set-analytics-bot",
+                            "emailAddress": "set-analytics-bot at atlassian dot com",
+                            "avatarUrls": {
+                                "48x48": "https://avatar-cdn.atlassian.com/288d3882d0ca2083927ceef68aa1a506?d=mm&s=48",
+                                "24x24": "https://avatar-cdn.atlassian.com/288d3882d0ca2083927ceef68aa1a506?d=mm&s=24",
+                                "16x16": "https://avatar-cdn.atlassian.com/288d3882d0ca2083927ceef68aa1a506?d=mm&s=16",
+                                "32x32": "https://avatar-cdn.atlassian.com/288d3882d0ca2083927ceef68aa1a506?d=mm&s=32"
+                            },
+                            "displayName": "SET Analytics Bot",
+                            "active": true,
+                            "timeZone": "Etc/Universal"
+                        },
+                        "created": "2018-05-09T00:53:33.296+0000",
+                        "items": [
+                            {
+                                "field": "Support reference count",
+                                "fieldtype": "custom",
+                                "from": null,
+                                "fromString": null,
+                                "to": null,
+                                "toString": "1"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "7961687",
+                        "author": {
+                            "self": "https://jira.atlassian.com/rest/api/2/user?username=dunterwurzacher",
+                            "name": "dunterwurzacher",
+                            "key": "dunterwurzacher",
+                            "emailAddress": "dunterwurzacher at atlassian dot com",
+                            "avatarUrls": {
+                                "48x48": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=48",
+                                "24x24": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=24",
+                                "16x16": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=16",
+                                "32x32": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=32"
+                            },
+                            "displayName": "Denise Unterwurzacher",
+                            "active": true,
+                            "timeZone": "Australia/Sydney"
+                        },
+                        "created": "2018-08-06T18:27:03.992+0000",
+                        "items": [
+                            {
+                                "field": "assignee",
+                                "fieldtype": "jira",
+                                "from": "tbartyzel",
+                                "fromString": "Tomasz Bartyzel",
+                                "to": "dunterwurzacher",
+                                "toString": "Denise Unterwurzacher"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "7964361",
+                        "author": {
+                            "self": "https://jira.atlassian.com/rest/api/2/user?username=dunterwurzacher",
+                            "name": "dunterwurzacher",
+                            "key": "dunterwurzacher",
+                            "emailAddress": "dunterwurzacher at atlassian dot com",
+                            "avatarUrls": {
+                                "48x48": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=48",
+                                "24x24": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=24",
+                                "16x16": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=16",
+                                "32x32": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=32"
+                            },
+                            "displayName": "Denise Unterwurzacher",
+                            "active": true,
+                            "timeZone": "Australia/Sydney"
+                        },
+                        "created": "2018-08-07T20:01:58.605+0000",
+                        "items": [
+                            {
+                                "field": "labels",
+                                "fieldtype": "jira",
+                                "from": null,
+                                "fromString": "aws aws-cf-doc aws-cf-use",
+                                "to": null,
+                                "toString": "aws aws-cf-doc aws-cf-use wpe-enhanced"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "8381460",
+                        "author": {
+                            "self": "https://jira.atlassian.com/rest/api/2/user?username=osanico",
+                            "name": "osanico",
+                            "key": "osanico",
+                            "emailAddress": "osanico at atlassian dot com",
+                            "avatarUrls": {
+                                "48x48": "https://avatar-cdn.atlassian.com/ba8e4c1d466c65f724211df8fe7c75d8?d=mm&s=48",
+                                "24x24": "https://avatar-cdn.atlassian.com/ba8e4c1d466c65f724211df8fe7c75d8?d=mm&s=24",
+                                "16x16": "https://avatar-cdn.atlassian.com/ba8e4c1d466c65f724211df8fe7c75d8?d=mm&s=16",
+                                "32x32": "https://avatar-cdn.atlassian.com/ba8e4c1d466c65f724211df8fe7c75d8?d=mm&s=32"
+                            },
+                            "displayName": "Owen Sanico",
+                            "active": true,
+                            "timeZone": "Asia/Manila"
+                        },
+                        "created": "2018-11-21T06:54:01.774+0000",
+                        "items": [
+                            {
+                                "field": "Workflow",
+                                "fieldtype": "jira",
+                                "from": "2670544",
+                                "fromString": "Confluence Workflow - Public Facing v4",
+                                "to": "3056686",
+                                "toString": "JAC Suggestion Workflow"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "8529109",
+                        "author": {
+                            "self": "https://jira.atlassian.com/rest/api/2/user?username=dunterwurzacher",
+                            "name": "dunterwurzacher",
+                            "key": "dunterwurzacher",
+                            "emailAddress": "dunterwurzacher at atlassian dot com",
+                            "avatarUrls": {
+                                "48x48": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=48",
+                                "24x24": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=24",
+                                "16x16": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=16",
+                                "32x32": "https://avatar-cdn.atlassian.com/38217e1464eb0fa01ac8850f536af5fd?d=mm&s=32"
+                            },
+                            "displayName": "Denise Unterwurzacher",
+                            "active": true,
+                            "timeZone": "Australia/Sydney"
+                        },
+                        "created": "2019-03-13T14:55:02.731+0000",
+                        "items": [
+                            {
+                                "field": "resolution",
+                                "fieldtype": "jira",
+                                "from": null,
+                                "fromString": null,
+                                "to": "17",
+                                "toString": "Done"
+                            },
+                            {
+                                "field": "status",
+                                "fieldtype": "jira",
+                                "from": "11772",
+                                "fromString": "Gathering Interest",
+                                "to": "5",
+                                "toString": "Resolved"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }];
         it("mergeIssues to combined cumulative flow data", () => {
             const combinedJRACumulativeFlowData = [];
             expect(mergeIssues(JRAIssues, workflow)).toEqual(combinedJRACumulativeFlowData);
         });
+
+        it("check problem issue in isolation", () => {
+            const combinedJRACumulativeFlowData = [];
+            expect(mergeIssues(problemIssue, workflow)).toEqual(combinedJRACumulativeFlowData);
+        });
+
+        it("check problem issue2 in isolation", () => {
+            const combinedJRACumulativeFlowData = [];
+            expect(mergeIssues(problemIssue2, workflow)).toEqual(combinedJRACumulativeFlowData);
+        });
+
+
     });
 });

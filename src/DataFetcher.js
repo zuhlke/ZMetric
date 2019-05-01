@@ -2073,7 +2073,7 @@ const issues = {
             "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
             "id": "968691",
             "self": "https://jira.atlassian.com/rest/api/2/issue/968691",
-            "key": "JRASERVER-67265",
+            "key": "JRASERVER-67265",//TODO: problem at array index 174-175
             "fields": {
                 "issuetype": {
                     "self": "https://jira.atlassian.com/rest/api/2/issuetype/10000",
