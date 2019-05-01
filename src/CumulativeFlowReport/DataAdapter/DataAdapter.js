@@ -79,68 +79,14 @@ export function convertIssueChangelogToCumulativeFlow(issue, workflow, startDate
 }
 
 export function mergeCumulativeFlowData(data1, data2) {
-    if(data1.length > 0 && data2.length > 0){
-        const result = [];
-        const data1HasEarlierStart = moment(data1[0].date).isBefore(moment(data2[0].date));
-        const data1HasLaterEnd = moment(data1[data1.length - 1].date).isAfter(moment(data2[data2.length - 1].date));
-        const [dataWithEarlierStart, dataWithLaterStart] = data1HasEarlierStart ? [data1, data2] : [data2, data1];
-        const [dataWithLaterEnd, dataWithEarlierEnd] = data1HasLaterEnd ? [data1, data2] : [data2, data1];
-
-        const date = data1HasEarlierStart ? moment(data1[0].date).clone() : moment(data2[0].date).clone();
-        let earlierStartIndex = 0;
-        let laterStartIndex = 0;
-        let resultIndex = 0;
-        while (date.isBefore(dataWithLaterStart[0].date)) {
-            if(earlierStartIndex < dataWithEarlierStart.length){
-                if(!(date.isSame(dataWithEarlierStart[earlierStartIndex].date))){
-                    console.log("date = " + date.toISOString(true) + " dataWithEarlierStart[earlierStartIndex].date = " + dataWithEarlierStart[earlierStartIndex].date);
-                    throw new Error("mismatch in date values when calculating cumulative flow data array")
-                }
-                result[resultIndex] = dataWithEarlierStart[earlierStartIndex];
-                earlierStartIndex++;
-            }
-            else{
-                result[resultIndex] = Object.assign({}, dataWithEarlierStart[dataWithEarlierStart.length-1], {date: date.toISOString(true).split("T")[0]});
-            }
-            resultIndex++;
-            date.add(1, 'days');
-        }
-        while (date.isSameOrBefore(dataWithEarlierEnd[dataWithEarlierEnd.length - 1].date)) {
-            if(!(date.isSame(dataWithEarlierStart[earlierStartIndex].date) && date.isSame(dataWithLaterStart[laterStartIndex].date))){
-                console.log("date = " + date.toISOString(true) + " dataWithEarlierStart.date = " + dataWithEarlierStart[earlierStartIndex].date + " dataWithLaterStart.date = " + dataWithLaterStart[laterStartIndex].date)
-                throw new Error("mismatch in date values when calculating cumulative flow data array")
-            }
-            result[resultIndex] = sumEntries(dataWithEarlierStart[earlierStartIndex], dataWithLaterStart[laterStartIndex]);
-            earlierStartIndex++;
-            laterStartIndex++;
-            resultIndex++;
-            date.add(1, 'days');
-        }
-        let laterEndIndex = (data1HasEarlierStart === data1HasLaterEnd) ? earlierStartIndex: laterStartIndex;
-        while (/*(laterEndIndex < dataWithLaterEnd.length) && */date.isSameOrBefore(dataWithLaterEnd[dataWithLaterEnd.length - 1].date)) {
-            if(laterEndIndex === dataWithLaterEnd.length){
-                console.log("Hi");
-                throw new Error("mismatch")
-            }
-            if(!date.isSame(dataWithLaterEnd[laterEndIndex].date)){
-                console.log("date = " + date.toISOString(true) + " dataWithLaterEnd[laterEndIndex].date = " + dataWithLaterEnd[laterEndIndex].date);
-                throw new Error("mismatch in date values when calculating cumulative flow data array")
-            }
-            result[resultIndex] = sumEntries(dataWithLaterEnd[laterEndIndex], dataWithEarlierEnd[dataWithEarlierEnd.length - 1]);
-            resultIndex++;
-            laterEndIndex++;
-            date.add(1, 'days');
-        }
-        return result;
+    if(data1.length < 1 || data2.length < 1){
+        return data1.length < 1 ? data2 : data1;
     }
-    else if(data1.length > 1){
-        return data1;
-    }
-    else if(data2.length > 1){
-        return data2;
+    else if(data1.length !== data2.length){
+        throw new Error("merging data of unequal lengths");
     }
     else{
-        return [];
+        return data1.map((entry, index) => sumEntries(entry, data2[index]))
     }
 
     function sumEntries(entry1, entry2) {
@@ -160,7 +106,7 @@ export function mergeCumulativeFlowData(data1, data2) {
 
 export function mergeIssues(issues, workflow){
     const startDate = issues.map(issue => moment(issue.fields.created, 'YYYY-MM-DD')).sort((a, b) => a - b)[0];
-    const endDate = issues.map(issue => moment(issue.fields.resolutiondate, 'YYYY-MM-DD')).sort((a, b) => b - a)[0];
+    const endDate = issues.map(issue => issue.fields.resolutiondate ? moment(issue.fields.resolutiondate, 'YYYY-MM-DD') : moment()).sort((a, b) => b - a)[0];
     const convertedIssues = issues.map(issue => convertIssueChangelogToCumulativeFlow(issue, workflow, startDate, endDate));
     const objResult = createIssueTypeObjectFromIssues(issues);
     convertedIssues.forEach(issue => {
