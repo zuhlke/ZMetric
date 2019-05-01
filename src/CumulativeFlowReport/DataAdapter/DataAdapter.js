@@ -46,7 +46,6 @@ export function convertIssueChangelogToCumulativeFlow(issue, workflow) {
                 entry[history.items[0].toString] = 0;
             }
         });
-
         return entry;
     }
 
@@ -63,8 +62,8 @@ export function convertIssueChangelogToCumulativeFlow(issue, workflow) {
                 return history;
             });
     }
-}
 
+}
 
 export function mergeCumulativeFlowData(data1, data2) {
     if(data1.length > 0 && data2.length > 0){
@@ -148,7 +147,9 @@ export function mergeCumulativeFlowData(data1, data2) {
 
 export function mergeIssues(issues, workflow){
     const convertedIssues = issues.map(issue => convertIssueChangelogToCumulativeFlow(issue, workflow));
-    const objResult = createIssueTypeObjectFromIssues(issues);
+    const objResult = createIssueTypeObjectFromWorkflow(issues);
+    const startDate = ""; //TODO: CALCULATE THESE
+    const endDate = "";
     convertedIssues.forEach(issue => {
         if(objResult[issue.fields.issuetype.name].data && objResult[issue.fields.issuetype.name].data.length > 0){
             objResult[issue.fields.issuetype.name].data = mergeCumulativeFlowData(objResult[issue.fields.issuetype.name].data, issue.cumulativeFlow);
@@ -161,9 +162,18 @@ export function mergeIssues(issues, workflow){
         return {
             id: entry[1].id,
             name: entry[0],
-            data: entry[1].data
+            data: entry[1].data.length > 0 ? expandTimeRange(entry[1].data, entry[0], workflow, startDate, endDate) : generateEmptyDataForUnusedIssueType(entry[0], workflow, startDate, endDate) //TODO: all issueTypes must have matching start end dates?
         };
     })
+}
+
+function earliestStartDate(issues){
+    issues.map(issue => moment(issue.fields.created, 'YYYY-MM-DD'))
+        .sort()
+}
+
+function expandTimeRange(data, issueType, workflow, startDate, endDate){
+    return data //TODO: Implement
 }
 
 function createIssueTypeObjectFromIssues(issues){
@@ -186,6 +196,23 @@ function createIssueTypeObjectFromWorkflow(workflow){ //TODO: update test data t
     return result;
 }
 
-function generateEmptyDataForUnusedIssueType(){ //TODO: do this //Combine with case when merge issues returns []
+function generateEmptyDataForUnusedIssueType(issueType, workflow, startDate, endDate){ //TODO: do this //Combine with case when merge issues returns []
+    const result = [];
+    const emptyEntry = createEmptyEntry(issueType, workflow);
+    const date = moment(startDate, 'YYYY-MM-DD');
+    const end = moment(endDate, 'YYYY-MM-DD');
+    while(date.isSameOrBefore(end)){
+        result.push(Object.assign({}, emptyEntry, {date: date.toISOString(true).split("T")[0]}))
+        date.add(1, 'days');
+    }
+    return result;
 
+    function createEmptyEntry(issueTypeName, workflow) {
+        const entry = {};
+        const issueType = workflow.filter(issueType => issueType.name === issueTypeName);
+        if(!issueType || issueType.length === 0){
+            throw new Error("issue type" + issueTypeName + " encountered that is not present in the valid issueType values for the project (provided by the 'GET /rest/api/2/project/{projectIdOrKey}/statuses' endpoint)")
+        }
+        issueType[0].statuses.forEach(status => entry[status.name] = 0);
+    }
 }
