@@ -1,5 +1,5 @@
 import {convert} from "./CycleTimeReport/DataAdapter";
-// import {mergeIssues} from "./CumulativeFlowReport/DataAdapter/DataAdapter";
+import {convertFromJiraToLeadtime} from "./CycleTimeReport/DataAdapter";
 
 const workflow = [
     {
@@ -10650,10 +10650,10 @@ const jiraResponse = {
 };
 
 
-export const getCycleTimeReportData = () => convert(jiraResponse);
+export const getCycleTimeReportData = () => convertFromJiraToLeadtime(jiraResponse);
 export const getIssues = () => issues;
 export const getWorkflow = () => workflow;
 export const getLeadAndCycleTimeData = () => leadAndCycleTimeData;
 export const getThroughput = () => throughputData;
-export const getCumulativeFlowData = () => cumulativeFlowData; //mergeIssues(issues,workflow)
+export const getCumulativeFlowData = () => cumulativeFlowData;
 

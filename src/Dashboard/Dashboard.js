@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
 import {LeadTimeLineChart} from "../LeadTimeLineChart";
-import {getCumulativeFlowData, getThroughput} from "../DataFetcher";
-import {ThroughputReport} from "../ThroughputReport";
+import {getCumulativeFlowData} from "../DataFetcher";
+import {ThroughputReport} from "../ThroughputReport/ThroughputReport";
 import {WorkflowContainer} from "../WorkflowContainer"
 import {Label, Segment} from "semantic-ui-react";
 import {CumulativeFlowReport} from "../CumulativeFlowReport/CumulativeFlowReport";
-import {convert} from "../CycleTimeReport/DataAdapter";
+import {convertFromJiraToLeadtime} from "../CycleTimeReport/DataAdapter";
+import {convertFromJiraToThroughput} from "../ThroughputReport/ThroughputDataAdapter";
 
 import axios from "axios";
 
@@ -16,17 +17,18 @@ export default function Dashboard(props) {
     const {jiraUrl,project} = props;
     const [workflow, setWorkflow] = useState(undefined);
     const [leadCycleTimeData, setLeadCycleTimeData] = useState(undefined);
+    const [throughput, setThroughput] = useState(undefined);
+
     const instance = axios.create({baseURL: jiraUrl, headers: {cookie: `${name}=${value}`}});
     const cumulativeFlowDataMock = getCumulativeFlowData();
-    const throughputDataMock = getThroughput();
-
     useEffect(() => {
     axios
         .all([instance.get(`rest/api/2/search?maxResults=10000&fields=resolutiondate,created&jql=project=${project}`),
               instance.get(`/rest/api/2/project/${project}/statuses`)])
         .then(axios.spread((issueResponse,workflowResponse) =>{
-                setLeadCycleTimeData(convert(issueResponse.data));
+                setLeadCycleTimeData(convertFromJiraToLeadtime(issueResponse.data));
                 setWorkflow(workflowResponse.data);
+                setThroughput(convertFromJiraToThroughput(issueResponse.data))
         }
             ))},[] );
 
@@ -39,7 +41,7 @@ export default function Dashboard(props) {
                     </Label>
                     {workflow && <CumulativeFlowReport data={cumulativeFlowDataMock} workflow={workflow}/>}
                     {leadCycleTimeData && <LeadTimeLineChart data={leadCycleTimeData}/>}
-                    {<ThroughputReport data={throughputDataMock}/>}
+                    {throughput && <ThroughputReport data={throughput}/>}
                     {workflow && <WorkflowContainer workflow={workflow}/>}
                 </Segment>
             </Segment.Group>
