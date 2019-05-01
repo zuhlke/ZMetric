@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export function convertIssueChangelogToCumulativeFlow(issue, workflow) {
+export function convertIssueChangelogToCumulativeFlow(issue, workflow, startDate, endDate) {
     return {
         id: issue.id,
         key: issue.key,
@@ -146,10 +146,10 @@ export function mergeCumulativeFlowData(data1, data2) {
 
 
 export function mergeIssues(issues, workflow){
-    const convertedIssues = issues.map(issue => convertIssueChangelogToCumulativeFlow(issue, workflow));
-    const objResult = createIssueTypeObjectFromWorkflow(issues);
     const startDate = issues.map(issue => moment(issue.fields.created, 'YYYY-MM-DD')).sort((a, b) => a - b)[0];
     const endDate = issues.map(issue => moment(issue.fields.resolutiondate, 'YYYY-MM-DD')).sort((a, b) => b - a)[0];
+    const convertedIssues = issues.map(issue => convertIssueChangelogToCumulativeFlow(issue, workflow, startDate, endDate));
+    const objResult = createIssueTypeObjectFromIssues(issues);
     convertedIssues.forEach(issue => {
         if(objResult[issue.fields.issuetype.name].data && objResult[issue.fields.issuetype.name].data.length > 0){
             objResult[issue.fields.issuetype.name].data = mergeCumulativeFlowData(objResult[issue.fields.issuetype.name].data, issue.cumulativeFlow);
@@ -162,16 +162,11 @@ export function mergeIssues(issues, workflow){
         return {
             id: entry[1].id,
             name: entry[0],
-            data: entry[1].data.length > 0 ? expandTimeRange(entry[1].data, entry[0], workflow, startDate, endDate) : generateEmptyDataForUnusedIssueType(entry[0], workflow, startDate, endDate) //TODO: all issueTypes must have matching start end dates?
+            data: entry[1].data //entry[1].data.length > 0 ? entry[1].data : generateEmptyDataForUnusedIssueType(entry[0], workflow, startDate, endDate) //TODO: all issueTypes must have matching start end dates?
         };
     });
 }
 
-
-
-function expandTimeRange(data, issueType, workflow, startDate, endDate){
-    return data //TODO: Move into convertIssueChangeLogToCumulativeFlow?
-}
 
 function createIssueTypeObjectFromIssues(issues){
     const result = {};

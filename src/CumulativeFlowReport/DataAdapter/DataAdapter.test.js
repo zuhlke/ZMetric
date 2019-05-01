@@ -1562,19 +1562,19 @@ describe("DataAdapter", () =>{
 
         describe("convertIssueChangelogToCumulativeFlow", () => {
             it("converts issue1 to cumulative flow for that issue", () => {
-                expect(convertIssueChangelogToCumulativeFlow(issue1, jiraServerWorkflow)).toEqual(issue1CumulativeFlowData);
+                expect(convertIssueChangelogToCumulativeFlow(issue1, jiraServerWorkflow,"2019-02-18", "2019-02-26")).toEqual(issue1CumulativeFlowData);
             });
 
             it("converts issue2 to cumulative flow for that issue", () => {
-                expect(convertIssueChangelogToCumulativeFlow(issue2, jiraServerWorkflow)).toEqual(issue2CumulativeFlowData);
+                expect(convertIssueChangelogToCumulativeFlow(issue2, jiraServerWorkflow, "2019-02-18", "2019-02-26")).toEqual(issue2CumulativeFlowData);
             });
 
             it("converts issue3 to cumulative flow for that issue", () => {
-                expect(convertIssueChangelogToCumulativeFlow(issue3, jiraServerWorkflow)).toEqual(issue3CumulativeFlowData);
+                expect(convertIssueChangelogToCumulativeFlow(issue3, jiraServerWorkflow, "2019-02-18", "2019-02-26")).toEqual(issue3CumulativeFlowData);
             });
 
             it("converts issue5 to cumulative flow for that issue", () => {
-                expect(convertIssueChangelogToCumulativeFlow(issue5Unresolved, jiraServerWorkflow)).toEqual(issue5CumulativeFlowData);
+                expect(convertIssueChangelogToCumulativeFlow(issue5Unresolved, jiraServerWorkflow, "2019-02-18", "2019-02-26")).toEqual(issue5CumulativeFlowData);
             });
         });
 
