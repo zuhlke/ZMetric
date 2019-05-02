@@ -61,28 +61,28 @@ class Login extends Component {
     const {jiraUrl, jiraUsername, jiraPassword, phase, errorMessage, successMessage} = this.state;
 
     return <div className="ui stacked segment">
-          <Form className="ui large form error success"
-                onSubmit={this.handleSubmit}
-                loading={phase === Phases.SUBMITTING}>
-            <Form.Input icon="globe" iconPosition='left' type="text" name="jiraUrl"
-                        value={jiraUrl} onChange={this.handleChange}
-                        placeholder="Jira URL"/>
+      <Form className="ui large form error success"
+            onSubmit={this.handleSubmit}
+            loading={phase === Phases.SUBMITTING}>
+        <Form.Input icon="globe" iconPosition='left' type="text" name="jiraUrl"
+                    value={jiraUrl} onChange={this.handleChange}
+                    placeholder="Jira URL"/>
 
-            <Form.Input icon="user" iconPosition='left' type="text" name="jiraUsername"
-                        value={jiraUsername} onChange={this.handleChange}
-                        placeholder="Jira Username"/>
+        <Form.Input icon="user" iconPosition='left' type="text" name="jiraUsername"
+                    value={jiraUsername} onChange={this.handleChange}
+                    placeholder="Jira Username"/>
 
-            <Form.Input icon="lock" iconPosition='left' type="password" name="jiraPassword"
-                        value={jiraPassword} onChange={this.handleChange}
-                        placeholder="Jira Password"/>
+        <Form.Input icon="lock" iconPosition='left' type="password" name="jiraPassword"
+                    value={jiraPassword} onChange={this.handleChange}
+                    placeholder="Jira Password"/>
 
-            <Button id="jiraLoginSubmit"
-                    className="ui fluid large teal submit button">Login</Button>
+        <Button id="jiraLoginSubmit"
+                className="ui fluid large teal submit button">Login</Button>
 
-            <Message error hidden={phase !== Phases.FAIL} content={errorMessage}/>
-            <Message success hidden={phase !== Phases.SUCCESS} content={successMessage}/>
-          </Form>
-        </div>
+        <Message error hidden={phase !== Phases.FAIL} content={errorMessage}/>
+        <Message success hidden={phase !== Phases.SUCCESS} content={successMessage}/>
+      </Form>
+    </div>
   }
 
 }
