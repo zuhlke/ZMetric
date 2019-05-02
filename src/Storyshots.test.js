@@ -1,5 +1,6 @@
 import initStoryshots from '@storybook/addon-storyshots';
 import {imageSnapshot} from '@storybook/addon-storyshots-puppeteer';
+
 const devices = require('puppeteer/DeviceDescriptors');
 
 const iPhone = devices['iPhone X'];
@@ -7,6 +8,7 @@ const iPhone = devices['iPhone X'];
 function customizePage(page) {
   return page.emulate(iPhone);
 }
+
 const getMatchOptions = () => ({
   failureThreshold: 0.05,
   failureThresholdType: 'percent',
