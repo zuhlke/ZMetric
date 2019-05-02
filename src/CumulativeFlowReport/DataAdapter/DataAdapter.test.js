@@ -1,4 +1,9 @@
 import {convertIssueChangelogToCumulativeFlow, mergeCumulativeFlowData, mergeIssues} from "./DataAdapter";
+import moment from "moment";
+it("sa", () => {
+    const now = moment().toISOString(true);
+    console.log(now);
+});
 
 describe("DataAdapter", () =>{
     const jiraServerWorkflow = [
@@ -505,6 +510,22 @@ describe("DataAdapter", () =>{
 
                 ]
             }
+        };
+
+        const xissue6NoTransitions = {
+            id: "6",
+            key: "JRASERVER-66",
+            fields:
+                {
+                    issuetype:{
+                        id: "1000",
+                        name: "Suggestion",
+                        subtask: false
+                    },
+                    resolutiondate: null,
+                    created: "2019-02-21T23:52:36.000+0000"
+                },
+            changelog:{histories:[]}
         };
 
         const issues = [issue1, issue2, issue3];
@@ -2131,6 +2152,31 @@ describe("DataAdapter", () =>{
                 "date": "2019-03-09"
             }];
 
+        const extendTestDataToCurrentDate = (cumulativeFlowData) => { //TODO: unittest this
+            const cumulativeFlowCopy = [...cumulativeFlowData];
+            const dateCounter = moment(cumulativeFlowData[cumulativeFlowData.length-1].date, 'YYYY-MM-DD');
+            const today = moment().format('YYYY-MM-DD');
+            while(dateCounter.isBefore(today)){
+                dateCounter.add(1,'days');
+                cumulativeFlowCopy.push(Object.assign({}, cumulativeFlowData[cumulativeFlowData.length-1], {date:dateCounter.toISOString(true).split("T")[0]}));
+            }
+            return cumulativeFlowCopy
+        };
+
+        // describe("helper function extendTestDataToCurrentDate()", () => {
+        //     const data = [{
+        //         date: "2019-02-19",
+        //         "Gathering Interest": 0,
+        //         Reviewing: 0,
+        //     },{
+        //             date: "2019-02-20",
+        //             "Gathering Interest": 1,
+        //             Reviewing: 0,
+        //     }];
+        //
+        //     expect(extendTestDataToCurrentDate(data)).toEqual({});
+        // });
+
         describe("convertIssueChangelogToCumulativeFlow", () => { //TODO: Add test data for: issue that has no status transition, issue with no transitions at all, issue with only one status transition
             it("converts issue1 to cumulative flow for that issue", () => {
                 expect(convertIssueChangelogToCumulativeFlow(issue1, jiraServerWorkflow,"2019-02-18", "2019-02-26")).toEqual(issue1CumulativeFlowData);
@@ -2210,6 +2256,29 @@ describe("DataAdapter", () =>{
                     }
                 ];
                 expect(mergeIssues(issuesAtDifferentTimes, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);
+            });
+
+            it("merge cumulative flow data for issues including unfinished issue", () => {
+                const combinedCumulativeFlowData = [{
+                    id: "1",
+                    name: "Bug",
+                    data: extendTestDataToCurrentDate(issue3And4MergedCumulativeFlowData)
+                },{
+                    id:"6",
+                    name:"Sub-task",
+                    data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
+                },{
+                    "id": "5",
+                    "name": "Support Request",
+                    data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
+                },{
+                    id: "10000",
+                    name: "Suggestion",
+                    data: extendTestDataToCurrentDate(issue1And2And5MergedCumulativeFlowData)
+                }
+                ];
+                const issues1To5 = [issue1, issue2, issue3, issue4, issue5Unresolved];
+                expect(mergeIssues(issues1To5, jiraServerWorkflow)).toEqual(combinedCumulativeFlowData);
             });
         });
 
@@ -3940,9 +4009,10 @@ describe("DataAdapter", () =>{
             mergeIssues(zMetricIssues, zMetricWorkflow);
         });
 
-        //TODO: test data with empty pruneHistories
+        //TODO: test data with empty pruneHistories //Issue with no status transitions
 
-        //TODO: test data with two empty data arrays for mergeCumulativeFlowData
+        //TODO: test data with two empty data arrays for mergeCumulativeFlowData //first two issues have no status transitions
+        //all issues have no status tranistions / all are unfinished?
 
     });
 });
