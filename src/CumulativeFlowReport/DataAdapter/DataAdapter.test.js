@@ -1,10 +1,5 @@
 import {convertIssueChangelogToCumulativeFlow, mergeCumulativeFlowData, mergeIssues} from "./DataAdapter";
 import moment from "moment";
-it("sa", () => {
-    const now = moment().toISOString(true);
-    console.log(now);
-});
-
 describe("DataAdapter", () =>{
     const jiraServerWorkflow = [
         {
@@ -316,7 +311,7 @@ describe("DataAdapter", () =>{
             }
         };
 
-        const issue3 = {
+        const issue3WorkflowChange = {
             id: "1052324",
             key: "JRASERVER-68020",
             fields:
@@ -512,7 +507,7 @@ describe("DataAdapter", () =>{
             }
         };
 
-        const xissue6NoTransitions = {
+        const issue6NoTransitions = {
             id: "6",
             key: "JRASERVER-66",
             fields:
@@ -523,12 +518,105 @@ describe("DataAdapter", () =>{
                         subtask: false
                     },
                     resolutiondate: null,
-                    created: "2019-02-21T23:52:36.000+0000"
+                    created: "2019-02-18T23:52:36.000+0000"
                 },
             changelog:{histories:[]}
         };
 
-        const issues = [issue1, issue2, issue3];
+        const issue7OneTransition = {
+            id: "7",
+            key: "JRASERVER-77",
+            fields:
+                {
+                    issuetype:{
+                        id: "1000",
+                        name: "Suggestion",
+                        subtask: false
+                    },
+                    resolutiondate: "2019-02-21T02:27:28.000+0000",
+                    created: "2019-02-18T23:52:36.000+0000"
+                },
+            changelog:{
+                histories: [
+                    {
+                        created: "2019-02-21T23:52:48.362+0000",
+                        items: [
+                            {
+                                field: "status",
+                                fieldtype: "jira",
+                                from: "2",
+                                fromString: "In Progress",
+                                to: "5",
+                                toString: "Resolved"
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        const issue7CumulativeFlowData = {
+            id: "1123412",
+            key: "JRASERVER-68895",
+            fields:
+                {
+                    issuetype:{
+                        id: "1000",
+                        name: "Suggestion",
+                        subtask: false
+                    },
+                    resolutiondate: "2019-02-21T02:27:28.000+0000",
+                    created: "2019-02-18T23:52:36.000+0000"
+                },
+            cumulativeFlow: [
+                {
+                    date: "2019-02-18",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 1,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
+                    date: "2019-02-19",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 1,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
+                    date: "2019-02-20",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 1,
+                    "Waiting for Release": 0,
+                    Resolved: 0
+                },
+                {
+                    date: "2019-02-21",
+                    "Gathering Interest": 0,
+                    Reviewing: 0,
+                    "Under Consideration": 0,
+                    "Future Consideration": 0,
+                    "Not Being Considered": 0,
+                    "In Progress": 0,
+                    "Waiting for Release": 0,
+                    Resolved: 1
+                }
+            ]
+        };
+
+        const issues = [issue1, issue2, issue3WorkflowChange];
 
         const issue1CumulativeFlowData = {
             id: "1123412",
@@ -2152,32 +2240,22 @@ describe("DataAdapter", () =>{
                 "date": "2019-03-09"
             }];
 
-        const extendTestDataToCurrentDate = (cumulativeFlowData) => { //TODO: unittest this
+        const extendTestDataToDate = (cumulativeFlowData, date) => {
             const cumulativeFlowCopy = [...cumulativeFlowData];
             const dateCounter = moment(cumulativeFlowData[cumulativeFlowData.length-1].date, 'YYYY-MM-DD');
-            const today = moment().format('YYYY-MM-DD');
-            while(dateCounter.isBefore(today)){
+            const endDate = moment(date, 'YYYY-MM-DD');
+            while(dateCounter.isBefore(endDate)){
                 dateCounter.add(1,'days');
                 cumulativeFlowCopy.push(Object.assign({}, cumulativeFlowData[cumulativeFlowData.length-1], {date:dateCounter.toISOString(true).split("T")[0]}));
             }
             return cumulativeFlowCopy
         };
 
-        // describe("helper function extendTestDataToCurrentDate()", () => {
-        //     const data = [{
-        //         date: "2019-02-19",
-        //         "Gathering Interest": 0,
-        //         Reviewing: 0,
-        //     },{
-        //             date: "2019-02-20",
-        //             "Gathering Interest": 1,
-        //             Reviewing: 0,
-        //     }];
-        //
-        //     expect(extendTestDataToCurrentDate(data)).toEqual({});
-        // });
+        const extendTestDataToCurrentDate = (cumulativeFlowData) => {
+            return extendTestDataToDate(cumulativeFlowData,moment().format('YYYY-MM-DD'));
+        };
 
-        describe("convertIssueChangelogToCumulativeFlow", () => { //TODO: Add test data for: issue that has no status transition, issue with no transitions at all, issue with only one status transition
+        describe("convertIssueChangelogToCumulativeFlow", () => {
             it("converts issue1 to cumulative flow for that issue", () => {
                 expect(convertIssueChangelogToCumulativeFlow(issue1, jiraServerWorkflow,"2019-02-18", "2019-02-26")).toEqual(issue1CumulativeFlowData);
             });
@@ -2187,7 +2265,7 @@ describe("DataAdapter", () =>{
             });
 
             it("converts issue3 to cumulative flow for that issue", () => {
-                expect(convertIssueChangelogToCumulativeFlow(issue3, jiraServerWorkflow, "2019-02-18", "2019-02-26")).toEqual(issue3CumulativeFlowData);
+                expect(convertIssueChangelogToCumulativeFlow(issue3WorkflowChange, jiraServerWorkflow, "2019-02-18", "2019-02-26")).toEqual(issue3CumulativeFlowData);
             });
 
             it("converts issue5 to cumulative flow for that issue", () => {
@@ -2209,31 +2287,60 @@ describe("DataAdapter", () =>{
             });
         });
 
-        describe("mergeIssues", ()=> { //TODO: Add test data for: issue that has no status transition, issue with no transitions at all, issue with only one status transition
-            it("converts bug and Suggestion issues to combined cumulative flow data", () => {
-                const combinedCumulativeFlowData = [{
+        describe("mergeIssues", ()=> {
+            const issues1To3combinedCumulativeFlowData = [
+                {
+                id: "1",
+                name: "Bug",
+                data: issue3CumulativeFlowData.cumulativeFlow
+            },{
+                id:"6",
+                name:"Sub-task",
+                data:emptySubTaskCumulativeFlowData18thTo26th
+            },{
+                "id": "5",
+                "name": "Support Request",
+                data:emptySubTaskCumulativeFlowData18thTo26th
+            },{
+                id: "10000",
+                name: "Suggestion",
+                data: issue1And2MergedCumulativeFlowData
+            }
+            ];
+            const issues1to5combinedCumulativeFlowData = [
+                {
                     id: "1",
                     name: "Bug",
-                    data: issue3CumulativeFlowData.cumulativeFlow
+                    data: extendTestDataToCurrentDate(issue3And4MergedCumulativeFlowData)
                 },{
                     id:"6",
                     name:"Sub-task",
-                    data:emptySubTaskCumulativeFlowData18thTo26th
+                    data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
                 },{
                     "id": "5",
                     "name": "Support Request",
-                    data:emptySubTaskCumulativeFlowData18thTo26th
+                    data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
                 },{
                     id: "10000",
                     name: "Suggestion",
-                    data: issue1And2MergedCumulativeFlowData
+                    data: extendTestDataToCurrentDate(issue1And2And5MergedCumulativeFlowData)
                 }
-                ];
-                expect(mergeIssues(issues, jiraServerWorkflow)).toEqual(combinedCumulativeFlowData);
+            ];
+            const issues1To5 = [issue1, issue2, issue3WorkflowChange, issue4, issue5Unresolved];
+            it("converts bug and Suggestion issues to combined cumulative flow data", () => {
+                expect(mergeIssues(issues, jiraServerWorkflow)).toEqual(issues1To3combinedCumulativeFlowData);
+            });
+
+            it("merge cumulative flow data for issues where first two have no status transitions", () => {
+                const issuesNoTransition = [issue6NoTransitions, issue6NoTransitions, ...issues];
+                const expectedCumulativeFlow = issues1To3combinedCumulativeFlowData.map(issueType =>
+                    Object.assign({}, issueType, {data: extendTestDataToCurrentDate(issueType.data)})
+                );
+                expect(mergeIssues(issuesNoTransition, jiraServerWorkflow)).toEqual(expectedCumulativeFlow);
             });
 
             it("merge cumulative flow data for issues with non-overlapping date ranges", () => {
-                const issuesAtDifferentTimes = [issue3, issue4];
+                const issuesAtDifferentTimes = [issue3WorkflowChange, issue4];
                 const combinedCumulativeFlow = [
                     {
                         "data": issue3And4MergedCumulativeFlowData,
@@ -2259,27 +2366,84 @@ describe("DataAdapter", () =>{
             });
 
             it("merge cumulative flow data for issues including unfinished issue", () => {
-                const combinedCumulativeFlowData = [{
-                    id: "1",
-                    name: "Bug",
-                    data: extendTestDataToCurrentDate(issue3And4MergedCumulativeFlowData)
-                },{
-                    id:"6",
-                    name:"Sub-task",
-                    data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
-                },{
-                    "id": "5",
-                    "name": "Support Request",
-                    data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
-                },{
-                    id: "10000",
-                    name: "Suggestion",
-                    data: extendTestDataToCurrentDate(issue1And2And5MergedCumulativeFlowData)
-                }
-                ];
-                const issues1To5 = [issue1, issue2, issue3, issue4, issue5Unresolved];
-                expect(mergeIssues(issues1To5, jiraServerWorkflow)).toEqual(combinedCumulativeFlowData);
+                expect(mergeIssues(issues1To5, jiraServerWorkflow)).toEqual(issues1to5combinedCumulativeFlowData);
             });
+
+            it("merge cumulative flow data for issues 1 to 6", () => {
+                const issuesNoTransition = [issue6NoTransitions, ...issues1To5];
+                expect(mergeIssues(issuesNoTransition, jiraServerWorkflow)).toEqual(issues1to5combinedCumulativeFlowData);
+            });
+
+            it("merge cumulative flow data for issues with no transitions", () => {
+                const issuesNoTransition = [issue6NoTransitions, issue6NoTransitions];
+                const combinedCumulativeFlow = [
+                    {
+                        id: "1",
+                        name: "Bug",
+                        data: extendTestDataToCurrentDate([            {
+                            "Closed": 0,
+                            "Gathering Impact": 0,
+                            "In Progress": 0,
+                            "In Review": 0,
+                            "Long Term Backlog": 0,
+                            "Needs Triage": 0,
+                            "Short Term Backlog": 0,
+                            "Waiting for Release": 0,
+                            "date": "2019-02-18"
+                        }])
+                    },{
+                        id:"6",
+                        name:"Sub-task",
+                        data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
+                    },{
+                        "id": "5",
+                        "name": "Support Request",
+                        data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
+                    },{
+                        id: "10000",
+                        name: "Suggestion",
+                        data: extendTestDataToCurrentDate(emptySuggestionCumulativeFlowDataFebMarch)
+                    }
+                ];
+                expect(mergeIssues(issuesNoTransition, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);
+            });
+
+            it("merge cumulative flow data for issues with only one transition", () => {
+                const issuesNoTransition = [issue6NoTransitions, issue7OneTransition];
+                const combinedCumulativeFlow = [
+                    {
+                        "data": extendTestDataToCurrentDate([{
+                            date: "2019-02-18",
+                            "Needs Triage": 0,
+                            "Gathering Impact": 0,
+                            "Long Term Backlog": 0,
+                            "Short Term Backlog": 0,
+                            "In Progress": 0,
+                            "In Review": 0,
+                            "Waiting for Release": 0,
+                            Closed: 0
+                        }]),
+                        "id": "1",
+                        "name": "Bug"
+                    },
+                    {
+                        id:"6",
+                        name:"Sub-task",
+                        data:extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
+                    },{
+                        "id": "5",
+                        "name": "Support Request",
+                        data:extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
+                    },
+                    {
+                        id: "10000",
+                        name: "Suggestion",
+                        data: extendTestDataToCurrentDate(issue7CumulativeFlowData.cumulativeFlow)
+                    }
+                ];
+                expect(mergeIssues(issuesNoTransition, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);
+            });
+
         });
 
     });
@@ -2898,7 +3062,7 @@ describe("DataAdapter", () =>{
                         "name": "Suggestion",
                         "subtask": false
                     },
-                    "resolutiondate": "2019-02-15T17:30:43.000+0000",//TODO: problem date
+                    "resolutiondate": "2019-02-15T17:30:43.000+0000",
                     "created": "2017-05-09T10:05:29.000+0000"
                 },
                 "changelog": {
@@ -2947,7 +3111,7 @@ describe("DataAdapter", () =>{
                         }
                     ]
                 }
-            }, //TODO: Problem Issue
+            },
             {
                 "id": "670902",
                 "key": "JRASERVER-64363",
@@ -4008,11 +4172,5 @@ describe("DataAdapter", () =>{
         it("ZMETRIC issues", () => {
             mergeIssues(zMetricIssues, zMetricWorkflow);
         });
-
-        //TODO: test data with empty pruneHistories //Issue with no status transitions
-
-        //TODO: test data with two empty data arrays for mergeCumulativeFlowData //first two issues have no status transitions
-        //all issues have no status tranistions / all are unfinished?
-
     });
 });
