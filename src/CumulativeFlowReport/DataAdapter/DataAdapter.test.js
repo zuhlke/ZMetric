@@ -460,7 +460,7 @@ describe("DataAdapter", () =>{
 
                 ]
             }
-        };
+        }; //TODO: reduce time range for issue 4 to reduce test data size
 
         const issue5Unresolved = {
             id: "1123413",
@@ -1852,7 +1852,7 @@ describe("DataAdapter", () =>{
                 "Waiting for Release": 0,
                 "date": "2019-03-26"
             }
-        ];
+        ]; //TODO: reduce time range for issue 4 to reduce test data size
 
         const emptySubTaskCumulativeFlowDataFebMarch = [
             {
@@ -2336,7 +2336,7 @@ describe("DataAdapter", () =>{
                 "Testing Notes": 0,
                 "date": "2019-03-26"
             }
-        ];
+        ]; //TODO: reduce time range for issue 4 to reduce test data size
 
         const emptySuggestionCumulativeFlowDataFebMarch = [
             {
@@ -2746,7 +2746,7 @@ describe("DataAdapter", () =>{
                 Resolved: 0,
                 "date": "2019-03-26"
             }
-        ];
+        ]; //TODO: reduce time range for issue 4 to reduce test data size
 
         describe("convertIssueChangelogToCumulativeFlow", () => { //TODO: Add test data for: issue that has no status transition, issue with no transitions at all, issue with only one status transition
             it("converts issue1 to cumulative flow for that issue", () => {
@@ -2783,10 +2783,6 @@ describe("DataAdapter", () =>{
         describe("mergeIssues", ()=> { //TODO: Add test data for: issue that has no status transition, issue with no transitions at all, issue with only one status transition
             it("converts bug and Suggestion issues to combined cumulative flow data", () => {
                 const combinedCumulativeFlowData = [{
-                    id: "1000",
-                    name: "Suggestion",
-                    data: issue1And2MergedCumulativeFlowData
-                },{
                     id: "1",
                     name: "Bug",
                     data: issue3CumulativeFlowData.cumulativeFlow
@@ -2798,6 +2794,10 @@ describe("DataAdapter", () =>{
                     "id": "5",
                     "name": "Support Request",
                     data:emptySubTaskCumulativeFlowData18thTo26th
+                },{
+                    id: "10000",
+                    name: "Suggestion",
+                    data: issue1And2MergedCumulativeFlowData
                 }
                 ];
                 expect(mergeIssues(issues, jiraServerWorkflow)).toEqual(combinedCumulativeFlowData);
@@ -2807,15 +2807,11 @@ describe("DataAdapter", () =>{
                 const issuesAtDifferentTimes = [issue3, issue4];
                 const combinedCumulativeFlow = [
                     {
-                        id: "1000",
-                        name: "Suggestion",
-                        data: emptySuggestionCumulativeFlowDataFebMarch
-                    },
-                    {
                         "data": issue3And4MergedCumulativeFlowData,
                         "id": "1",
                         "name": "Bug"
-                    },{
+                    },
+                    {
                         id:"6",
                         name:"Sub-task",
                         data:emptySubTaskCumulativeFlowDataFebMarch
@@ -2823,6 +2819,11 @@ describe("DataAdapter", () =>{
                         "id": "5",
                         "name": "Support Request",
                         data:emptySubTaskCumulativeFlowDataFebMarch
+                    },
+                    {
+                        id: "10000",
+                        name: "Suggestion",
+                        data: emptySuggestionCumulativeFlowDataFebMarch
                     }
                 ];
                 expect(mergeIssues(issuesAtDifferentTimes, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);
