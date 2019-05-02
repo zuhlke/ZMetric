@@ -1287,6 +1287,126 @@ describe("DataAdapter", () =>{
             },
         ];
 
+        const emptySubTaskCumulativeFlowData18thTo26th = [
+            {
+                date: "2019-02-18",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-19",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-20",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-21",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-22",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-23",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-24",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-25",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-26",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            }
+        ];
+
         const issue3And4MergedCumulativeFlowData = [
             {
                 "Closed": 0,
@@ -1734,6 +1854,900 @@ describe("DataAdapter", () =>{
             }
         ];
 
+        const emptySubTaskCumulativeFlowDataFebMarch = [
+            {
+                date: "2019-02-18",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-19",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-20",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-21",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-22",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-23",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-24",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-25",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                date: "2019-02-26",
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-02-27"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-02-28"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-01"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-02"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-03"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-04"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-05"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-06"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-07"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-08"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-09"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-10"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-11"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-12"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-13"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-14"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-15"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-16"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-17"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-18"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-19"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-20"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-21"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-22"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-23"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-24"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-25"
+            },
+            {
+                Open: 0,
+                "Needs Verification": 0,
+                "Awaiting Development": 0,
+                "In Progress": 0,
+                "Quality Review":0,
+                "Resolved": 0,
+                "Closed": 0,
+                "Awaiting Quality Review": 0,
+                "Awaiting Soak": 0,
+                "Testing Notes": 0,
+                "date": "2019-03-26"
+            }
+        ];
+
+        const emptySuggestionCumulativeFlowDataFebMarch = [
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-02-18"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-02-19"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-02-20"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-02-21"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-02-22"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-02-23"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-02-24"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-02-25"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-02-26"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-02-27"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-02-28"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-01"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-02"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-03"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-04"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-05"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-06"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-07"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-08"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-09"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-10"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-11"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-12"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-13"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-14"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-15"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-16"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-17"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-18"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-19"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-20"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-21"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-22"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-23"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-24"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-25"
+            },
+            {
+                "Gathering Interest": 0,
+                Reviewing: 0,
+                "Under Consideration": 0,
+                "Future Consideration": 0,
+                "Not Being Considered": 0,
+                "In Progress": 0,
+                "Waiting for Release": 0,
+                Resolved: 0,
+                "date": "2019-03-26"
+            }
+        ];
+
         describe("convertIssueChangelogToCumulativeFlow", () => { //TODO: Add test data for: issue that has no status transition, issue with no transitions at all, issue with only one status transition
             it("converts issue1 to cumulative flow for that issue", () => {
                 expect(convertIssueChangelogToCumulativeFlow(issue1, jiraServerWorkflow,"2019-02-18", "2019-02-26")).toEqual(issue1CumulativeFlowData);
@@ -1776,7 +2790,16 @@ describe("DataAdapter", () =>{
                     id: "1",
                     name: "Bug",
                     data: issue3CumulativeFlowData.cumulativeFlow
-                }];
+                },{
+                    id:"6",
+                    name:"Sub-task",
+                    data:emptySubTaskCumulativeFlowData18thTo26th
+                },{
+                    "id": "5",
+                    "name": "Support Request",
+                    data:emptySubTaskCumulativeFlowData18thTo26th
+                }
+                ];
                 expect(mergeIssues(issues, jiraServerWorkflow)).toEqual(combinedCumulativeFlowData);
             });
 
@@ -1784,9 +2807,22 @@ describe("DataAdapter", () =>{
                 const issuesAtDifferentTimes = [issue3, issue4];
                 const combinedCumulativeFlow = [
                     {
+                        id: "1000",
+                        name: "Suggestion",
+                        data: emptySuggestionCumulativeFlowDataFebMarch
+                    },
+                    {
                         "data": issue3And4MergedCumulativeFlowData,
                         "id": "1",
                         "name": "Bug"
+                    },{
+                        id:"6",
+                        name:"Sub-task",
+                        data:emptySubTaskCumulativeFlowDataFebMarch
+                    },{
+                        "id": "5",
+                        "name": "Support Request",
+                        data:emptySubTaskCumulativeFlowDataFebMarch
                     }
                 ];
                 expect(mergeIssues(issuesAtDifferentTimes, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);

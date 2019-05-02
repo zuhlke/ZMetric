@@ -153,7 +153,7 @@ function generateEmptyDataForUnusedIssueType(issueType, workflow, startDate, end
     const date = moment(startDate, 'YYYY-MM-DD');
     const end = moment(endDate, 'YYYY-MM-DD');
     while(date.isSameOrBefore(end)){
-        result.push(Object.assign({}, emptyEntry, {date: date.toISOString(true).split("T")[0]}))
+        result.push(Object.assign({}, emptyEntry, {date: dateString(date)}));
         date.add(1, 'days');
     }
     return result;
