@@ -52,10 +52,10 @@ export function convertIssueChangelogToCumulativeFlow(issue, workflow, startDate
         }
         issueType[0].statuses.forEach(status => entry[status.name] = 0);
         pruneHistories(issue).forEach(history => {
-            if(!(history.items[0].fromString in entry)){//TODO: change to has own property?
+            if(!(entry.hasOwnProperty(history.items[0].fromString))){
                 entry[history.items[0].fromString] = 0;
             }
-            if(!(history.items[0].toString in entry)){
+            if(!(entry.hasOwnProperty(history.items[0].toString))){
                 entry[history.items[0].toString] = 0;
             }
         });
@@ -121,23 +121,12 @@ export function mergeIssues(issues, workflow){
         return {
             id: entry[1].id,
             name: entry[0],
-            data: entry[1].data.length > 0 ? entry[1].data : generateEmptyDataForUnusedIssueType(entry[0], workflow, startDate, endDate) //TODO: all issueTypes must have matching start end dates?
+            data: entry[1].data.length > 0 ? entry[1].data : generateEmptyDataForUnusedIssueType(entry[0], workflow, startDate, endDate)
         };
     });
 }
 
-
-function createIssueTypeObjectFromIssues(issues){
-    const result = {};
-    issues.forEach(issue => {
-        if(!result.hasOwnProperty(issue.fields.issuetype.name)){
-            result[issue.fields.issuetype.name] = {data:[], id:issue.fields.issuetype.id}
-        }
-    });
-    return result;
-}
-
-function createIssueTypeObjectFromWorkflow(workflow){ //TODO: update test data to test this
+function createIssueTypeObjectFromWorkflow(workflow){
     const result = {};
     workflow.forEach(issueType =>{
         if(!result.hasOwnProperty(issueType.name)){
@@ -147,7 +136,7 @@ function createIssueTypeObjectFromWorkflow(workflow){ //TODO: update test data t
     return result;
 }
 
-function generateEmptyDataForUnusedIssueType(issueType, workflow, startDate, endDate){ //TODO: do this //Combine with case when merge issues returns []
+function generateEmptyDataForUnusedIssueType(issueType, workflow, startDate, endDate){
     const result = [];
     const emptyEntry = createEmptyEntry(issueType, workflow);
     const date = moment(startDate, 'YYYY-MM-DD');
