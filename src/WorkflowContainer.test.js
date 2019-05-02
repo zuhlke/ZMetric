@@ -78,7 +78,7 @@ describe("WorkFlowContainer", () => {
     const wrapper = mount(<WorkflowContainer workflow={workflow} project={"ZMetric"}/>);
     const statusButton = wrapper.find('#status-button-3').hostNodes();
     statusButton.simulate('click');
-    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status:  In Progress");
+    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status: In Progress");
   });
 
   it("sets end status when a second status is clicked", () => {
@@ -86,18 +86,18 @@ describe("WorkFlowContainer", () => {
     const statusButton = wrapper.find('#status-button-10100').hostNodes();
     const secondStatusButton = wrapper.find('#status-button-11803').hostNodes();
     statusButton.simulate('click');
-    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status:  To Do");
+    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status: To Do");
     secondStatusButton.simulate('click');
-    expect(wrapper.find("#end-status").hostNodes().text()).toBe("End status:  Done");
+    expect(wrapper.find("#end-status").hostNodes().text()).toBe("End status: Done");
   });
 
   it("clears the start status when a status is clicked twice", () => {
     const wrapper = mount(<WorkflowContainer workflow={workflow} project={"ZMetric"}/>);
     const statusButton = wrapper.find('#status-button-3').hostNodes();
     statusButton.simulate('click');
-    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status:  In Progress");
+    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status: In Progress");
     statusButton.simulate('click');
-    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status:  ");
+    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status: ");
   });
 
   it("clears the end status when a status is clicked twice", () => {
@@ -105,11 +105,11 @@ describe("WorkFlowContainer", () => {
     const statusButton = wrapper.find('#status-button-3').hostNodes();
     const secondStatusButton = wrapper.find('#status-button-11803').hostNodes();
     statusButton.simulate('click');
-    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status:  In Progress");
+    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status: In Progress");
     secondStatusButton.simulate('click');
-    expect(wrapper.find("#end-status").hostNodes().text()).toBe("End status:  Done");
+    expect(wrapper.find("#end-status").hostNodes().text()).toBe("End status: Done");
     secondStatusButton.simulate('click');
-    expect(wrapper.find("#end-status").hostNodes().text()).toBe("End status:  ");
+    expect(wrapper.find("#end-status").hostNodes().text()).toBe("End status: ");
   });
 
   it("changes the start status when one button is clicked twice and then a second is clicked once", () => {
@@ -117,12 +117,12 @@ describe("WorkFlowContainer", () => {
     const statusButton = wrapper.find('#status-button-3').hostNodes();
     const secondStatusButton = wrapper.find('#status-button-10804').hostNodes();
     statusButton.simulate('click');
-    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status:  In Progress");
+    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status: In Progress");
     statusButton.simulate('click');
-    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status:  ");
+    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status: ");
     secondStatusButton.simulate('click');
-    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status:  On Hold");
-    expect(wrapper.find("#end-status").hostNodes().text()).toBe("End status:  ");
+    expect(wrapper.find("#start-status").hostNodes().text()).toBe("Start status: On Hold");
+    expect(wrapper.find("#end-status").hostNodes().text()).toBe("End status: ");
   });
 
   it("updates the issue type correctly when an issue type button is clicked", () => {
