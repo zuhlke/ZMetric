@@ -555,67 +555,6 @@ describe("DataAdapter", () =>{
             }
         };
 
-        const issue7CumulativeFlowData = {
-            id: "1123412",
-            key: "JRASERVER-68895",
-            fields:
-                {
-                    issuetype:{
-                        id: "1000",
-                        name: "Suggestion",
-                        subtask: false
-                    },
-                    resolutiondate: "2019-02-21T02:27:28.000+0000",
-                    created: "2019-02-18T23:52:36.000+0000"
-                },
-            cumulativeFlow: [
-                {
-                    date: "2019-02-18",
-                    "Gathering Interest": 0,
-                    Reviewing: 0,
-                    "Under Consideration": 0,
-                    "Future Consideration": 0,
-                    "Not Being Considered": 0,
-                    "In Progress": 1,
-                    "Waiting for Release": 0,
-                    Resolved: 0
-                },
-                {
-                    date: "2019-02-19",
-                    "Gathering Interest": 0,
-                    Reviewing: 0,
-                    "Under Consideration": 0,
-                    "Future Consideration": 0,
-                    "Not Being Considered": 0,
-                    "In Progress": 1,
-                    "Waiting for Release": 0,
-                    Resolved: 0
-                },
-                {
-                    date: "2019-02-20",
-                    "Gathering Interest": 0,
-                    Reviewing: 0,
-                    "Under Consideration": 0,
-                    "Future Consideration": 0,
-                    "Not Being Considered": 0,
-                    "In Progress": 1,
-                    "Waiting for Release": 0,
-                    Resolved: 0
-                },
-                {
-                    date: "2019-02-21",
-                    "Gathering Interest": 0,
-                    Reviewing: 0,
-                    "Under Consideration": 0,
-                    "Future Consideration": 0,
-                    "Not Being Considered": 0,
-                    "In Progress": 0,
-                    "Waiting for Release": 0,
-                    Resolved: 1
-                }
-            ]
-        };
-
         const issues = [issue1, issue2, issue3WorkflowChange];
 
         const issue1CumulativeFlowData = {
@@ -1091,6 +1030,67 @@ describe("DataAdapter", () =>{
             ]
         };
 
+        const issue7CumulativeFlowData = {
+        id: "1123412",
+        key: "JRASERVER-68895",
+        fields:
+          {
+            issuetype:{
+              id: "1000",
+              name: "Suggestion",
+              subtask: false
+            },
+            resolutiondate: "2019-02-21T02:27:28.000+0000",
+            created: "2019-02-18T23:52:36.000+0000"
+          },
+        cumulativeFlow: [
+          {
+            date: "2019-02-18",
+            "Gathering Interest": 0,
+            Reviewing: 0,
+            "Under Consideration": 0,
+            "Future Consideration": 0,
+            "Not Being Considered": 0,
+            "In Progress": 1,
+            "Waiting for Release": 0,
+            Resolved: 0
+          },
+          {
+            date: "2019-02-19",
+            "Gathering Interest": 0,
+            Reviewing: 0,
+            "Under Consideration": 0,
+            "Future Consideration": 0,
+            "Not Being Considered": 0,
+            "In Progress": 1,
+            "Waiting for Release": 0,
+            Resolved: 0
+          },
+          {
+            date: "2019-02-20",
+            "Gathering Interest": 0,
+            Reviewing: 0,
+            "Under Consideration": 0,
+            "Future Consideration": 0,
+            "Not Being Considered": 0,
+            "In Progress": 1,
+            "Waiting for Release": 0,
+            Resolved: 0
+          },
+          {
+            date: "2019-02-21",
+            "Gathering Interest": 0,
+            Reviewing: 0,
+            "Under Consideration": 0,
+            "Future Consideration": 0,
+            "Not Being Considered": 0,
+            "In Progress": 0,
+            "Waiting for Release": 0,
+            Resolved: 1
+          }
+        ]
+      };
+
         const issue1And2MergedCumulativeFlowData = [
             {
                 date: "2019-02-18",
@@ -1395,630 +1395,278 @@ describe("DataAdapter", () =>{
             },
         ];
 
-        const emptySubTaskCumulativeFlowData18thTo26th = [
-            {
-                date: "2019-02-18",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-19",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-20",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-21",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-22",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-23",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-24",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-25",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-26",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            }
-        ];
-
         const issue3And4MergedCumulativeFlowData = [
-            {
-                "Closed": 0,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 1,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-02-18"
-            },
-            {
-                "Closed": 0,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 1,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-02-19"
-            },
-            {
-                "Closed": 0,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 1,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-02-20"
-            },
-            {
-                "Closed": 0,
-                "Gathering Impact": 0,
-                "In Progress": 1,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-02-21"
-            },
-            {
-                "Closed": 0,
-                "Gathering Impact": 0,
-                "In Progress": 1,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-02-22"
-            },
-            {
-                "Closed": 0,
-                "Gathering Impact": 0,
-                "In Progress": 1,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-02-23"
-            },
-            {
-                "Closed": 0,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 1,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-02-24"
-            },
-            {
-                "Closed": 0,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 1,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-02-25"
-            },
-            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-02-26"
-            },
-            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-02-27"
-            },
-            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-02-28"
-            },            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 1,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-03-01"
-            },
-            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 1,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-03-02"
-            },
-            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 1,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-03-03"
-            },
-            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 1,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-03-04"
-            },
-            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 1,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-03-05"
-            },
-            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 1,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-03-06"
-            },
-            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 1,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-03-07"
-            },
-            {
-                "Closed": 1,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 1,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-03-08"
-            },
-            {
-                "Closed": 2,
-                "Gathering Impact": 0,
-                "In Progress": 0,
-                "In Review": 0,
-                "Long Term Backlog": 0,
-                "Needs Triage": 0,
-                "Resolved": 0,
-                "Short Term Backlog": 0,
-                "Waiting for Release": 0,
-                "date": "2019-03-09"
-            }];
+        {
+          "Closed": 0,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 1,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-02-18"
+        },
+        {
+          "Closed": 0,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 1,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-02-19"
+        },
+        {
+          "Closed": 0,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 1,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-02-20"
+        },
+        {
+          "Closed": 0,
+          "Gathering Impact": 0,
+          "In Progress": 1,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-02-21"
+        },
+        {
+          "Closed": 0,
+          "Gathering Impact": 0,
+          "In Progress": 1,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-02-22"
+        },
+        {
+          "Closed": 0,
+          "Gathering Impact": 0,
+          "In Progress": 1,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-02-23"
+        },
+        {
+          "Closed": 0,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 1,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-02-24"
+        },
+        {
+          "Closed": 0,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 1,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-02-25"
+        },
+        {
+          "Closed": 1,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-02-26"
+        },
+        {
+          "Closed": 1,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-02-27"
+        },
+        {
+          "Closed": 1,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-02-28"
+        },            {
+          "Closed": 1,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 1,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-03-01"
+        },
+        {
+          "Closed": 1,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 1,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-03-02"
+        },
+        {
+          "Closed": 1,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 1,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-03-03"
+        },
+        {
+          "Closed": 1,
+          "Gathering Impact": 0,
+          "In Progress": 1,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-03-04"
+        },
+        {
+          "Closed": 1,
+          "Gathering Impact": 0,
+          "In Progress": 1,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-03-05"
+        },
+        {
+          "Closed": 1,
+          "Gathering Impact": 0,
+          "In Progress": 1,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-03-06"
+        },
+        {
+          "Closed": 1,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 1,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-03-07"
+        },
+        {
+          "Closed": 1,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 1,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-03-08"
+        },
+        {
+          "Closed": 2,
+          "Gathering Impact": 0,
+          "In Progress": 0,
+          "In Review": 0,
+          "Long Term Backlog": 0,
+          "Needs Triage": 0,
+          "Resolved": 0,
+          "Short Term Backlog": 0,
+          "Waiting for Release": 0,
+          "date": "2019-03-09"
+        }];
 
-        const emptySubTaskCumulativeFlowDataFebMarch = [
-            {
-                date: "2019-02-18",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-19",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-20",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-21",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-22",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-23",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-24",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-25",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                date: "2019-02-26",
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0
-            },
-            {
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0,
-                "date": "2019-02-27"
-            },
-            {
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0,
-                "date": "2019-02-28"
-            },
-            {
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0,
-                "date": "2019-03-01"
-            },
-            {
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0,
-                "date": "2019-03-02"
-            },
-            {
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0,
-                "date": "2019-03-03"
-            },
-            {
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0,
-                "date": "2019-03-04"
-            },
-            {
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0,
-                "date": "2019-03-05"
-            },
-            {
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0,
-                "date": "2019-03-06"
-            },
-            {
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0,
-                "date": "2019-03-07"
-            },
-            {
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0,
-                "date": "2019-03-08"
-            },
-            {
-                Open: 0,
-                "Needs Verification": 0,
-                "Awaiting Development": 0,
-                "In Progress": 0,
-                "Quality Review":0,
-                "Resolved": 0,
-                "Closed": 0,
-                "Awaiting Quality Review": 0,
-                "Awaiting Soak": 0,
-                "Testing Notes": 0,
-                "date": "2019-03-09"
-            }];
+        const emptySubTaskCumulativeFlowData18thTo26th = extendTestDataToDate([
+          {
+            date: "2019-02-18",
+            Open: 0,
+            "Needs Verification": 0,
+            "Awaiting Development": 0,
+            "In Progress": 0,
+            "Quality Review":0,
+            "Resolved": 0,
+            "Closed": 0,
+            "Awaiting Quality Review": 0,
+            "Awaiting Soak": 0,
+            "Testing Notes": 0
+          }], "2019-02-26");
 
-        const emptySuggestionCumulativeFlowDataFebMarch = [
+        const emptySubTaskCumulativeFlowDataFebMarch = extendTestDataToDate([
+          {
+            date: "2019-02-18",
+            Open: 0,
+            "Needs Verification": 0,
+            "Awaiting Development": 0,
+            "In Progress": 0,
+            "Quality Review":0,
+            "Resolved": 0,
+            "Closed": 0,
+            "Awaiting Quality Review": 0,
+            "Awaiting Soak": 0,
+            "Testing Notes": 0
+          }], "2019-03-09");
+
+        const emptySuggestionCumulativeFlowDataFebMarch = extendTestDataToDate([
             {
                 "Gathering Interest": 0,
                 Reviewing: 0,
@@ -2029,218 +1677,21 @@ describe("DataAdapter", () =>{
                 "Waiting for Release": 0,
                 Resolved: 0,
                 "date": "2019-02-18"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-02-19"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-02-20"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-02-21"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-02-22"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-02-23"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-02-24"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-02-25"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-02-26"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-02-27"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-02-28"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-03-01"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-03-02"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-03-03"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-03-04"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-03-05"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-03-06"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-03-07"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-03-08"
-            },
-            {
-                "Gathering Interest": 0,
-                Reviewing: 0,
-                "Under Consideration": 0,
-                "Future Consideration": 0,
-                "Not Being Considered": 0,
-                "In Progress": 0,
-                "Waiting for Release": 0,
-                Resolved: 0,
-                "date": "2019-03-09"
-            }];
+            }], "2019-03-09");
 
-        const extendTestDataToDate = (cumulativeFlowData, date) => {
+        const emptyBugDataUntilCurrentDate = extendTestDataToCurrentDate([{
+        "Closed": 0,
+        "Gathering Impact": 0,
+        "In Progress": 0,
+        "In Review": 0,
+        "Long Term Backlog": 0,
+        "Needs Triage": 0,
+        "Short Term Backlog": 0,
+        "Waiting for Release": 0,
+        "date": "2019-02-18"
+      }]);
+
+        function extendTestDataToDate(cumulativeFlowData, date) {
             const cumulativeFlowCopy = [...cumulativeFlowData];
             const dateCounter = moment(cumulativeFlowData[cumulativeFlowData.length-1].date, 'YYYY-MM-DD');
             const endDate = moment(date, 'YYYY-MM-DD');
@@ -2249,11 +1700,33 @@ describe("DataAdapter", () =>{
                 cumulativeFlowCopy.push(Object.assign({}, cumulativeFlowData[cumulativeFlowData.length-1], {date:dateCounter.toISOString(true).split("T")[0]}));
             }
             return cumulativeFlowCopy
-        };
+        }
 
-        const extendTestDataToCurrentDate = (cumulativeFlowData) => {
+        function extendTestDataToCurrentDate(cumulativeFlowData) {
             return extendTestDataToDate(cumulativeFlowData,moment().format('YYYY-MM-DD'));
-        };
+        }
+
+        function cumulativeFlowTestData(bugData, subTaskData, SupportRequestData, SuggestionData){
+        return [
+          {
+            id: "1",
+            name: "Bug",
+            data: bugData
+          },{
+            id:"6",
+            name:"Sub-task",
+            data:subTaskData
+          },{
+            "id": "5",
+            "name": "Support Request",
+            data:SupportRequestData
+          },{
+            id: "10000",
+            name: "Suggestion",
+            data: SuggestionData
+          }
+        ];
+      }
 
         describe("convertIssueChangelogToCumulativeFlow", () => {
             it("converts issue1 to cumulative flow for that issue", () => {
@@ -2288,44 +1761,9 @@ describe("DataAdapter", () =>{
         });
 
         describe("mergeIssues", ()=> {
-            const issues1To3combinedCumulativeFlowData = [
-                {
-                id: "1",
-                name: "Bug",
-                data: issue3CumulativeFlowData.cumulativeFlow
-            },{
-                id:"6",
-                name:"Sub-task",
-                data:emptySubTaskCumulativeFlowData18thTo26th
-            },{
-                "id": "5",
-                "name": "Support Request",
-                data:emptySubTaskCumulativeFlowData18thTo26th
-            },{
-                id: "10000",
-                name: "Suggestion",
-                data: issue1And2MergedCumulativeFlowData
-            }
-            ];
-            const issues1to5combinedCumulativeFlowData = [
-                {
-                    id: "1",
-                    name: "Bug",
-                    data: extendTestDataToCurrentDate(issue3And4MergedCumulativeFlowData)
-                },{
-                    id:"6",
-                    name:"Sub-task",
-                    data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
-                },{
-                    "id": "5",
-                    "name": "Support Request",
-                    data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
-                },{
-                    id: "10000",
-                    name: "Suggestion",
-                    data: extendTestDataToCurrentDate(issue1And2And5MergedCumulativeFlowData)
-                }
-            ];
+            const issues1To3combinedCumulativeFlowData = cumulativeFlowTestData(issue3CumulativeFlowData.cumulativeFlow, emptySubTaskCumulativeFlowData18thTo26th, emptySubTaskCumulativeFlowData18thTo26th, issue1And2MergedCumulativeFlowData);
+            const data1To5 = [issue3And4MergedCumulativeFlowData, emptySubTaskCumulativeFlowDataFebMarch, emptySubTaskCumulativeFlowDataFebMarch, issue1And2And5MergedCumulativeFlowData].map(data => extendTestDataToCurrentDate(data));
+            const issues1to5combinedCumulativeFlowData = cumulativeFlowTestData(...data1To5);
             const issues1To5 = [issue1, issue2, issue3WorkflowChange, issue4, issue5Unresolved];
             it("converts bug and Suggestion issues to combined cumulative flow data", () => {
                 expect(mergeIssues(issues, jiraServerWorkflow)).toEqual(issues1To3combinedCumulativeFlowData);
@@ -2341,27 +1779,7 @@ describe("DataAdapter", () =>{
 
             it("merge cumulative flow data for issues with non-overlapping date ranges", () => {
                 const issuesAtDifferentTimes = [issue3WorkflowChange, issue4];
-                const combinedCumulativeFlow = [
-                    {
-                        "data": issue3And4MergedCumulativeFlowData,
-                        "id": "1",
-                        "name": "Bug"
-                    },
-                    {
-                        id:"6",
-                        name:"Sub-task",
-                        data:emptySubTaskCumulativeFlowDataFebMarch
-                    },{
-                        "id": "5",
-                        "name": "Support Request",
-                        data:emptySubTaskCumulativeFlowDataFebMarch
-                    },
-                    {
-                        id: "10000",
-                        name: "Suggestion",
-                        data: emptySuggestionCumulativeFlowDataFebMarch
-                    }
-                ];
+                const combinedCumulativeFlow = cumulativeFlowTestData(issue3And4MergedCumulativeFlowData, emptySubTaskCumulativeFlowDataFebMarch, emptySubTaskCumulativeFlowDataFebMarch, emptySuggestionCumulativeFlowDataFebMarch);
                 expect(mergeIssues(issuesAtDifferentTimes, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);
             });
 
@@ -2376,71 +1794,13 @@ describe("DataAdapter", () =>{
 
             it("merge cumulative flow data for issues with no transitions", () => {
                 const issuesNoTransition = [issue6NoTransitions, issue6NoTransitions];
-                const combinedCumulativeFlow = [
-                    {
-                        id: "1",
-                        name: "Bug",
-                        data: extendTestDataToCurrentDate([            {
-                            "Closed": 0,
-                            "Gathering Impact": 0,
-                            "In Progress": 0,
-                            "In Review": 0,
-                            "Long Term Backlog": 0,
-                            "Needs Triage": 0,
-                            "Short Term Backlog": 0,
-                            "Waiting for Release": 0,
-                            "date": "2019-02-18"
-                        }])
-                    },{
-                        id:"6",
-                        name:"Sub-task",
-                        data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
-                    },{
-                        "id": "5",
-                        "name": "Support Request",
-                        data: extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
-                    },{
-                        id: "10000",
-                        name: "Suggestion",
-                        data: extendTestDataToCurrentDate(emptySuggestionCumulativeFlowDataFebMarch)
-                    }
-                ];
+                const combinedCumulativeFlow = cumulativeFlowTestData(emptyBugDataUntilCurrentDate, extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch), extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch), extendTestDataToCurrentDate(emptySuggestionCumulativeFlowDataFebMarch));
                 expect(mergeIssues(issuesNoTransition, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);
             });
 
             it("merge cumulative flow data for issues with only one transition", () => {
                 const issuesNoTransition = [issue6NoTransitions, issue7OneTransition];
-                const combinedCumulativeFlow = [
-                    {
-                        "data": extendTestDataToCurrentDate([{
-                            date: "2019-02-18",
-                            "Needs Triage": 0,
-                            "Gathering Impact": 0,
-                            "Long Term Backlog": 0,
-                            "Short Term Backlog": 0,
-                            "In Progress": 0,
-                            "In Review": 0,
-                            "Waiting for Release": 0,
-                            Closed: 0
-                        }]),
-                        "id": "1",
-                        "name": "Bug"
-                    },
-                    {
-                        id:"6",
-                        name:"Sub-task",
-                        data:extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
-                    },{
-                        "id": "5",
-                        "name": "Support Request",
-                        data:extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch)
-                    },
-                    {
-                        id: "10000",
-                        name: "Suggestion",
-                        data: extendTestDataToCurrentDate(issue7CumulativeFlowData.cumulativeFlow)
-                    }
-                ];
+                const combinedCumulativeFlow = cumulativeFlowTestData(emptyBugDataUntilCurrentDate, extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch), extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch), extendTestDataToCurrentDate(issue7CumulativeFlowData.cumulativeFlow));
                 expect(mergeIssues(issuesNoTransition, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);
             });
 

@@ -1,7 +1,57 @@
 import moment from "moment";
 
-function dateString(date){
-    return date.toISOString(true).split("T")[0];
+export function mergeIssues(issues, workflow){
+  const startDate = issues.map(issue => moment(issue.fields.created, 'YYYY-MM-DD')).sort((a, b) => a - b)[0];
+  const endDate = issues.map(issue => issue.fields.resolutiondate ? moment(issue.fields.resolutiondate, 'YYYY-MM-DD') : moment()).sort((a, b) => b - a)[0];
+  const convertedIssues = issues.map(issue => convertIssueChangelogToCumulativeFlow(issue, workflow, startDate, endDate));
+  const objResult = createIssueTypeObjectFromWorkflow(workflow);
+  convertedIssues.forEach(issue => {
+    if(objResult[issue.fields.issuetype.name].data && objResult[issue.fields.issuetype.name].data.length > 0){
+      objResult[issue.fields.issuetype.name].data = mergeCumulativeFlowData(objResult[issue.fields.issuetype.name].data, issue.cumulativeFlow);
+    }
+    else{
+      objResult[issue.fields.issuetype.name].data = issue.cumulativeFlow;
+    }
+  });
+  return Object.entries(objResult).map(entry => {
+    return {
+      id: entry[1].id,
+      name: entry[0],
+      data: entry[1].data.length > 0 ? entry[1].data : generateEmptyDataForUnusedIssueType(entry[0], workflow, startDate, endDate)
+    };
+  });
+
+  function createIssueTypeObjectFromWorkflow(workflow){
+    const result = {};
+    workflow.forEach(issueType =>{
+      if(!result.hasOwnProperty(issueType.name)){
+        result[issueType.name] = {data:[], id:issueType.id}
+      }
+    });
+    return result;
+  }
+
+  function generateEmptyDataForUnusedIssueType(issueType, workflow, startDate, endDate){
+    const result = [];
+    const emptyEntry = createEmptyEntry(issueType, workflow);
+    const date = moment(startDate, 'YYYY-MM-DD');
+    const end = moment(endDate, 'YYYY-MM-DD');
+    while(date.isSameOrBefore(end)){
+      result.push(Object.assign({}, emptyEntry, {date: dateString(date)}));
+      date.add(1, 'days');
+    }
+    return result;
+
+    function createEmptyEntry(issueTypeName, workflow) {
+      const entry = {};
+      const issueType = workflow.filter(issueType => issueType.name === issueTypeName);
+      if(!issueType || issueType.length === 0){
+        throw new Error("issue type" + issueTypeName + " encountered that is not present in the valid issueType values for the project (provided by the 'GET /rest/api/2/project/{projectIdOrKey}/statuses' endpoint)")
+      }
+      issueType[0].statuses.forEach(status => entry[status.name] = 0);
+      return entry;
+    }
+  }
 }
 
 export function convertIssueChangelogToCumulativeFlow(issue, workflow, startDate, endDate) {
@@ -103,57 +153,8 @@ export function mergeCumulativeFlowData(data1, data2) {
     }
 }
 
-
-export function mergeIssues(issues, workflow){
-    const startDate = issues.map(issue => moment(issue.fields.created, 'YYYY-MM-DD')).sort((a, b) => a - b)[0];
-    const endDate = issues.map(issue => issue.fields.resolutiondate ? moment(issue.fields.resolutiondate, 'YYYY-MM-DD') : moment()).sort((a, b) => b - a)[0];
-    const convertedIssues = issues.map(issue => convertIssueChangelogToCumulativeFlow(issue, workflow, startDate, endDate));
-    const objResult = createIssueTypeObjectFromWorkflow(workflow);
-    convertedIssues.forEach(issue => {
-        if(objResult[issue.fields.issuetype.name].data && objResult[issue.fields.issuetype.name].data.length > 0){
-            objResult[issue.fields.issuetype.name].data = mergeCumulativeFlowData(objResult[issue.fields.issuetype.name].data, issue.cumulativeFlow);
-        }
-        else{
-            objResult[issue.fields.issuetype.name].data = issue.cumulativeFlow;
-        }
-    });
-    return Object.entries(objResult).map(entry => {
-        return {
-            id: entry[1].id,
-            name: entry[0],
-            data: entry[1].data.length > 0 ? entry[1].data : generateEmptyDataForUnusedIssueType(entry[0], workflow, startDate, endDate)
-        };
-    });
+function dateString(date){
+  return date.toISOString(true).split("T")[0];
 }
 
-function createIssueTypeObjectFromWorkflow(workflow){
-    const result = {};
-    workflow.forEach(issueType =>{
-        if(!result.hasOwnProperty(issueType.name)){
-            result[issueType.name] = {data:[], id:issueType.id}
-        }
-    });
-    return result;
-}
 
-function generateEmptyDataForUnusedIssueType(issueType, workflow, startDate, endDate){
-    const result = [];
-    const emptyEntry = createEmptyEntry(issueType, workflow);
-    const date = moment(startDate, 'YYYY-MM-DD');
-    const end = moment(endDate, 'YYYY-MM-DD');
-    while(date.isSameOrBefore(end)){
-        result.push(Object.assign({}, emptyEntry, {date: dateString(date)}));
-        date.add(1, 'days');
-    }
-    return result;
-
-    function createEmptyEntry(issueTypeName, workflow) {
-        const entry = {};
-        const issueType = workflow.filter(issueType => issueType.name === issueTypeName);
-        if(!issueType || issueType.length === 0){
-            throw new Error("issue type" + issueTypeName + " encountered that is not present in the valid issueType values for the project (provided by the 'GET /rest/api/2/project/{projectIdOrKey}/statuses' endpoint)")
-        }
-        issueType[0].statuses.forEach(status => entry[status.name] = 0);
-        return entry;
-    }
-}
