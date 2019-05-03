@@ -3,7 +3,7 @@ import './Dashboard.css';
 import {LeadTimeLineChart} from "../LeadTimeLineChart";
 import {ThroughputReport} from "../ThroughputReport/ThroughputReport";
 import {WorkflowContainer} from "../WorkflowContainer"
-import {Label, Segment} from "semantic-ui-react";
+import {Dimmer, Label, Loader, Segment} from "semantic-ui-react";
 import {CumulativeFlowReport} from "../CumulativeFlowReport/CumulativeFlowReport";
 import {convertFromJiraToLeadtime} from "../CycleTimeReport/DataAdapter";
 import {convertFromJiraToThroughput} from "../ThroughputReport/ThroughputDataAdapter";
@@ -11,10 +11,17 @@ import {convertFromJiraToThroughput} from "../ThroughputReport/ThroughputDataAda
 import axios from "axios";
 import {mergeIssues} from "../CumulativeFlowReport/DataAdapter/DataAdapter";
 
+const Phases = {
+  INIT: 'Init',
+  LOADING: 'Loading',
+  READY: 'Ready',
+  FAILED: 'Failed'
+};
 
 export default function Dashboard(props) {
   const {name, value} = props.session;
   const {jiraUrl, project} = props;
+  const [phase, setPhases] = useState(Phases.INIT);
   const [workflow, setWorkflow] = useState(undefined);
   const [leadCycleTimeData, setLeadCycleTimeData] = useState(undefined);
   const [throughput, setThroughput] = useState(undefined);
@@ -22,10 +29,12 @@ export default function Dashboard(props) {
 
   const instance = axios.create({baseURL: jiraUrl, headers: {cookie: `${name}=${value}`}});
   useEffect(() => {
+    setPhases(Phases.LOADING);
     axios
       .all([instance.get(`rest/api/2/search?maxResults=10000&expand=changelog&fields=resolutiondate,created,issuetype&jql=project=${project}`),
         instance.get(`/rest/api/2/project/${project}/statuses`)])
       .then(axios.spread((issueResponse, workflowResponse) => {
+        setPhases(Phases.READY);
           setLeadCycleTimeData(convertFromJiraToLeadtime(issueResponse.data));
           setWorkflow(workflowResponse.data);
           setThroughput(convertFromJiraToThroughput(issueResponse.data));
@@ -36,6 +45,9 @@ export default function Dashboard(props) {
 
   return (
     <div>
+      <Dimmer active={phase===Phases.LOADING}>
+        <Loader content={`Generating reports for ${project}`}/>
+      </Dimmer>
       <Segment.Group raised id={"main-segment"}>
         <Segment stacked>
           <Label size={'large'} color='red' ribbon>
