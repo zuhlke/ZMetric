@@ -175,6 +175,194 @@ describe("DataAdapter", () =>{
             ]
         }
     ];
+    const zMetricWorkflow = [
+    {
+      "id": "1",
+      "name": "Bug",
+      "subtask": false,
+      "statuses": [
+        {
+          "name": "To Do",
+          "id": "10100"
+        },
+        {
+          "name": "In Progress",
+          "id": "3"
+        },
+        {
+          "name": "Review",
+          "id": "10202"
+        },
+        {
+          "name": "Done",
+          "id": "11803"
+        },
+        {
+          "name": "On Hold",
+          "id": "10804"
+        },
+        {
+          "name": "Ready For Test",
+          "id": "11903"
+        }
+      ]
+    },
+    {
+      "id": "10000",
+      "name": "Epic",
+      "subtask": false,
+      "statuses": [
+        {
+          "name": "To Do",
+          "id": "10100"
+        },
+        {
+          "name": "In Progress",
+          "id": "3"
+        },
+        {
+          "name": "Review",
+          "id": "10202"
+        },
+        {
+          "name": "Done",
+          "id": "11803"
+        },
+        {
+          "name": "On Hold",
+          "id": "10804"
+        },
+        {
+          "name": "Ready For Test",
+          "id": "11903"
+        }
+      ]
+    },
+    {
+      "id": "11201",
+      "name": "Spike",
+      "subtask": false,
+      "statuses": [
+        {
+          "name": "To Do",
+          "id": "10100"
+        },
+        {
+          "name": "In Progress",
+          "id": "3"
+        },
+        {
+          "name": "Review",
+          "id": "10202"
+        },
+        {
+          "name": "Done",
+          "id": "11803"
+        },
+        {
+          "name": "On Hold",
+          "id": "10804"
+        },
+        {
+          "name": "Ready For Test",
+          "id": "11903"
+        }
+      ]
+    },
+    {
+      "id": "10001",
+      "name": "Story",
+      "subtask": false,
+      "statuses": [
+        {
+          "name": "To Do",
+          "id": "10100"
+        },
+        {
+          "name": "In Progress",
+          "id": "3"
+        },
+        {
+          "name": "Review",
+          "id": "10202"
+        },
+        {
+          "name": "Done",
+          "id": "11803"
+        },
+        {
+          "name": "On Hold",
+          "id": "10804"
+        },
+        {
+          "name": "Ready For Test",
+          "id": "11903"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Sub-task",
+      "subtask": true,
+      "statuses": [
+        {
+          "name": "To Do",
+          "id": "10100"
+        },
+        {
+          "name": "In Progress",
+          "id": "3"
+        },
+        {
+          "name": "Review",
+          "id": "10202"
+        },
+        {
+          "name": "Done",
+          "id": "11803"
+        },
+        {
+          "name": "On Hold",
+          "id": "10804"
+        },
+        {
+          "name": "Ready For Test",
+          "id": "11903"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Task",
+      "subtask": false,
+      "statuses": [
+        {
+          "name": "To Do",
+          "id": "10100"
+        },
+        {
+          "name": "In Progress",
+          "id": "3"
+        },
+        {
+          "name": "Review",
+          "id": "10202"
+        },
+        {
+          "name": "Done",
+          "id": "11803"
+        },
+        {
+          "name": "On Hold",
+          "id": "10804"
+        },
+        {
+          "name": "Ready For Test",
+          "id": "11903"
+        }
+      ]
+    }
+  ];
 
     describe("converts issues to cumulative flow data", () => {
         const issue1 = {
@@ -1758,6 +1946,26 @@ describe("DataAdapter", () =>{
             it("merges cumulative flow data for three issues where one is unresolved", () => {
                 expect(mergeCumulativeFlowData(mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow, issue1CumulativeFlowData.cumulativeFlow),issue5CumulativeFlowData.cumulativeFlow)).toEqual(issue1And2And5MergedCumulativeFlowData);
             });
+
+            it("merge cumulative flow data where first array is empty", () => {
+                expect(mergeCumulativeFlowData([], issue1CumulativeFlowData.cumulativeFlow)).toEqual(issue1CumulativeFlowData.cumulativeFlow);
+            });
+
+            it("merge cumulative flow data where second array is empty", () => {
+                expect(mergeCumulativeFlowData(issue1CumulativeFlowData.cumulativeFlow, [])).toEqual(issue1CumulativeFlowData.cumulativeFlow);
+            });
+
+            it("merging cumulative flow arrays of different length throws an exception", () => {
+              expect(() => {
+                mergeCumulativeFlowData(issue2CumulativeFlowData.cumulativeFlow.slice(1,4), issue1CumulativeFlowData.cumulativeFlow)}).toThrow()
+            });
+
+            it("merging cumulative flow data with undefined values throws an exception", () => {
+              expect(() => {
+                mergeCumulativeFlowData([undefined, ...issue2CumulativeFlowData.cumulativeFlow.slice(-1)], issue1CumulativeFlowData.cumulativeFlow)
+              }).toThrow()
+            });
+
         });
 
         describe("mergeIssues", ()=> {
@@ -1802,6 +2010,10 @@ describe("DataAdapter", () =>{
                 const issuesNoTransition = [issue6NoTransitions, issue7OneTransition];
                 const combinedCumulativeFlow = cumulativeFlowTestData(emptyBugDataUntilCurrentDate, extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch), extendTestDataToCurrentDate(emptySubTaskCumulativeFlowDataFebMarch), extendTestDataToCurrentDate(issue7CumulativeFlowData.cumulativeFlow));
                 expect(mergeIssues(issuesNoTransition, jiraServerWorkflow)).toEqual(combinedCumulativeFlow);
+            });
+
+            it("merging issues which have an issue type not represented in the workflow will throw an error", () => {
+                expect(() => {mergeIssues(issues, zMetricWorkflow)}).toThrow()
             });
 
         });
@@ -3339,194 +3551,6 @@ describe("DataAdapter", () =>{
                         }
                     ]
                 }
-            }
-        ];
-        const zMetricWorkflow = [
-            {
-                "id": "1",
-                "name": "Bug",
-                "subtask": false,
-                "statuses": [
-                    {
-                        "name": "To Do",
-                        "id": "10100"
-                    },
-                    {
-                        "name": "In Progress",
-                        "id": "3"
-                    },
-                    {
-                        "name": "Review",
-                        "id": "10202"
-                    },
-                    {
-                        "name": "Done",
-                        "id": "11803"
-                    },
-                    {
-                        "name": "On Hold",
-                        "id": "10804"
-                    },
-                    {
-                        "name": "Ready For Test",
-                        "id": "11903"
-                    }
-                ]
-            },
-            {
-                "id": "10000",
-                "name": "Epic",
-                "subtask": false,
-                "statuses": [
-                    {
-                        "name": "To Do",
-                        "id": "10100"
-                    },
-                    {
-                        "name": "In Progress",
-                        "id": "3"
-                    },
-                    {
-                        "name": "Review",
-                        "id": "10202"
-                    },
-                    {
-                        "name": "Done",
-                        "id": "11803"
-                    },
-                    {
-                        "name": "On Hold",
-                        "id": "10804"
-                    },
-                    {
-                        "name": "Ready For Test",
-                        "id": "11903"
-                    }
-                ]
-            },
-            {
-                "id": "11201",
-                "name": "Spike",
-                "subtask": false,
-                "statuses": [
-                    {
-                        "name": "To Do",
-                        "id": "10100"
-                    },
-                    {
-                        "name": "In Progress",
-                        "id": "3"
-                    },
-                    {
-                        "name": "Review",
-                        "id": "10202"
-                    },
-                    {
-                        "name": "Done",
-                        "id": "11803"
-                    },
-                    {
-                        "name": "On Hold",
-                        "id": "10804"
-                    },
-                    {
-                        "name": "Ready For Test",
-                        "id": "11903"
-                    }
-                ]
-            },
-            {
-                "id": "10001",
-                "name": "Story",
-                "subtask": false,
-                "statuses": [
-                    {
-                        "name": "To Do",
-                        "id": "10100"
-                    },
-                    {
-                        "name": "In Progress",
-                        "id": "3"
-                    },
-                    {
-                        "name": "Review",
-                        "id": "10202"
-                    },
-                    {
-                        "name": "Done",
-                        "id": "11803"
-                    },
-                    {
-                        "name": "On Hold",
-                        "id": "10804"
-                    },
-                    {
-                        "name": "Ready For Test",
-                        "id": "11903"
-                    }
-                ]
-            },
-            {
-                "id": "5",
-                "name": "Sub-task",
-                "subtask": true,
-                "statuses": [
-                    {
-                        "name": "To Do",
-                        "id": "10100"
-                    },
-                    {
-                        "name": "In Progress",
-                        "id": "3"
-                    },
-                    {
-                        "name": "Review",
-                        "id": "10202"
-                    },
-                    {
-                        "name": "Done",
-                        "id": "11803"
-                    },
-                    {
-                        "name": "On Hold",
-                        "id": "10804"
-                    },
-                    {
-                        "name": "Ready For Test",
-                        "id": "11903"
-                    }
-                ]
-            },
-            {
-                "id": "3",
-                "name": "Task",
-                "subtask": false,
-                "statuses": [
-                    {
-                        "name": "To Do",
-                        "id": "10100"
-                    },
-                    {
-                        "name": "In Progress",
-                        "id": "3"
-                    },
-                    {
-                        "name": "Review",
-                        "id": "10202"
-                    },
-                    {
-                        "name": "Done",
-                        "id": "11803"
-                    },
-                    {
-                        "name": "On Hold",
-                        "id": "10804"
-                    },
-                    {
-                        "name": "Ready For Test",
-                        "id": "11903"
-                    }
-                ]
             }
         ];
         it("ZMETRIC issues", () => {
