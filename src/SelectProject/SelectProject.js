@@ -57,38 +57,38 @@ class SelectProject extends Component {
 
   render() {
     const {selectedProject, phase, projects, errorMessage} = this.state;
-    return<div className="ui stacked segment">
-          {(phase === Phases.READY || phase === Phases.LOADING || phase === Phases.FAILED) &&
-          <Form onSubmit={this.onProjectSelected.bind(this)} id="jiraSelectProjectForm"
-                disabled={phase !== Phases.READY}>
-            <Form.Dropdown id="jiraSelectProject"
-                           placeholder='Select Project'
-                           fluid
-                           loading={phase === Phases.LOADING}
-                           name={"selectedProject"}
-                           search
-                           onChange={this.onChange.bind(this)}
-                           selection
-                           noResultsMessage='No projects found for this JIRA Account'
-                           options={projects || []}
-                           value={selectedProject}/>
+    return <div className="ui stacked segment">
+      {(phase === Phases.READY || phase === Phases.LOADING || phase === Phases.FAILED) &&
+      <Form onSubmit={this.onProjectSelected.bind(this)} id="jiraSelectProjectForm"
+            disabled={phase !== Phases.READY}>
+        <Form.Dropdown id="jiraSelectProject"
+                       placeholder='Select Project'
+                       fluid
+                       loading={phase === Phases.LOADING}
+                       name={"selectedProject"}
+                       search
+                       onChange={this.onChange.bind(this)}
+                       selection
+                       noResultsMessage='No projects found for this JIRA Account'
+                       options={projects || []}
+                       value={selectedProject}/>
 
-            {phase === Phases.FAILED ?
-              <Button
-                onClick={this.loadProjects.bind(this)}
-                className="ui fluid large teal submit button">Try again</Button>
-              :
-              <Button
-                disabled={!(this.state.selectedProject)}
-                className="ui fluid large teal submit button">Select Project</Button>
-            }
-          </Form>
-          }
+        {phase === Phases.FAILED ?
+          <Button
+            onClick={this.loadProjects.bind(this)}
+            className="ui fluid large teal submit button">Try again</Button>
+          :
+          <Button
+            disabled={!(this.state.selectedProject)}
+            className="ui fluid large teal submit button">Select Project</Button>
+        }
+      </Form>
+      }
 
-          <Message error hidden={phase !== Phases.FAILED} header="Can't load projects from JIRA"
-                   content={errorMessage}/>
+      <Message error hidden={phase !== Phases.FAILED} header="Can't load projects from JIRA"
+               content={errorMessage}/>
 
-        </div>
+    </div>
   }
 }
 
