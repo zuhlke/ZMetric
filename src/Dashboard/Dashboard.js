@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './Dashboard.css';
-import {LeadTimeLineChart} from "../LeadTimeLineChart";
+import {LeadTimeLineChart} from "../CycleTimeReport/LeadTimeLineChart";
 import {ThroughputReport} from "../ThroughputReport/ThroughputReport";
 import {WorkflowContainer} from "../WorkflowContainer"
 import {Dimmer, Label, Loader, Segment} from "semantic-ui-react";
@@ -48,7 +48,7 @@ export default function Dashboard(props) {
       <Dimmer active={phase===Phases.LOADING}>
         <Loader content={`Generating reports for ${project}`}/>
       </Dimmer>
-      <Segment.Group raised id={"main-segment"}>
+      {phase===Phases.READY && <Segment.Group raised id={"main-segment"}>
         <Segment stacked>
           <Label size={'large'} color='red' ribbon>
             {props.project}
@@ -58,7 +58,7 @@ export default function Dashboard(props) {
           {throughput && <ThroughputReport data={throughput}/>}
           {workflow && <WorkflowContainer workflow={workflow}/>}
         </Segment>
-      </Segment.Group>
+      </Segment.Group>}
     </div>
   );
 }
