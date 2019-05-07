@@ -32,9 +32,11 @@ export default function Dashboard(props) {
     setPhases(Phases.LOADING);
     axios
       .all([instance.get(`rest/api/2/search?maxResults=10000&expand=changelog&fields=resolutiondate,created,issuetype&jql=project=${project}`),
-        instance.get(`/rest/api/2/project/${project}/statuses`)])
+        instance.get(`rest/api/2/project/${project}/statuses`)])
       .then(axios.spread((issueResponse, workflowResponse) => {
         setPhases(Phases.READY);
+        console.log(issueResponse);
+        console.log(workflowResponse);
           setLeadCycleTimeData(convertFromJiraToLeadtime(issueResponse.data));
           setWorkflow(workflowResponse.data);
           setThroughput(convertFromJiraToThroughput(issueResponse.data));
