@@ -7,13 +7,12 @@ import {applyDateRangeFilter} from "../DateFiltering/DateFilter";
 import {Button, Label, Segment, Transition, Dropdown} from "semantic-ui-react";
 import {DynamicTable} from "../DynamicTable";
 import '../global.css';
-import {MultipleIssueTypeSelector} from "../CumulativeFlowReport/Selectors/MultipleIssueTypeSelector";
-import {MultipleWorkflowStatusesSelector} from "../CumulativeFlowReport/Selectors/MultipleWorkflowStatusesSelector";
+
 
 export function LeadTimeLineChart(props) {
   const [displayedData, updateDisplayedData] = useState(props.data);
   const [isTableVisible, toggleTableVisibility] = useState(false);
-  const [ListOfIssueTypes, updateIssueType] = useState(props.workflow.map(issueType =>( {value: issueType.name, text: issueType.name})));
+  const [ListOfIssueTypes] = useState(props.workflow.map(issueType =>( {value: issueType.name, text: issueType.name})));
   const [selectedIssueType, updateSelectedIssueType] = useState("");
   const filterData = dateRange => {
     const newData = applyDateRangeFilter(dateRange, props.data);
