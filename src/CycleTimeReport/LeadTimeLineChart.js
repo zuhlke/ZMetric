@@ -4,13 +4,17 @@ import PropTypes from 'prop-types';
 import {DateRangePicker} from "../DateRangePicker";
 import moment from "moment";
 import {applyDateRangeFilter} from "../DateFiltering/DateFilter";
-import {Button, Label, Segment, Transition, Dropdown, Icon, List} from "semantic-ui-react";
+import {Button, Label, Segment, Transition, Dropdown, Icon, List, Form, Radio} from "semantic-ui-react";
 import {DynamicTable} from "../DynamicTable";
 import '../global.css';
 
-
+const Statuses = {
+  END_STATUS: 'End Status',
+  START_STATUS: 'Start Status'
+}
 export function LeadTimeLineChart(props) {
   const [displayedData, updateDisplayedData] = useState(props.data);
+  const [selectedStatusChange, updateSelectedStatusChange] = useState(Statuses.END_STATUS);
   const [isTableVisible, toggleTableVisibility] = useState(false);
   const [ListOfIssueTypes] = useState(props.workflow.map(issueType =>( {value: issueType.name, text: issueType.name})));
   const [selectedIssueType, updateSelectedIssueType] = useState("");
@@ -59,6 +63,7 @@ export function LeadTimeLineChart(props) {
           }
           <Segment.Group horizontal>
             <Segment>
+
               <h4>Cycle time configuration: </h4>
               <Dropdown id="jiraSelectIssueType"
                         placeholder='Select Issue Type'
@@ -71,6 +76,11 @@ export function LeadTimeLineChart(props) {
                         options={ListOfIssueTypes}
                         value={selectedIssueType}/>
               {selectedIssueType && <Segment basic>
+                <Button.Group>
+                  <Button onClick={() => updateSelectedStatusChange(Statuses.START_STATUS)} negative={selectedStatusChange===Statuses.START_STATUS}>Start Status</Button>
+                  <Button.Or />
+                  <Button onClick={() => updateSelectedStatusChange(Statuses.END_STATUS)} positive={selectedStatusChange===Statuses.END_STATUS}>End Status</Button>
+                </Button.Group>
               <h4>Statuses</h4>
               <Button.Group vertical>
                 {props.workflow.filter(issueType => issueType.name === selectedIssueType).map(issueType =>( issueType.statuses.map( (status)=> <Button negative ={status.name==='To Do'} positive={status.name==="Done" || status.name === 'Closed' || status.name === 'Resolved '}  >{status.name}</Button>)) )}
@@ -78,7 +88,6 @@ export function LeadTimeLineChart(props) {
                 <Segment vertical basic>
                 <h5>Key:</h5>
                   <List>
-
               <List.Item><Icon color='red' name='circle' /> Start status</List.Item>
               <List.Item><Icon color='green' name='circle' /> End status</List.Item>
                   </List>
