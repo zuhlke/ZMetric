@@ -13,6 +13,7 @@ const Statuses = {
   START_STATUS: 'Start Status'
 }
 export function LeadTimeLineChart(props) {
+  const [ListOfTypesAndStatus, UpdateListOfTypesAndStatus] = useState({});
   const [displayedData, updateDisplayedData] = useState(props.data);
   const [selectedStatusChange, updateSelectedStatusChange] = useState(Statuses.END_STATUS);
   const [isTableVisible, toggleTableVisibility] = useState(false);
@@ -24,6 +25,16 @@ export function LeadTimeLineChart(props) {
 
 
   };
+  let testObj = {};
+  for( const issueType of props.workflow)
+  {
+    testObj[issueType.name] = {
+      startState: issueType.statuses.find(status => status.name === 'To Do' ).name,
+      endState: issueType.statuses.find(status => status.name === 'Done' ).name,
+    }
+  }
+  console.log(testObj)
+  //UpdateListOfTypesAndStatus(testObj);
   function dropdownOnChange(event, data) {
     updateSelectedIssueType(data.value);
 
