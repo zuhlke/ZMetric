@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {DateRangePicker} from "../DateRangePicker";
 import moment from "moment";
 import {applyDateRangeFilter} from "../DateFiltering/DateFilter";
-import {Button, Label, Segment, Transition, Dropdown} from "semantic-ui-react";
+import {Button, Label, Segment, Transition, Dropdown, Icon, List} from "semantic-ui-react";
 import {DynamicTable} from "../DynamicTable";
 import '../global.css';
 
@@ -70,14 +70,24 @@ export function LeadTimeLineChart(props) {
                         noResultsMessage='No issue types found for this Jira project'
                         options={ListOfIssueTypes}
                         value={selectedIssueType}/>
-
+              {selectedIssueType && <Segment basic>
               <h4>Statuses</h4>
               <Button.Group vertical>
                 {props.workflow.filter(issueType => issueType.name === selectedIssueType).map(issueType =>( issueType.statuses.map( (status)=> <Button negative ={status.name==='To Do'} positive={status.name==="Done" || status.name === 'Closed' || status.name === 'Resolved '}  >{status.name}</Button>)) )}
               </Button.Group>
+                <Segment vertical basic>
+                <h5>Key:</h5>
+                  <List>
+
+              <List.Item><Icon color='red' name='circle' /> Start status</List.Item>
+              <List.Item><Icon color='green' name='circle' /> End status</List.Item>
+                  </List>
+                </Segment>
+              </Segment>}
             </Segment>
           </Segment.Group>
         </Segment>
+
       </Segment.Group>
 
       <Segment color='green'>
