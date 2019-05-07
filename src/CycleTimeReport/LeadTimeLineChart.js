@@ -73,7 +73,7 @@ export function LeadTimeLineChart(props) {
 
               <h4>Statuses</h4>
               <Button.Group vertical>
-                {props.workflow.filter(issueType => issueType.name === selectedIssueType).map(issueType =>( issueType.statuses.map( (status,index,statuses )=> <Button negative ={index===statuses.length-1} positive={index===0}  >{status.name}</Button>)) )}
+                {props.workflow.filter(issueType => issueType.name === selectedIssueType).map(issueType =>( issueType.statuses.map( (status)=> <Button negative ={status.name==='To Do'} positive={status.name==="Done" || status.name === 'Closed' || status.name === 'Resolved '}  >{status.name}</Button>)) )}
               </Button.Group>
             </Segment>
           </Segment.Group>
