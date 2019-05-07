@@ -4,18 +4,27 @@ import PropTypes from 'prop-types';
 import {DateRangePicker} from "../DateRangePicker";
 import moment from "moment";
 import {applyDateRangeFilter} from "../DateFiltering/DateFilter";
-import {Button, Label, Segment, Transition} from "semantic-ui-react";
+import {Button, Label, Segment, Transition, Dropdown} from "semantic-ui-react";
 import {DynamicTable} from "../DynamicTable";
 import '../global.css';
+import {MultipleIssueTypeSelector} from "../CumulativeFlowReport/Selectors/MultipleIssueTypeSelector";
+import {MultipleWorkflowStatusesSelector} from "../CumulativeFlowReport/Selectors/MultipleWorkflowStatusesSelector";
 
 export function LeadTimeLineChart(props) {
   const [displayedData, updateDisplayedData] = useState(props.data);
   const [isTableVisible, toggleTableVisibility] = useState(false);
-
+  const [ListOfIssueTypes, updateIssueType] = useState(props.workflow.map(issueType =>( {value: issueType.name, text: issueType.name})));
+  const [selectedIssueType, updateSelectedIssueType] = useState("");
   const filterData = dateRange => {
     const newData = applyDateRangeFilter(dateRange, props.data);
-    updateDisplayedData(newData)
+    updateDisplayedData(newData);
+
+
   };
+  function dropdownOnChange(event, data) {
+    updateSelectedIssueType(data.value);
+
+  }
   return (
     <Segment.Group stacked>
       <Segment.Group horizontal>
@@ -49,8 +58,29 @@ export function LeadTimeLineChart(props) {
                            maxDate={moment(props.data[props.data.length - 1].date)}
                            dateRangeUpdate={dateRange => filterData(dateRange)}/>
           }
+          <Segment.Group horizontal>
+            <Segment>
+              <h4>Cycle time configuration: </h4>
+              <Dropdown id="jiraSelectIssueType"
+                        placeholder='Select Issue Type'
+                        fluid
+                        name={"selectedIssueType"}
+                        search
+                        onChange={dropdownOnChange}
+                        selection
+                        noResultsMessage='No issue types found for this Jira project'
+                        options={ListOfIssueTypes}
+                        value={selectedIssueType}/>
+
+              <h4>Statuses</h4>
+              <Button.Group vertical>
+                {props.workflow.filter(issueType => issueType.name === selectedIssueType).map(issueType =>( issueType.statuses.map( (status,index,statuses )=> <Button negative ={index===statuses.length-1} positive={index===0}  >{status.name}</Button>)) )}
+              </Button.Group>
+            </Segment>
+          </Segment.Group>
         </Segment>
       </Segment.Group>
+
       <Segment color='green'>
         <Button
           basic

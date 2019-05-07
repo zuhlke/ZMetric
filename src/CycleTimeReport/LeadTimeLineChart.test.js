@@ -6,7 +6,68 @@ import {DatesRangeInput} from "semantic-ui-calendar-react";
 import {act} from "react-dom/test-utils";
 import {LineChart} from "recharts";
 
+const workflow = [
+  {
+    "id": "1",
+    "name": "Bug",
+    "statuses": [
+      {
+        "name": "To Do",
+        "id": "10100"
+      },
+      {
+        "name": "In Progress",
+        "id": "3"
+      },
+      {
+        "name": "Review",
+        "id": "10202"
+      },
+      {
+        "name": "Done",
+        "id": "11803"
+      },
+      {
+        "name": "On Hold",
+        "id": "10804"
+      },
+      {
+        "name": "Ready For Test",
+        "id": "11903"
+      }
+    ],
 
+  },
+  {
+    "id": "10000",
+    "name": "Epic",
+    "statuses": [
+      {
+        "name": "To Do",
+        "id": "10100"
+      },
+      {
+        "name": "In Progress",
+        "id": "3"
+      },
+      {
+        "name": "Review",
+        "id": "10202"
+      },
+      {
+        "name": "Done",
+        "id": "11803"
+      },
+      {
+        "name": "On Hold",
+        "id": "10804"
+      },
+      {
+        "name": "Ready For Review",
+        "id": "12305"
+      }]
+  }
+];
 describe("LeadTimeLineChart", () => {
 
   const unfilteredData = [
@@ -45,12 +106,12 @@ describe("LeadTimeLineChart", () => {
 
   it("renders without crashing", () => {
     const div = document.createElement('div');
-    ReactDOM.render(<LeadTimeLineChart data={unfilteredData}/>, div);
+    ReactDOM.render(<LeadTimeLineChart workflow={workflow} data={unfilteredData}/>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
   it("renders LineChart with updated data values when DateRangePicker is used to specify a date range", () => {
-    const wrapper = mount(<LeadTimeLineChart data={unfilteredData}/>);
+    const wrapper = mount(<LeadTimeLineChart data={unfilteredData} workflow={workflow}/>);
     const datesRangeInput = wrapper.find(DatesRangeInput);
     const event = {target: {value: '02-02-2019 - 03-02-2019'}};
     act(() => {
