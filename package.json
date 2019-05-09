@@ -35,7 +35,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:ci": "yarn storybook:build && yarn storybook:local-server:start && yarn test:coverage",
+    "test:ci": "yarn storybook:build && yarn storybook:local-server:start && yarn test:coverage --testResultsProcessor ./node_modules/jest-sonar-reporter",
     "test:coverage": "yarn test --coverage",
     "audit": "node scripts/audit.js",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
@@ -64,6 +64,7 @@
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
     "http-server": "^0.11.1",
+    "jest-sonar-reporter": "^2.0.0",
     "require-context.macro": "^1.0.4",
     "wait-on": "^3.2.0"
   },
