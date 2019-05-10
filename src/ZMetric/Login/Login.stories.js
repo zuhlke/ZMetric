@@ -1,9 +1,9 @@
 import React from 'react';
 import {storiesOf} from '@storybook/react';
 import Login from "./Login";
-import Actions from "../Actions";
 import MockAdapter from 'axios-mock-adapter';
 import axios from "axios";
+import Actions from "../../Actions";
 
 let onSuccessMock = () => {
 };

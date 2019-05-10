@@ -3,7 +3,7 @@ import {storiesOf} from '@storybook/react';
 import SelectProject from "./SelectProject";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
-import Actions from "../Actions";
+import Actions from "../../Actions";
 
 const projectsMock = [
   {

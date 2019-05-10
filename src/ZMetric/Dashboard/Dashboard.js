@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import './Dashboard.css';
-import {LeadTimeLineChart} from "../LeadTimeLineChart";
-import {ThroughputReport} from "../ThroughputReport/ThroughputReport";
-import {WorkflowContainer} from "../WorkflowContainer"
 import {Label, Segment} from "semantic-ui-react";
-import {CumulativeFlowReport} from "../CumulativeFlowReport/CumulativeFlowReport";
-import {convertFromJiraToLeadtime} from "../CycleTimeReport/DataAdapter";
-import {convertFromJiraToThroughput} from "../ThroughputReport/ThroughputDataAdapter";
 
 import axios from "axios";
-import {mergeIssues} from "../CumulativeFlowReport/DataAdapter/DataAdapter";
+import {ThroughputReport} from "../../Reports/Throughput/ThroughputReport";
+import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
+import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
+import {mergeIssues} from "../../Reports/CumulativeFlow/CumulativeFlowDataAdapter";
+import {convertFromJiraToThroughput} from "../../Reports/Throughput/ThroughputDataAdapter";
+import {convertFromJiraToLeadtime} from "../../Reports/LeadTime/LeadTimeDataAdapter";
 
 
 export default function Dashboard(props) {
@@ -44,7 +43,7 @@ export default function Dashboard(props) {
           {workflow && cumulativeFlow && <CumulativeFlowReport data={cumulativeFlow} workflow={workflow}/>}
           {leadCycleTimeData && <LeadTimeLineChart data={leadCycleTimeData}/>}
           {throughput && <ThroughputReport data={throughput}/>}
-          {workflow && <WorkflowContainer workflow={workflow}/>}
+          {/*{workflow && <WorkflowContainer workflow={workflow}/>}*/}
         </Segment>
       </Segment.Group>
     </div>

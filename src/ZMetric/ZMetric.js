@@ -1,7 +1,7 @@
-import Login from "../Login/Login";
 import React, {Component} from 'react';
-import SelectProject from "../SelectProject/SelectProject";
-import Dashboard from "../Dashboard/Dashboard";
+import Dashboard from "./Dashboard/Dashboard";
+import SelectProject from "./SelectProject/SelectProject";
+import Login from "./Login/Login";
 
 const Phases = {
   LOGIN: 'Login',
