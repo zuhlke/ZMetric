@@ -5,7 +5,7 @@ import {ThroughputReport} from "../ThroughputReport/ThroughputReport";
 import {WorkflowContainer} from "../WorkflowContainer"
 import {Dimmer, Label, Loader, Segment} from "semantic-ui-react";
 import {CumulativeFlowReport} from "../CumulativeFlowReport/CumulativeFlowReport";
-import {convertFromJiraToLeadtime} from "../CycleTimeReport/DataAdapter";
+import {convertFromJiraToLeadtime} from "../CycleTimeReport/LeadTimeDataAdapter";
 import {convertFromJiraToThroughput} from "../ThroughputReport/ThroughputDataAdapter";
 
 import axios from "axios";

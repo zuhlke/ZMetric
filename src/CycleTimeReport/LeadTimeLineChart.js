@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 import {DateRangePicker} from "../DateRangePicker";
 import moment from "moment";
 import {applyDateRangeFilter} from "../DateFiltering/DateFilter";
-import {Button, Label, Segment, Transition, Dropdown, Icon, List, Form, Radio} from "semantic-ui-react";
+import {Button, Label, Segment, Transition, Dropdown, Icon, List} from "semantic-ui-react";
 import {DynamicTable} from "../DynamicTable";
 import '../global.css';
 
 const Statuses = {
   END_STATUS: 'End Status',
   START_STATUS: 'Start Status'
-}
+};
 export function LeadTimeLineChart(props) {
-  const [ListOfTypesAndStatus, UpdateListOfTypesAndStatus] = useState({});
+  // const [ListOfTypesAndStatus, UpdateListOfTypesAndStatus] = useState({});
   const [displayedData, updateDisplayedData] = useState(props.data);
   const [selectedStatusChange, updateSelectedStatusChange] = useState(Statuses.END_STATUS);
   const [isTableVisible, toggleTableVisibility] = useState(false);
@@ -29,11 +29,11 @@ export function LeadTimeLineChart(props) {
   for( const issueType of props.workflow)
   {
     testObj[issueType.name] = {
-      startState: issueType.statuses.find(status => status.name === 'To Do' ).name,
-      endState: issueType.statuses.find(status => status.name === 'Done' ).name,
+      startStatus: issueType.statuses.find(status => status.name === 'To Do' ).name,
+      endStatus: issueType.statuses.find(status => status.name === 'Done' ).name,
     }
   }
-  console.log(testObj)
+  console.log(testObj);
   //UpdateListOfTypesAndStatus(testObj);
   function dropdownOnChange(event, data) {
     updateSelectedIssueType(data.value);

@@ -1,4 +1,4 @@
-import {convertFromJiraToLeadtime} from "./DataAdapter";
+import {convertFromJiraToLeadtime} from "./LeadTimeDataAdapter";
 import moment from "moment";
 
 describe('DataAdapter', () => {
