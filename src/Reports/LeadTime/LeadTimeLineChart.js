@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import PropTypes from 'prop-types';
-import {DateRangePicker} from "./DateRangePicker";
 import moment from "moment";
-import {applyDateRangeFilter} from "./DateFiltering/DateFilter";
 import {Button, Label, Segment, Transition} from "semantic-ui-react";
-import {DynamicTable} from "./DynamicTable";
-import './global.css';
+import '../reports.css';
+import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
+import {applyDateRangeFilter} from "../../Filters/DateRange/DateFilter";
+import {DateRange} from "../../Filters/DateRange/DateRange";
 
 export function LeadTimeLineChart(props) {
   const [displayedData, updateDisplayedData] = useState(props.data);
@@ -45,7 +45,7 @@ export function LeadTimeLineChart(props) {
         <Segment>
           <h4>Select date range:</h4>
           {props.data.length &&
-          <DateRangePicker id={"data-range-picker-lead"} minDate={moment(props.data[0].date)}
+          <DateRange id={"data-range-picker-lead"} minDate={moment(props.data[0].date)}
                            maxDate={moment(props.data[props.data.length - 1].date)}
                            dateRangeUpdate={dateRange => filterData(dateRange)}/>
           }

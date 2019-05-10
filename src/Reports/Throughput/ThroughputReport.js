@@ -12,15 +12,15 @@ import {
   XAxis,
   YAxis
 } from "recharts";
-import {DateRangePicker} from "../DateRangePicker";
 import moment from "moment";
-import {applyDateRangeFilter} from "../DateFiltering/DateFilter";
 import PropTypes from 'prop-types';
 import {calculateAverageThroughput} from "./ThroughputDataAdapter";
 import {Button, Label as SemanticLabel, Segment, Transition} from "semantic-ui-react";
-import {DynamicTable} from "../DynamicTable";
-import '../global.css';
-import {generateTrendLineData} from "../TrendLine/TrendLine";
+import '../reports.css';
+import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
+import {generateTrendLineData} from "./TrendLine/TrendLine";
+import {applyDateRangeFilter} from "../../Filters/DateRange/DateFilter";
+import {DateRange} from "../../Filters/DateRange/DateRange";
 
 export function ThroughputReport(props) {
   const initialAverageThroughput = calculateAverageThroughput(props.data);
@@ -61,7 +61,7 @@ export function ThroughputReport(props) {
         <Segment>
           <h4>Select date range:</h4>
           {props.data.length &&
-          <DateRangePicker id={"dates-range-picker-throughput"} minDate={moment(props.data[0].date)}
+          <DateRange id={"dates-range-picker-throughput"} minDate={moment(props.data[0].date)}
                            maxDate={moment(props.data[props.data.length - 1].date)}
                            dateRangeUpdate={dateRange => filterData(dateRange)}/>
           }

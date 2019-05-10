@@ -3,7 +3,7 @@ import {DatesRangeInput} from "semantic-ui-calendar-react";
 import {Form} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-export function DateRangePicker(props) {
+export function DateRange(props) {
   const [datesRange, updateDatesRange] = useState('');
 
   const handleChange = (event, {value}) => {
@@ -31,7 +31,7 @@ export function DateRangePicker(props) {
   )
 }
 
-DateRangePicker.propTypes = {
+DateRange.propTypes = {
   minDate: PropTypes.any.isRequired,
   maxDate: PropTypes.any.isRequired
 };

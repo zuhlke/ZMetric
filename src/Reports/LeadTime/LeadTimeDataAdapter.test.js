@@ -1,5 +1,5 @@
-import {convertFromJiraToLeadtime} from "./DataAdapter";
 import moment from "moment";
+import {convertFromJiraToLeadtime} from "./LeadTimeDataAdapter";
 
 describe('DataAdapter', () => {
   it('should return one entry when given a jira issue entry that is created and resolved on the same day', () => {
