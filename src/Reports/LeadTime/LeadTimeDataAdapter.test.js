@@ -2,6 +2,7 @@ import moment from "moment";
 import {convertFromJiraToLeadtime} from "./LeadTimeDataAdapter";
 
 describe('DataAdapter', () => {
+
   it('should return one entry when given a jira issue entry that is created and resolved on the same day', () => {
     const jiraIssue = {
       "expand": "names,schema",
@@ -24,6 +25,7 @@ describe('DataAdapter', () => {
     const result = convertFromJiraToLeadtime(jiraIssue);
     expect(result).toEqual([{date: "2019-02-08", averageLeadTime: 0}])
   });
+
   it('should return two entries when given two jira issue entries on that have been created and resolved on consecutive dates', () => {
     const jiraIssue = {
       "expand": "names,schema",
@@ -56,6 +58,7 @@ describe('DataAdapter', () => {
     const result = convertFromJiraToLeadtime(jiraIssue);
     expect(result).toEqual([{date: "2019-02-08", averageLeadTime: 0}, {date: "2019-02-09", averageLeadTime: 0}])
   });
+
   it('should return the same number of date entries for every date between creation and resolution date of jira issue entry', () => {
     const jiraIssue = {
       "expand": "names,schema",
@@ -77,10 +80,9 @@ describe('DataAdapter', () => {
     };
 
     const result = convertFromJiraToLeadtime(jiraIssue);
-
     expect(result.length).toEqual(13)
-
   });
+
   it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whose dates are the same', () => {
     const jiraIssue = {
       "expand": "names,schema",
@@ -112,9 +114,7 @@ describe('DataAdapter', () => {
     };
 
     const result = convertFromJiraToLeadtime(jiraIssue);
-
     expect(result.length).toEqual(13)
-
   });
 
   it('should return the same number of date entries for every date between creation and resolution date of two jira issue entries whose dates overlap', () => {
