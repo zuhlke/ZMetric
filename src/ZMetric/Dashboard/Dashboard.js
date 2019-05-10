@@ -12,7 +12,6 @@ import {convertFromJiraToLeadtime} from "../../Reports/LeadTime/LeadTimeDataAdap
 
 
 export default function Dashboard(props) {
-  const {name, value} = props.session;
   const [workflow, setWorkflow] = useState(undefined);
   const [leadCycleTimeData, setLeadCycleTimeData] = useState(undefined);
   const [throughput, setThroughput] = useState(undefined);
@@ -33,7 +32,7 @@ export default function Dashboard(props) {
           setCumulativeFlow(mergeIssues(issueResponse.data.issues, workflowResponse.data));
         }
       ))
-  }, []);
+  }, [props]);
 
   return (
     <div>
