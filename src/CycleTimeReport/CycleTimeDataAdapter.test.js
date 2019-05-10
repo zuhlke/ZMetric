@@ -143,22 +143,21 @@ describe("CycleTimeDataAdapter", () =>{
       }
     };
 
-
     it("issue1", () => {
       const startStatus = "Reviewing";
-      const endStatus = "Resolved";
+      const endStatus = "Reviewing";
       expect(issueToCycleTimeDatePair(issue1, startStatus, endStatus)).toEqual({date: "2019-02-21", cycleTime:2})
     });
 
     it("issue1a", () => {
       const startStatus = "Gathering Interest";
-      const endStatus = "Resolved";
+      const endStatus = "Reviewing";
       expect(issueToCycleTimeDatePair(issue1, startStatus, endStatus)).toEqual({date: "2019-02-21", cycleTime:4})
     });
 
     it("issue1b", () => {
       const startStatus = "Gathering Interest";
-      const endStatus = "Reviewing";
+      const endStatus = "Gathering Interest";
       expect(issueToCycleTimeDatePair(issue1, startStatus, endStatus)).toEqual({date: "2019-02-19", cycleTime:2})//TODO: date: resolved or endStatus?
     });
 
@@ -170,20 +169,20 @@ describe("CycleTimeDataAdapter", () =>{
 
     it("unresolved issue that has reached the end status", () => {
       const startStatus = "Gathering Interest";
-      const endStatus = "Reviewing";
+      const endStatus = "Gathering Interest";
       expect(issueToCycleTimeDatePair(issue1, startStatus, endStatus)).toEqual({date: "2019-02-19", cycleTime:2}) //TODO: date: resolved or endStatus?
     });
 
     it("issue passes through start status more than once, the earliest should be used", () => {
       const startStatus = "Reviewing";
-      const endStatus = "Resolved";
+      const endStatus = "Reviewing";
       expect(issueToCycleTimeDatePair(issue3, startStatus, endStatus)).toEqual({date: "2019-02-28", cycleTime:9})
     });
 
     it("issue passes through end status more than once, the latest should be used", () => {
       const startStatus = "Gathering Interest";
       const endStatus = "Reviewing";
-      expect(issueToCycleTimeDatePair(issue3, startStatus, endStatus)).toEqual({date: "2019-02-27", cycleTime:10}) //TODO: date: resolved or endStatus?
+      expect(issueToCycleTimeDatePair(issue3, startStatus, endStatus)).toEqual({date: "2019-02-28", cycleTime:11}) //TODO: date: resolved or endStatus?
     });
 
     xit("issue passes through end status then goes back through end status the other way and does not cross end status again", () => {
@@ -198,13 +197,10 @@ describe("CycleTimeDataAdapter", () =>{
       expect(() => {issueToCycleTimeDatePair("", startStatus, endStatus)}).toThrowError(InvalidDataError);
     });
 
-
-    //Is it possible to skip statuses? or does it transition into that status in the background?
-    it("issue never transitions into the startStatus", () =>{ //Unresolved and resolved cases
+    it("issue never transitions into the startStatus", () =>{
       const startStatus = "Under Consideration";
       const endStatus = "Resolved";
       expect(() => {issueToCycleTimeDatePair(issue1, startStatus, endStatus)}).toThrowError(InvalidDataError);
-      // expect(issueToCycleTimeDatePair(issue1, startStatus, endStatus)).toEqual({date: "2019-02-21", cycleTime:2})
     });
 
     it("issue never transitions into the endStatus", () =>{ //Unresolved and resolved cases
@@ -219,23 +215,6 @@ describe("CycleTimeDataAdapter", () =>{
       const endStatus = "Gathering Interest";
       expect(() => {issueToCycleTimeDatePair(issue1, startStatus, endStatus)}).toThrowError(InvalidDataError);
     });
-
-    // it("issue is resolved, then reopened?", () => {
-    //   //resolved or not seems irrelevant
-    // });
-    //
-    // it("workflow is updated during issues lifetime", () => {
-    //     //Shouldn't actually be a problem
-    // });
-
-    it("start and end status are the same status?!", () => {
-      const startStatus = "Reviewing";
-      const endStatus = "Reviewing";
-      expect(() => {issueToCycleTimeDatePair(issue1, startStatus, endStatus)}).toThrowError(InvalidDataError);
-    })
-
-
-
 
   });
   //FROM THIS POINT THE SAME AS LEAD TIME
@@ -1132,8 +1111,8 @@ describe("CycleTimeDataAdapter", () =>{
     it("Story", () => {
       const cycleTimeData = [{date: "2019-05-09", cycleTime: 2},{date: "2019-04-29", cycleTime: 12},{date: "2019-04-29", cycleTime: 11}];
       const issueTypeToStartEndStatusMap = {
-        Bug: {startStatus: "To Do" , endStatus: "In QA"},
-        Story: {startStatus: "In Progress" , endStatus: "Done"}
+        Bug: {startStatus: "To Do" , endStatus: "In Progress"},
+        Story: {startStatus: "In Progress" , endStatus: "In QA"}
       };
       const storyIssues = issues.filter(issue => issue.fields.issuetype.name === "Story");
       expect(calculateCycleTimeDataPoints(storyIssues, issueTypeToStartEndStatusMap)).toEqual(cycleTimeData)
@@ -1142,19 +1121,18 @@ describe("CycleTimeDataAdapter", () =>{
     it("Bug", () => {
       const cycleTimeData = [{date: "2019-05-09", cycleTime: 1},{date: "2019-05-07", cycleTime: 0},{date: "2019-05-06", cycleTime: 4},{date: "2019-04-30", cycleTime: 7},{date: "2019-04-23", cycleTime: 0}];
       const issueTypeToStartEndStatusMap = {
-        Bug: {startStatus: "To Do" , endStatus: "In QA"},
-        Story: {startStatus: "In Progress" , endStatus: "Done"}
+        Bug: {startStatus: "To Do" , endStatus: "In Progress"},
+        Story: {startStatus: "In Progress" , endStatus: "In QA"}
       };
       const bugIssues = issues.filter(issue => issue.fields.issuetype.name === "Bug");
-      console.log(JSON.stringify(bugIssues));
       expect(calculateCycleTimeDataPoints(bugIssues, issueTypeToStartEndStatusMap)).toEqual(cycleTimeData)
     });
 
     it("Both", () => {
       const cycleTimeData = [{date: "2019-05-09", cycleTime: 1},{date: "2019-05-07", cycleTime: 0},{date: "2019-05-09", cycleTime: 2},{date: "2019-05-06", cycleTime: 4},{date: "2019-04-30", cycleTime: 7},{date: "2019-04-23", cycleTime: 0},{date: "2019-04-29", cycleTime: 12},{date: "2019-04-29", cycleTime: 11}];
       const issueTypeToStartEndStatusMap = {
-        Bug: {startStatus: "To Do" , endStatus: "In QA"},
-        Story: {startStatus: "In Progress" , endStatus: "Done"}
+        Bug: {startStatus: "To Do" , endStatus: "In Progress"},
+        Story: {startStatus: "In Progress" , endStatus: "In QA"}
       };
       expect(calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap)).toEqual(cycleTimeData)
     })

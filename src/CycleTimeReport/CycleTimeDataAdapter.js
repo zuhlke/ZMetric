@@ -13,13 +13,13 @@ export function issueToCycleTimeDatePair(issue, startStatus, endStatus){
         if(item.toString === startStatus && !startDate){
           startDate = moment(history.created, 'YYYY-MM-DD');
         }
-        else if(item.toString === endStatus){
+        else if(item.fromString === endStatus){
           endDate = moment(history.created, 'YYYY-MM-DD');
         }
       }
     )
   });
-  if(startStatus !== endStatus && startDate && endDate && endDate.isSameOrAfter(startDate) ){
+  if(startDate && endDate && endDate.isSameOrAfter(startDate) ){
     return {date: endDate.toISOString(true).split("T")[0], cycleTime: endDate.diff(startDate, 'days')}; //TODO: toISOString vs toLocaleString?
   }
   else{
