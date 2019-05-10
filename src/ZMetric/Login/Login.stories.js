@@ -4,6 +4,7 @@ import Login from "./Login";
 import MockAdapter from 'axios-mock-adapter';
 import axios from "axios";
 import Actions from "../../Actions";
+import SessionMock from "../../__mocks__/Session.mock";
 
 let onSuccessMock = () => {
 };
@@ -12,13 +13,7 @@ storiesOf('Login', module)
   .add('Default', () => <Login onSuccess={onSuccessMock}/>)
   .add('Logged In', () => {
     const mock = new MockAdapter(axios);
-    mock.onPost().reply(200, {
-      "session":
-        {
-          "name": "example.cookie.name",
-          "value": "6E3487971234567896704A9EB4AE501F"
-        }
-    });
+    mock.onPost().reply(200, SessionMock.ok);
 
     Actions.type("#jiraUrl", "https://jira.zuehlke.com");
     Actions.type("#jiraUsername", "username");
@@ -37,12 +32,7 @@ storiesOf('Login', module)
   })
   .add('Error', () => {
     const mock = new MockAdapter(axios);
-    mock.onPost().reply(404, {
-      "errorMessages": [
-        "The user named 'username' does not exist"
-      ],
-      "errors": {}
-    });
+    mock.onPost().reply(404, SessionMock.notFound);
 
     Actions.type("#jiraUrl", "https://jira.zuehlke.com");
     Actions.type("#jiraUsername", "username");
