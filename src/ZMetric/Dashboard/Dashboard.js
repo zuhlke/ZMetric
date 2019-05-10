@@ -13,14 +13,16 @@ import {convertFromJiraToLeadtime} from "../../Reports/LeadTime/LeadTimeDataAdap
 
 export default function Dashboard(props) {
   const {name, value} = props.session;
-  const {jiraUrl, project} = props;
   const [workflow, setWorkflow] = useState(undefined);
   const [leadCycleTimeData, setLeadCycleTimeData] = useState(undefined);
   const [throughput, setThroughput] = useState(undefined);
   const [cumulativeFlow, setCumulativeFlow] = useState(undefined);
 
-  const instance = axios.create({baseURL: jiraUrl, headers: {cookie: `${name}=${value}`}});
   useEffect(() => {
+    const {jiraUrl, project} = props;
+    const {name, value} = props.session;
+    const instance = axios.create({baseURL: jiraUrl, headers: {cookie: `${name}=${value}`}});
+
     axios
       .all([instance.get(`rest/api/2/search?maxResults=10000&expand=changelog&fields=resolutiondate,created,issuetype&jql=project=${project}`),
         instance.get(`/rest/api/2/project/${project}/statuses`)])
