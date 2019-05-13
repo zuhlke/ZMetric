@@ -59,9 +59,11 @@ export function calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMa
     }, [])
 }
 
-export function calculateCycleTime(issues, issueTypeToStartEndStatusMap){
-  const cycleTimeDataPoints = calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap).sort((a,b) => a.date.isBefore(b.date) ? -1 : 1);
-  const dateCounter = cycleTimeDataPoints[0].date;
+export function calculateCycleTimeFromDataPoints(cycleTimeDataPoints){
+  // export function calculateCycleTime(issues, issueTypeToStartEndStatusMap){
+  // const cycleTimeDataPoints = calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap).sort((a,b) => a.date.isBefore(b.date) ? -1 : 1);
+  const dateCounter = moment(cycleTimeDataPoints.sort((a,b) => moment(a.date).isBefore(b.date) ? -1 : 1)[0].date);
+  // console.log(JSON.stringify(cycleTimeDataPoints.sort((a,b) => moment(a.date).isBefore(b.date) ? -1 : 1)));
   const endDate = cycleTimeDataPoints[cycleTimeDataPoints.length-1].date;
   const result = [];
 
@@ -70,7 +72,7 @@ export function calculateCycleTime(issues, issueTypeToStartEndStatusMap){
     result.push(
       {
         "date": dateCounter.format('YYYY-MM-DD'),
-        "averageLeadTime": currentCycleTime
+        "cycleTime": currentCycleTime
       });
     dateCounter.add(1, 'd')
   }
@@ -81,10 +83,11 @@ const average = arr => arr.length ? arr.reduce((l, r) => l + r, 0) / arr.length 
 
 const getAverageCycleTime = (cycleTimeDataPoints, date) => {
   const cycleTimes = cycleTimeDataPoints
-    .filter(dataPoint => dataPoint.date && dataPoint.date <= date)
+    .filter(dataPoint => dataPoint.date && moment(dataPoint.date).isSameOrBefore(date))
     .map(dataPoint => dataPoint.cycleTime);
   return average(cycleTimes)
 };
 
-
-
+export function calculateCycleTime(issues, issueTypeToStartEndStatusMap) {
+  return calculateCycleTimeFromDataPoints(calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap));
+}

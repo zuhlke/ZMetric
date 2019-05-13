@@ -1,4 +1,9 @@
-import {calculateCycleTimeDataPoints, InvalidDataError, issueToCycleTimeDatePair} from "./CycleTimeDataAdapter";
+import {
+  calculateCycleTimeDataPoints,
+  calculateCycleTimeFromDataPoints,
+  InvalidDataError,
+  issueToCycleTimeDatePair
+} from "./CycleTimeDataAdapter";
 
 describe("CycleTimeDataAdapter", () =>{
   //Can we assume startStatus will always be before endStatus?
@@ -218,7 +223,7 @@ describe("CycleTimeDataAdapter", () =>{
 
   });
   //FROM THIS POINT THE SAME AS LEAD TIME
-  describe("Converts a list of issues into a list of data points for the chart by averaging the cycle time values for each date with cycle time values", () => {
+  describe("Converts a list of issues into a list of data points", () => {
     const issues = [
       {
         "id": "107736",
@@ -1136,6 +1141,87 @@ describe("CycleTimeDataAdapter", () =>{
       };
       expect(calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap)).toEqual(cycleTimeData)
     })
+  });
+
+  describe("calculateCycleTimeFromDataPoints", () => {
+    it("for both bug and story issue types", () => {
+      const dataPoints = [{date: "2019-05-09", cycleTime: 1},{date: "2019-05-07", cycleTime: 0},{date: "2019-05-09", cycleTime: 2},{date: "2019-05-06", cycleTime: 4},{date: "2019-04-30", cycleTime: 7},{date: "2019-04-23", cycleTime: 0},{date: "2019-04-29", cycleTime: 12},{date: "2019-04-29", cycleTime: 11}];
+      const cycleTimeData = [
+        {
+          "date": "2019-04-23",
+          "cycleTime": 0
+        },
+        {
+          "date": "2019-04-24",
+          "cycleTime": 0
+        },
+        {
+          "date": "2019-04-25",
+          "cycleTime": 0
+        },
+        {
+          "date": "2019-04-26",
+          "cycleTime": 0
+        },
+        {
+          "date": "2019-04-27",
+          "cycleTime": 0
+        },
+        {
+          "date": "2019-04-28",
+          "cycleTime": 0
+        },
+        {
+          "date": "2019-04-29",
+          "cycleTime": 7.666666666666667
+        },
+        {
+          "date": "2019-04-30",
+          "cycleTime": 7.5
+        },
+        {
+          "date": "2019-05-01",
+          "cycleTime": 7.5
+        },
+        {
+          "date": "2019-05-02",
+          "cycleTime": 7.5
+        },
+        {
+          "date": "2019-05-03",
+          "cycleTime": 7.5
+        },
+        {
+          "date": "2019-05-04",
+          "cycleTime": 7.5
+        },
+        {
+          "date": "2019-05-05",
+          "cycleTime": 7.5
+        },
+        {
+          "date": "2019-05-06",
+          "cycleTime": 6.8
+        },
+        {
+          "date": "2019-05-07",
+          "cycleTime": 5.666666666666667
+        },
+        {
+          "date": "2019-05-08",
+          "cycleTime": 5.666666666666667
+        },
+        {
+          "date": "2019-05-09",
+          "cycleTime": 4.625
+        }
+      ];
+      expect(calculateCycleTimeFromDataPoints(dataPoints)).toEqual(cycleTimeData)
+    });
+  });
+
+  describe("calculateCycleTime", () => {
+
   });
 
 
