@@ -1,7 +1,6 @@
 import {
   calculateCycleTime,
   calculateCycleTimeDataPoints,
-  calculateCycleTimeFromDataPoints,
   InvalidDataError,
   issueToCycleTimeDatePair
 } from "./CycleTimeDataAdapter";
@@ -1222,83 +1221,6 @@ describe("CycleTimeDataAdapter", () =>{
     });
   });
 
-  describe("calculateCycleTimeFromDataPoints", () => {
-    it("for both bug and story issue types", () => {
-      const dataPoints = [{date: "2019-05-09", metricValue: 1},{date: "2019-05-07", metricValue: 0},{date: "2019-05-09", metricValue: 2},{date: "2019-05-06", metricValue: 4},{date: "2019-04-30", metricValue: 7},{date: "2019-04-23", metricValue: 0},{date: "2019-04-29", metricValue: 12},{date: "2019-04-29", metricValue: 11}];
-      const cycleTimeData = [
-        {
-          "date": "2019-04-23",
-          metricValue: 0
-        },
-        {
-          "date": "2019-04-24",
-          metricValue: 0
-        },
-        {
-          "date": "2019-04-25",
-          metricValue: 0
-        },
-        {
-          "date": "2019-04-26",
-          metricValue: 0
-        },
-        {
-          "date": "2019-04-27",
-          metricValue: 0
-        },
-        {
-          "date": "2019-04-28",
-          metricValue: 0
-        },
-        {
-          "date": "2019-04-29",
-          metricValue: 7.666666666666667
-        },
-        {
-          "date": "2019-04-30",
-          metricValue: 7.5
-        },
-        {
-          "date": "2019-05-01",
-          metricValue: 7.5
-        },
-        {
-          "date": "2019-05-02",
-          metricValue: 7.5
-        },
-        {
-          "date": "2019-05-03",
-          metricValue: 7.5
-        },
-        {
-          "date": "2019-05-04",
-          metricValue: 7.5
-        },
-        {
-          "date": "2019-05-05",
-          metricValue: 7.5
-        },
-        {
-          "date": "2019-05-06",
-          metricValue: 6.8
-        },
-        {
-          "date": "2019-05-07",
-          metricValue: 5.666666666666667
-        },
-        {
-          "date": "2019-05-08",
-          metricValue: 5.666666666666667
-        },
-        {
-          "date": "2019-05-09",
-          metricValue: 4.625
-        }
-      ];
-      expect(calculateCycleTimeFromDataPoints(dataPoints)).toEqual(cycleTimeData)
-    });
-  });
-
   describe("calculateCycleTime", () => {
     const cycleTimeData = [
       {
@@ -1375,7 +1297,6 @@ describe("CycleTimeDataAdapter", () =>{
         Bug: {startStatus: "To Do" , endStatus: "In Progress"},
         Story: {startStatus: "In Progress" , endStatus: "In QA"}
       };
-      console.log(JSON.stringify(calculateCycleTime(issues, issueTypeToStartEndStatusMap)));
       expect(calculateCycleTime(issues, issueTypeToStartEndStatusMap)).toEqual(cycleTimeData)
     });
 

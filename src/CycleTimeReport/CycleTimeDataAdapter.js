@@ -9,32 +9,6 @@ export function calculateCycleTime(issues, issueTypeToStartEndStatusMap) {
   const dataPoints = calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap);
   const periodEndDate = issues.some(issue => !issue.fields.resolutiondate) ? moment() : moment(dataPoints.sort((a,b) => moment(a.date).isBefore(b.date) ? -1 : 1)[dataPoints.length-1].date);
   return calculateFullDataSetForLeadOrCycleTime(dataPoints, periodEndDate,"cycleTime");
-  // return calculateCycleTimeFromDataPoints(calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap));
-}
-
-export function calculateCycleTimeFromDataPoints(cycleTimeDataPoints){
-  const dateCounter = moment(cycleTimeDataPoints.sort((a,b) => moment(a.date).isBefore(b.date) ? -1 : 1)[0].date);
-  const endDate = cycleTimeDataPoints[cycleTimeDataPoints.length-1].date;
-  const result = [];
-
-  while (dateCounter.isSameOrBefore(endDate)) {
-    const currentCycleTime = getAverageCycleTime(cycleTimeDataPoints, dateCounter);
-    result.push(
-      {
-        "date": dateCounter.format('YYYY-MM-DD'),
-        metricValue: currentCycleTime
-      });
-    dateCounter.add(1, 'd')
-  }
-  return result;
-
-  function getAverageCycleTime(cycleTimeDataPoints, date) {
-    const average = arr => arr.length ? arr.reduce((l, r) => l + r, 0) / arr.length : 0;
-    const cycleTimes = cycleTimeDataPoints
-      .filter(dataPoint => dataPoint.date && moment(dataPoint.date).isSameOrBefore(date))
-      .map(dataPoint => dataPoint.metricValue);
-    return average(cycleTimes)
-  }
 }
 
 export function calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap){
