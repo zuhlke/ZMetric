@@ -1,10 +1,56 @@
 import moment from "moment";
+import {calculateFullDataSetForLeadOrCycleTime} from "./LeadTimeDataAdapter";
 
 export function InvalidDataError(message){
   this.message = message;
 }
 
-//Need to artificially add first status to each one?
+export function calculateCycleTime(issues, issueTypeToStartEndStatusMap) {
+  const dataPoints = calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap);
+  const periodEndDate = issues.some(issue => !issue.fields.resolutiondate) ? moment() : moment(dataPoints.sort((a,b) => moment(a.date).isBefore(b.date) ? -1 : 1)[dataPoints.length-1].date);
+  return calculateFullDataSetForLeadOrCycleTime(dataPoints, periodEndDate,"cycleTime");
+  // return calculateCycleTimeFromDataPoints(calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap));
+}
+
+export function calculateCycleTimeFromDataPoints(cycleTimeDataPoints){
+  const dateCounter = moment(cycleTimeDataPoints.sort((a,b) => moment(a.date).isBefore(b.date) ? -1 : 1)[0].date);
+  const endDate = cycleTimeDataPoints[cycleTimeDataPoints.length-1].date;
+  const result = [];
+
+  while (dateCounter.isSameOrBefore(endDate)) {
+    const currentCycleTime = getAverageCycleTime(cycleTimeDataPoints, dateCounter);
+    result.push(
+      {
+        "date": dateCounter.format('YYYY-MM-DD'),
+        metricValue: currentCycleTime
+      });
+    dateCounter.add(1, 'd')
+  }
+  return result;
+
+  function getAverageCycleTime(cycleTimeDataPoints, date) {
+    const average = arr => arr.length ? arr.reduce((l, r) => l + r, 0) / arr.length : 0;
+    const cycleTimes = cycleTimeDataPoints
+      .filter(dataPoint => dataPoint.date && moment(dataPoint.date).isSameOrBefore(date))
+      .map(dataPoint => dataPoint.metricValue);
+    return average(cycleTimes)
+  }
+}
+
+export function calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap){
+  return issues.reduce((result, issue) =>
+  {
+    const startStatus = issueTypeToStartEndStatusMap[issue.fields.issuetype.name].startStatus;
+    const endStatus = issueTypeToStartEndStatusMap[issue.fields.issuetype.name].endStatus;
+    try{
+      result.push(issueToCycleTimeDatePair(issue, startStatus, endStatus));
+    }catch(InvalidDataError){
+      //return add nothing
+    }
+    return result;
+  }, [])
+}
+
 export function issueToCycleTimeDatePair(issue, startStatus, endStatus){
   let startDate = undefined;
   let endDate = undefined;
@@ -20,7 +66,7 @@ export function issueToCycleTimeDatePair(issue, startStatus, endStatus){
     )
   });
   if(startDate && endDate && endDate.isSameOrAfter(startDate) ){
-    return {date: endDate.toISOString(true).split("T")[0], cycleTime: endDate.diff(startDate, 'days')}; //TODO: toISOString vs toLocaleString?
+    return {date: endDate.toISOString(true).split("T")[0], metricValue: endDate.diff(startDate, 'days')}; //TODO: toISOString vs toLocaleString?
   }
   else{
     throw new InvalidDataError("")
@@ -43,51 +89,4 @@ export function issueToCycleTimeDatePair(issue, startStatus, endStatus){
       throw new Error("No issue transitions ever recorded");
     }
   }
-}
-
-export function calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap){
-    return issues.reduce((result, issue) =>
-    {
-      const startStatus = issueTypeToStartEndStatusMap[issue.fields.issuetype.name].startStatus;
-      const endStatus = issueTypeToStartEndStatusMap[issue.fields.issuetype.name].endStatus;
-      try{
-        result.push(issueToCycleTimeDatePair(issue, startStatus, endStatus));
-      }catch(InvalidDataError){
-        //return add nothing
-      }
-      return result;
-    }, [])
-}
-
-export function calculateCycleTimeFromDataPoints(cycleTimeDataPoints){
-  // export function calculateCycleTime(issues, issueTypeToStartEndStatusMap){
-  // const cycleTimeDataPoints = calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap).sort((a,b) => a.date.isBefore(b.date) ? -1 : 1);
-  const dateCounter = moment(cycleTimeDataPoints.sort((a,b) => moment(a.date).isBefore(b.date) ? -1 : 1)[0].date);
-  // console.log(JSON.stringify(cycleTimeDataPoints.sort((a,b) => moment(a.date).isBefore(b.date) ? -1 : 1)));
-  const endDate = cycleTimeDataPoints[cycleTimeDataPoints.length-1].date;
-  const result = [];
-
-  while (dateCounter.isSameOrBefore(endDate)) {
-    const currentCycleTime = getAverageCycleTime(cycleTimeDataPoints, dateCounter);
-    result.push(
-      {
-        "date": dateCounter.format('YYYY-MM-DD'),
-        "cycleTime": currentCycleTime
-      });
-    dateCounter.add(1, 'd')
-  }
-  return result;
-}
-
-const average = arr => arr.length ? arr.reduce((l, r) => l + r, 0) / arr.length : 0;
-
-const getAverageCycleTime = (cycleTimeDataPoints, date) => {
-  const cycleTimes = cycleTimeDataPoints
-    .filter(dataPoint => dataPoint.date && moment(dataPoint.date).isSameOrBefore(date))
-    .map(dataPoint => dataPoint.cycleTime);
-  return average(cycleTimes)
-};
-
-export function calculateCycleTime(issues, issueTypeToStartEndStatusMap) {
-  return calculateCycleTimeFromDataPoints(calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap));
 }
