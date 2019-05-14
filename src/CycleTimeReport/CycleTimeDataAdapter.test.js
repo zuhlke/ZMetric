@@ -1343,7 +1343,4 @@ describe("CycleTimeDataAdapter", () =>{
 
     })
   });
-
-
-  //TODO: Add test for no resolved issues // none that enter the end status?
 });
