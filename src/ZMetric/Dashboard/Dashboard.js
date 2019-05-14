@@ -1,13 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './Dashboard.css';
-import {LeadTimeLineChart} from "../CycleTimeReport/LeadTimeLineChart";
-import {ThroughputReport} from "../ThroughputReport/ThroughputReport";
-import {WorkflowContainer} from "../WorkflowContainer"
 import {Dimmer, Label, Loader, Segment} from "semantic-ui-react";
-import {CumulativeFlowReport} from "../CumulativeFlowReport/CumulativeFlowReport";
-import {convertFromJiraToLeadtime} from "../CycleTimeReport/LeadTimeDataAdapter";
-import {convertFromJiraToThroughput} from "../ThroughputReport/ThroughputDataAdapter";
-
 import axios from "axios";
 import {ThroughputReport} from "../../Reports/Throughput/ThroughputReport";
 import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
@@ -48,7 +41,7 @@ export default function Dashboard(props) {
           setCumulativeFlow(mergeIssues(issueResponse.data.issues, workflowResponse.data));
         }
       ))
-  }, [props]);
+  }, []);
 
   return (
     <div>
@@ -63,7 +56,6 @@ export default function Dashboard(props) {
           {workflow && cumulativeFlow && <CumulativeFlowReport data={cumulativeFlow} workflow={workflow}/>}
           {workflow && leadCycleTimeData && <LeadTimeLineChart workflow={workflow} data={leadCycleTimeData}/>}
           {throughput && <ThroughputReport data={throughput}/>}
-          {workflow && <WorkflowContainer workflow={workflow}/>}
         </Segment>
       </Segment.Group>}
     </div>
