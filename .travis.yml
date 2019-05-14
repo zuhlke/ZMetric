@@ -18,6 +18,7 @@ script:
   - yarn run audit # customised yarn audit
   - yarn lint
   - yarn build
+  - sonar-scanner
 after_script:
   - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
   - # require the branch name to be master (note for PRs this is the base branch name)
@@ -27,3 +28,9 @@ if: branch = master
     - yarn run semantic-release
     - yarn release
 skip_cleanup: true
+
+addons:
+  sonarcloud:
+    organization: "zuhlke" # the key of the org you chose at step #3
+    token:
+      secure: $SONAR_TOKEN # encrypted value of your token

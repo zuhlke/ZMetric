@@ -1,9 +1,9 @@
 import ZMetric from "./ZMetric";
 import React from "react";
-import Login from '../Login/Login.js';
-import SelectProject from '../SelectProject/SelectProject.js'
 import {shallow} from "enzyme";
-import Dashboard from "../Dashboard/Dashboard";
+import Dashboard from "./Dashboard/Dashboard";
+import SelectProject from "./SelectProject/SelectProject";
+import Login from "./Login/Login";
 
 describe("ZMetric", () => {
   const session = {session: {name: 'cookie', value: 'cookie'}};

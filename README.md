@@ -1,4 +1,4 @@
-# ZMetric [![Build Status](https://travis-ci.com/zuhlke/ZMetric.svg?branch=master)](https://travis-ci.com/zuhlke/ZMetric) [![Coverage Status](https://coveralls.io/repos/github/zuhlke/ZMetric/badge.svg?branch=master)](https://coveralls.io/github/zuhlke/ZMetric?branch=master)
+# ZMetric [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=zuhlke_ZMetric&metric=alert_status)](https://sonarcloud.io/dashboard?id=zuhlke_ZMetric) [![Build Status](https://travis-ci.com/zuhlke/ZMetric.svg?branch=master)](https://travis-ci.com/zuhlke/ZMetric) [![Coverage Status](https://coveralls.io/repos/github/zuhlke/ZMetric/badge.svg?branch=master)](https://coveralls.io/github/zuhlke/ZMetric?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/zuhlke/ZMetric.svg)](https://greenkeeper.io/)
 Visualising project metrics
 
 ## Installation
