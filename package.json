@@ -1,7 +1,7 @@
 {
   "name": "zmetric",
   "version": "0.1.0",
-  "homepage": "https://zmetric.surge.sh",
+  "homepage": "./",
   "private": true,
   "main": "public/electron.js",
   "dependencies": {
@@ -42,7 +42,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint src",
     "predeploy": "yarn build",
-    "deploy": "surge ./build"
+    "deploy": "surge ./build",
+    "release": "yarn build && electron-builder"
   },
   "browserslist": [
     ">0.2%",
@@ -60,11 +61,14 @@
     "coveralls": "^3.0.3",
     "cz-conventional-changelog": "2.1.0",
     "electron": "^4.1.4",
-    "electron-builder": "^20.39.0",
+    "electron-builder": "^20.40.2",
+    "electron-webpack": "^2.6.2",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
     "http-server": "^0.11.1",
     "require-context.macro": "^1.0.4",
+    "semantic-release": "^15.13.12",
+    "typescript": "^3.4.5",
     "wait-on": "^3.2.0"
   },
   "config": {

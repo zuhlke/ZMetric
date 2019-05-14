@@ -93,7 +93,7 @@ ZMetric.iml
 >>>>>>> 586f4c8dbbeaec9b95678f0187b1ce0cd1763971
 
 
-# Semantic UI css
+# Semantic UI csst
 .storybook/semantic-ui-css/
 
 # Storybook diff files
@@ -101,3 +101,6 @@ ZMetric.iml
 
 # Storybook static build
 /storybook-static/
+
+dist
+test-report.xml
