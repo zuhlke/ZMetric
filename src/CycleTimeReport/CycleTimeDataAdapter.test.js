@@ -191,12 +191,6 @@ describe("CycleTimeDataAdapter", () =>{
       expect(issueToCycleTimeDatePair(issue3, startStatus, endStatus)).toEqual({date: "2019-02-28", metricValue:11}) //TODO: date: resolved or endStatus?
     });
 
-    xit("issue passes through end status then goes back through end status the other way and does not cross end status again", () => {
-      const startStatus = "Reviewing";
-      const endStatus = "Resolved";
-      expect(() => {issueToCycleTimeDatePair("", startStatus, endStatus)}).toThrowError(InvalidDataError);
-    });
-
     xit("issue passes through end status then goes back to a status before end status and does not cross end status again", () => {
       const startStatus = "Reviewing";
       const endStatus = "Resolved";
@@ -1300,14 +1294,34 @@ describe("CycleTimeDataAdapter", () =>{
       expect(calculateCycleTime(issues, issueTypeToStartEndStatusMap)).toEqual(cycleTimeData)
     });
 
+    const unresolvedIssue = {
+      "id": "23454",
+      "key": "ZAPP-6012",
+      "fields": {
+        "issuetype": {
+          "id": "1",
+          "name": "Bug",
+          "subtask": false
+        },
+        "resolutiondate": null,
+        "created": "2019-05-08T11:38:04.000+0200"
+      },
+      "changelog": {
+        "histories":[]
+      }
+    };
     it("calculate cycle time for issues where no issues ever enter the end status", () => {
       const issueTypeToStartEndStatusMap = {
         Bug: {startStatus: "To Do" , endStatus: "In Progress"},
         Story: {startStatus: "In Progress" , endStatus: "In QA"}
       };
-      const unresolvedIssue = {
-        "id": "23454",
-        "key": "ZAPP-6012",
+      expect(calculateCycleTime([...issues, unresolvedIssue], issueTypeToStartEndStatusMap).splice(0, 20)).toEqual([...cycleTimeData, {"cycleTime": 4.625, "date": "2019-05-10"}, {"cycleTime": 4.625, "date": "2019-05-11"}, {"cycleTime": 4.625, "date": "2019-05-12"}])
+    });
+
+    it("No resolved issues", () => {
+      const unresolvedIssue1 = {
+        "id": "23455",
+        "key": "ZAPP-6013",
         "fields": {
           "issuetype": {
             "id": "1",
@@ -1315,16 +1329,21 @@ describe("CycleTimeDataAdapter", () =>{
             "subtask": false
           },
           "resolutiondate": null,
-          "created": "2019-05-08T11:38:04.000+0200"
+          "created": "2019-04-11T11:38:04.000+0200"
         },
         "changelog": {
           "histories":[]
         }
       };
-      expect(calculateCycleTime([...issues, unresolvedIssue], issueTypeToStartEndStatusMap).splice(0, 20)).toEqual([...cycleTimeData, {"cycleTime": 4.625, "date": "2019-05-10"}, {"cycleTime": 4.625, "date": "2019-05-11"}, {"cycleTime": 4.625, "date": "2019-05-12"}])
-    });
-  })
+      const issueTypeToStartEndStatusMap = {
+        Bug: {startStatus: "To Do" , endStatus: "In Progress"},
+        Story: {startStatus: "In Progress" , endStatus: "In QA"}
+      };
+      expect(calculateCycleTime([unresolvedIssue1, unresolvedIssue],issueTypeToStartEndStatusMap)).toEqual([])
 
-  //TODO: Add test for unresovled issues
+    })
+  });
+
+
   //TODO: Add test for no resolved issues // none that enter the end status?
 });

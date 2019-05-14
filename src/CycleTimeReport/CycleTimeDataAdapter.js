@@ -8,7 +8,7 @@ export function InvalidDataError(message){
 export function calculateCycleTime(issues, issueTypeToStartEndStatusMap) {
   const dataPoints = calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap);
   const periodEndDate = issues.some(issue => !issue.fields.resolutiondate) ? moment() : moment(dataPoints.sort((a,b) => moment(a.date).isBefore(b.date) ? -1 : 1)[dataPoints.length-1].date);
-  return calculateFullDataSetForLeadOrCycleTime(dataPoints, periodEndDate,"cycleTime");
+  return (dataPoints && dataPoints.length > 0) ? calculateFullDataSetForLeadOrCycleTime(dataPoints, periodEndDate,"cycleTime") : [];
 }
 
 export function calculateCycleTimeDataPoints(issues, issueTypeToStartEndStatusMap){
