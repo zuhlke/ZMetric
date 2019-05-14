@@ -6,8 +6,8 @@ import {DatesRangeInput} from "semantic-ui-calendar-react/dist/commonjs/index";
 import {Checkbox} from "semantic-ui-react";
 import {act} from "react-dom/test-utils";
 import {Area, AreaChart} from "recharts";
-import {MultipleWorkflowStatusesSelector} from "./Selectors/MultipleWorkflowStatusesSelector";
-import {MultipleIssueTypeSelector} from "./Selectors/MultipleIssueTypeSelector";
+import {MultipleWorkflowStatusesSelector} from "./Filters/IssueTypeAndStatus/Selectors/MultipleWorkflowStatusesSelector";
+import {MultipleIssueTypeSelector} from "./Filters/IssueTypeAndStatus/Selectors/MultipleIssueTypeSelector";
 
 describe("CumulativeFlowReport", () => {
   const workflow = [

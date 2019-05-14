@@ -3,8 +3,8 @@ import React from "react";
 import {mount, shallow} from "enzyme";
 import MockAdapter from 'axios-mock-adapter';
 import {Button, Form, Message, FormInput} from 'semantic-ui-react'
-
 import axios from "axios";
+import SessionMock from "../../__mocks__/Session.mock";
 
 it('renders the login page on default ', () => {
   const wrapper = mount(<Login onSuccess={() => {
@@ -24,16 +24,11 @@ it('changes phase state to Submit and show loading on submit ', () => {
 
 it('changes phase state to Error and shows user does not exist error message on error after submit ', async () => {
   const mock = new MockAdapter(axios);
-  mock.onPost().reply(404, {
-    "errorMessages": [
-      "The user named 'username' does not exist"
-    ],
-    "errors": {}
-  });
+  mock.onPost().reply(404, SessionMock.notFound);
 
   const wrapper = mount(<Login onSuccess={() => {
   }}/>);
-  wrapper.find('Button').simulate('submit')
+  wrapper.find('Button').simulate('submit');
   await tick();
   expect(wrapper.state().phase).toBe("Fail");
   expect(wrapper.find('Message').at(0).text()).toEqual("The user named 'username' does not exist");
@@ -43,11 +38,11 @@ it('changes phase state to Error and shows user does not exist error message on 
 
 it('changes phase state to Error and shows general error message on error after submit ', async () => {
   const mock = new MockAdapter(axios);
-  mock.onPost().reply(404)
+  mock.onPost().reply(404);
 
   const wrapper = mount(<Login onSuccess={() => {
   }}/>);
-  wrapper.find('Button').simulate('submit')
+  wrapper.find('Button').simulate('submit');
   await tick();
   expect(wrapper.state().phase).toBe("Fail");
   expect(wrapper.find('Message').at(0).text()).toEqual("Can't connect to Jira");
@@ -58,13 +53,7 @@ it('changes phase state to Error and shows general error message on error after 
 it('changes phase state to Success  and props and on success after submit ', async () => {
   const mockSuccess = jest.fn();
   const mock = new MockAdapter(axios);
-  mock.onPost().reply(200, {
-    "session":
-      {
-        "name": "example.cookie.name",
-        "value": "6E3487971234567896704A9EB4AE501F"
-      }
-  });
+  mock.onPost().reply(200, SessionMock.ok);
   const wrapper = mount(<Login onSuccess={mockSuccess}/>);
   wrapper.find('Button').simulate('submit');
   await tick();

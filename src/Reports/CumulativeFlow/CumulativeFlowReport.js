@@ -1,25 +1,24 @@
 import React, {useState} from 'react'
 import {Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {Button, Label, Segment, Transition} from "semantic-ui-react";
-import '../global.css';
-import {applyDateRangeFilter} from "../DateFiltering/DateFilter";
-import {DynamicTable} from "../DynamicTable";
-import {DateRangePicker} from "../DateRangePicker";
+import '../reports.css';
 import moment from "moment";
-import {MultipleIssueTypeSelector} from "./Selectors/MultipleIssueTypeSelector";
-import {MultipleWorkflowStatusesSelector} from "./Selectors/MultipleWorkflowStatusesSelector";
 import PropTypes from "prop-types";
+import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
+import {MultipleWorkflowStatusesSelector} from "./Filters/IssueTypeAndStatus/Selectors/MultipleWorkflowStatusesSelector";
+import {MultipleIssueTypeSelector} from "./Filters/IssueTypeAndStatus/Selectors/MultipleIssueTypeSelector";
+import {applyDateRangeFilter} from "../../Filters/DateRange/DateFilter";
 import {
   getSelectedWorkflows,
   mergeData,
   toggleProperty,
   updateAvailableWorkflowStatusTypes
-} from "./CumulativeFlowReportService";
+} from "./Filters/IssueTypeAndStatus/CumulativeFlowReportService";
 import {
-  getColoursForNewIssues,
-  initialSelectedIssueTypesState,
+  getColoursForNewIssues, initialSelectedIssueTypesState,
   initialSelectedWorkflowState
-} from "./CumulativeFlowStateInitialization";
+} from "./Filters/IssueTypeAndStatus/CumulativeFlowStateInitialization";
+import {DateRange} from "../../Filters/DateRange/DateRange";
 
 export function CumulativeFlowReport(props) {
   const [isTableVisible, toggleTableVisibility] = useState(false);
@@ -83,9 +82,9 @@ export function CumulativeFlowReport(props) {
         <Segment>
           <h4>Select date range:</h4>
           {props.data.length &&
-          <DateRangePicker id={"data-range-picker-cumulative-flow"} minDate={moment(props.data[0].date)}
-                           maxDate={moment(props.data[props.data.length - 1].date)}
-                           dateRangeUpdate={dateRange => filterData(dateRange)}/>
+          <DateRange id={"data-range-picker-cumulative-flow"} minDate={moment(props.data[0].date)}
+                     maxDate={moment(props.data[props.data.length - 1].date)}
+                     dateRangeUpdate={dateRange => filterData(dateRange)}/>
           }
           <br/>
           <Segment.Group horizontal>

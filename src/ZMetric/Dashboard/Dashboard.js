@@ -9,7 +9,12 @@ import {convertFromJiraToLeadtime} from "../CycleTimeReport/LeadTimeDataAdapter"
 import {convertFromJiraToThroughput} from "../ThroughputReport/ThroughputDataAdapter";
 
 import axios from "axios";
-import {mergeIssues} from "../CumulativeFlowReport/DataAdapter/DataAdapter";
+import {ThroughputReport} from "../../Reports/Throughput/ThroughputReport";
+import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
+import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
+import {mergeIssues} from "../../Reports/CumulativeFlow/CumulativeFlowDataAdapter";
+import {convertFromJiraToThroughput} from "../../Reports/Throughput/ThroughputDataAdapter";
+import {convertFromJiraToLeadtime} from "../../Reports/LeadTime/LeadTimeDataAdapter";
 
 const Phases = {
   INIT: 'Init',
@@ -43,7 +48,7 @@ export default function Dashboard(props) {
           setCumulativeFlow(mergeIssues(issueResponse.data.issues, workflowResponse.data));
         }
       ))
-  }, []);
+  }, [props]);
 
   return (
     <div>
