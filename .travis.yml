@@ -19,15 +19,12 @@ script:
   - yarn lint
   - yarn build
   - sonar-scanner
+  - yarn run semantic-release
+  - yarn release
 after_script:
   - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
   - # require the branch name to be master (note for PRs this is the base branch name)
-deploy:
-if: branch = master
-- script:
-    - yarn run semantic-release
-    - yarn release
-skip_cleanup: true
+
 
 addons:
   sonarcloud:
