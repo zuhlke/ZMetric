@@ -53,14 +53,14 @@ export function CumulativeFlowReport(props) {
   };
 
   return (
-    <Segment.Group stacked>
-      <Segment.Group horizontal>
-        <Segment>
+    <Segment.Group height={1400}>
+      <Segment.Group horizontal style={{height:"100%"}}>
+        <Segment height={window.innerHeight}>
           <Label size={'medium'} color='blue' attached='top left'>
             Cumulative Flow (Mock)
           </Label>
           <div className={'chart-segment'}>
-            <ResponsiveContainer width={props.graphWidth} height={400}>
+            <ResponsiveContainer width={props.graphWidth} height={"100%"}>
               <AreaChart id='cumulative-flow-area-chart' data={displayedData}>
                 <XAxis dataKey="date"/>
                 <YAxis
@@ -101,30 +101,30 @@ export function CumulativeFlowReport(props) {
           </Segment.Group>
         </Segment>
       </Segment.Group>
-      <Segment color='green'>
-        <Button
-          basic
-          color='green'
-          content='Data Table'
-          icon={isTableVisible ? 'arrow circle up' : 'arrow circle down'}
-          onClick={() => toggleTableVisibility(!isTableVisible)}
-          label={{
-            as: 'a',
-            basic: true,
-            color: 'blue',
-            pointing: 'left',
-            content: `${props.data.length} entries`
-          }}
-        />
-      </Segment>
-      {displayedData.length > 0 &&
-      <Transition visible={isTableVisible} animation='fade down' duration={500}>
-        <Segment>
-          <DynamicTable data={displayedData}/>
-        </Segment>
-      </Transition>
-      }
-    </Segment.Group>
+  <Segment color='green'>
+    <Button
+      basic
+      color='green'
+      content='Data Table'
+      icon={isTableVisible ? 'arrow circle up' : 'arrow circle down'}
+      onClick={() => toggleTableVisibility(!isTableVisible)}
+      label={{
+        as: 'a',
+        basic: true,
+        color: 'blue',
+        pointing: 'left',
+        content: `${props.data.length} entries`
+      }}
+    />
+  </Segment>
+  {displayedData.length > 0 &&
+  <Transition visible={isTableVisible} animation='fade down' duration={500}>
+    <Segment>
+      <DynamicTable data={displayedData}/>
+    </Segment>
+  </Transition>
+  }
+  </Segment.Group>
   )
 }
 
@@ -136,5 +136,30 @@ CumulativeFlowReport.propTypes = {
   graphWidth: PropTypes.number
 };
 
+{/*<Segment.Group height={1400}>*/}
 
 
+{/*<Segment color='green'>*/}
+{/*  <Button*/}
+{/*    basic*/}
+{/*    color='green'*/}
+{/*    content='Data Table'*/}
+{/*    icon={isTableVisible ? 'arrow circle up' : 'arrow circle down'}*/}
+{/*    onClick={() => toggleTableVisibility(!isTableVisible)}*/}
+{/*    label={{*/}
+{/*      as: 'a',*/}
+{/*      basic: true,*/}
+{/*      color: 'blue',*/}
+{/*      pointing: 'left',*/}
+{/*      content: `${props.data.length} entries`*/}
+{/*    }}*/}
+{/*  />*/}
+{/*</Segment>*/}
+{/*{displayedData.length > 0 &&*/}
+{/*<Transition visible={isTableVisible} animation='fade down' duration={500}>*/}
+{/*  <Segment>*/}
+{/*    <DynamicTable data={displayedData}/>*/}
+{/*  </Segment>*/}
+{/*</Transition>*/}
+{/*}*/}
+{/*</Segment.Group>*/}

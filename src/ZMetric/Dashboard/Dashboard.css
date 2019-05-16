@@ -1,27 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
 
 @keyframes App-logo-spin {
   from {
@@ -34,4 +10,33 @@
 
 #main-segment {
   margin: 2rem;
+}
+
+#ReportsFilterVisibilityIcon {
+  padding: 5px 0 0 10px;
+}
+
+#topBar {
+  padding: 10px 0 0 15px;
+}
+
+#overwritten {
+  margin-top: 10px;
+  margin-bottom: 0;
+  height: 100%;
+}
+
+#root {
+  display: block;
+  float: none;
+  width: auto;
+  height: 100%
+}
+
+#mockDashboardRoot {
+  height: 100%
+}
+
+html, body, #app, #app>div {
+  height: 100%
 }
