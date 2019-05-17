@@ -13,6 +13,7 @@ cache:
     - node_modules
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
+
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
 script:
@@ -26,7 +27,6 @@ script:
   - yarn run semantic-release
 after_script:
   - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
-
 
 addons:
   sonarcloud:
