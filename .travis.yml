@@ -14,8 +14,6 @@ cache:
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
 
-before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
 script:
   - git fetch --unshallow
   - yarn test:ci
