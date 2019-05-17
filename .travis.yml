@@ -15,6 +15,7 @@ cache:
     - $HOME/.cache/electron-builder
 before_cache:
     - rm -rf $HOME/.cache/electron-builder/wine
+
 script:
   - yarn test:ci
   - yarn run audit # customised yarn audit
