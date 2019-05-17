@@ -43,7 +43,7 @@
     "lint": "eslint src",
     "predeploy": "yarn build",
     "deploy": "surge ./build",
-    "deploy-electron": "yarn build && electron-builder"
+    "deploy-electron": "yarn build && electron-builder",
 
   },
   "browserslist": [
@@ -61,13 +61,15 @@
     "concurrently": "^4.1.0",
     "coveralls": "^3.0.3",
     "cz-conventional-changelog": "2.1.0",
+    "electron-builder": "^20.40.2",
     "electron": "^5.0.1",
-    "electron-builder": "^20.39.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
     "http-server": "^0.11.1",
     "jest-sonar-reporter": "^2.0.0",
     "require-context.macro": "^1.0.4",
+    "semantic-release": "^15.13.12",
+    "typescript": "^3.4.5",
     "wait-on": "^3.2.0"
   },
   "config": {
