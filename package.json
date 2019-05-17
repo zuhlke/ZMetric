@@ -43,8 +43,7 @@
     "lint": "eslint src",
     "predeploy": "yarn build",
     "deploy": "surge ./build",
-    "deploy-electron": "yarn build && electron-builder",
-
+    "deploy-electron": "yarn build && electron-builder"
   },
   "browserslist": [
     ">0.2%",
