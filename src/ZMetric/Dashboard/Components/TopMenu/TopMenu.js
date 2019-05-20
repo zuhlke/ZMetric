@@ -5,12 +5,6 @@ export function TopMenu (props) {
 const {jiraInstance, username, selectedProject } = props;
 return (
   <Menu>
-    <Menu.Item>
-      <Icon name={'content'} />
-    </Menu.Item>
-    <Menu.Item>
-      <Header>ZMetric</Header>
-    </Menu.Item>
     <Menu.Item>{jiraInstance}</Menu.Item>
     <Dropdown item text={selectedProject}>
       <Dropdown.Menu>
