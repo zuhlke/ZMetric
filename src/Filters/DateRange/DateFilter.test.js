@@ -1,4 +1,9 @@
-import {applyDateRangeFilter, dateInDateRange, parseDateRangeToStartAndEndDates} from "./DateFilter";
+import {
+  applyDateRangeFilter,
+  applyDateRangeFilterToDataNestedInListOfObjects,
+  dateInDateRange,
+  parseDateRangeToStartAndEndDates
+} from "./DateFilter";
 
 const data = [
   {
@@ -119,4 +124,49 @@ describe("DateFilter", () => {
     expect(startAndEndDates.end).toBe("08-02-2019");
   });
 
+  describe("apply date range filter to data in nested data structure", () => {
+      describe("such as that used by CumulativeFlow", () => {
+          const cumulativeFlowDataPoints = [
+            {
+              date: "2019-02-20",
+              "Gathering Interest": 1,
+            }, {
+              date: "2019-02-21",
+              "Gathering Interest": 1,
+            }, {
+              date: "2019-02-22",
+              "Gathering Interest": 0,
+            },{
+              date: "2019-02-23",
+              "Gathering Interest": 0,
+            }];
+          const unmergedCumulativeFlowData = [
+            {
+              id: "1",
+              name: "Bug",
+              data: cumulativeFlowDataPoints
+            }, {
+              id: "6",
+              name: "Sub-task",
+              data: cumulativeFlowDataPoints
+            }, {
+              "id": "5",
+              "name": "Support Request",
+              data: cumulativeFlowDataPoints
+            }, {
+              id: "10000",
+              name: "Suggestion",
+              data: cumulativeFlowDataPoints
+            }
+          ];
+
+          it("apply date range filter to data for all issue types", () => {
+            const filteredUnmergedData = applyDateRangeFilterToDataNestedInListOfObjects("21-02-2019 - 22-02-2019", unmergedCumulativeFlowData);
+            filteredUnmergedData.forEach(issueType => {
+              expect(issueType.data.length).toEqual(2);
+            })
+          });
+
+      });
+  });
 });

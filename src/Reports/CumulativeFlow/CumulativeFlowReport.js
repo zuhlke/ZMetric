@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {Button, Label, Segment, Transition} from "semantic-ui-react";
 import '../reports.css';
@@ -27,6 +27,10 @@ export function CumulativeFlowReport(props) {
   const [selectedWorkflowStatuses, updateSelectedWorkflowStatuses] = useState(initialSelectedWorkflowState(props.workflow));
   const [statusColours] = useState(getColoursForNewIssues(props.workflow));
 
+  useEffect(() => {
+      updateDisplayedData(mergeData(props.data, selectedIssueTypes));
+  }, [props, selectedIssueTypes]);
+
   const renderAreaChartsForSelectedWorkflows = () => {
     return getSelectedWorkflows(selectedWorkflowStatuses)
       .map(entry => <Area type="monotone" id={entry[0]} key={entry[0]} dataKey={entry[0]} stackId="1"
@@ -54,9 +58,6 @@ export function CumulativeFlowReport(props) {
 
   return (
     <Segment.Group height={1400}>
-      {console.table(props.data)}
-      {console.log(props)}
-      {console.log(displayedData)}
       <Segment.Group horizontal style={{height:"100%"}}>
         <Segment height={window.innerHeight}>
           <Label size={'medium'} color='blue' attached='top left'>

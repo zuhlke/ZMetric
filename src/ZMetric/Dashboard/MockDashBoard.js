@@ -7,7 +7,10 @@ import {DateRange} from "../../Filters/DateRange/DateRange";
 import moment from "moment";
 import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
 import {ThroughputReport} from "../../Reports/Throughput/ThroughputReport";
-import {applyDateRangeFilter} from "../../Filters/DateRange/DateFilter";
+import {
+  applyDateRangeFilter,
+  applyDateRangeFilterToDataNestedInListOfObjects
+} from "../../Filters/DateRange/DateFilter";
 import {generateTrendLineData} from "../../Reports/Throughput/TrendLine/TrendLine";
 
 export default function MockDashboard(props) {
@@ -66,8 +69,8 @@ export default function MockDashboard(props) {
                 </Segment>
               </Transition>
 
-              {workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={cumulativeFlow} workflow={workflow}/>}
-              {/*{workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={dateRange ? applyDateRangeFilter(dateRange, cumulativeFlow) : cumulativeFlow} workflow={workflow}/>}*/}
+              {/*{workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={cumulativeFlow} workflow={workflow}/>}*/}
+              {workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={dateRange ? applyDateRangeFilterToDataNestedInListOfObjects(dateRange, cumulativeFlow) : cumulativeFlow} workflow={workflow}/>}
               {leadCycleTimeData && (currentReport==="LeadTime") && <LeadTimeLineChart data={dateRange ? applyDateRangeFilter(dateRange, leadCycleTimeData) : leadCycleTimeData}/>}
               {throughput && (currentReport==="Throughput") && <ThroughputReport data={dateRange ? applyDateRangeFilter(dateRange, throughput) : throughput}/>}
 

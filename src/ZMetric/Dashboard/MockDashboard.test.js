@@ -65,36 +65,35 @@ describe("Dashboard", () => {
     expect(chartProps.data[1].date).toEqual("2019-02-03")
   });
 
-  it("renders CumulativeFlowReport with updated data values when DateRangePicker is used to specify a date range", () => {
+  it("renders CumulativeFlowReport with updated props.data when DateRangePicker is used to specify a date range", () => {
     const wrapper = mount(<MockDashboard />);
     const datesRangeInput = wrapper.find(DatesRangeInput).at(0);
     const event = {target: {value: '02-02-2019 - 03-02-2019'}};
     const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
     cumulativeFlowMenuItem.simulate('click');
-    // console.log(JSON.stringify(wrapper.find(CumulativeFlowReport).props()));
     act(() => {
       datesRangeInput.props().onChange(event, {value: '02-02-2019 - 03-02-2019'});
     });
     wrapper.update();
     const chartProps = wrapper.find(CumulativeFlowReport).props();
-    expect(chartProps.data.length).toEqual(2);
-    expect(chartProps.data[0].date).toEqual("2019-02-02");
-    expect(chartProps.data[1].date).toEqual("2019-02-03")
+    chartProps.data.forEach(issueType => {
+      expect(issueType.data.length).toEqual(2);
+      expect(issueType.data[0].date).toEqual("2019-02-02");
+      expect(issueType.data[1].date).toEqual("2019-02-03")
+    });
   });
 
-  it("2. renders CumulativeFlowReport with updated data values when DateRangePicker is used to specify a date range", () => {
+  it("renders CumulativeFlowReport AreaChart with updated data values when DateRangePicker is used to specify a date range", () => {
     const wrapper = mount(<MockDashboard />);
     const datesRangeInput = wrapper.find(DatesRangeInput).at(0);
     const event = {target: {value: '02-02-2019 - 03-02-2019'}};
     const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
     cumulativeFlowMenuItem.simulate('click');
-    // console.log(JSON.stringify(wrapper.find(CumulativeFlowReport).props()));
     act(() => {
       datesRangeInput.props().onChange(event, {value: '02-02-2019 - 03-02-2019'});
     });
     wrapper.update();
     const chartProps = wrapper.find(AreaChart).props();
-    console.log(chartProps);
     expect(chartProps.data.length).toEqual(2);
     expect(chartProps.data[0].date).toEqual("2019-02-02");
     expect(chartProps.data[1].date).toEqual("2019-02-03")
@@ -124,7 +123,6 @@ describe("Dashboard", () => {
     const throughputMenuItem = wrapper.find("#ThroughputSidebarMenuItem").hostNodes();
     throughputMenuItem.simulate('click');
     const chartProps = wrapper.find(ThroughputReport);
-    console.log(chartProps.debug());
     expect(wrapper.find(ReferenceLine).props().y).toEqual(2.5);
     act(() => {
       datesRangeInput.props().onChange(event, {value: '02-02-2019 - 03-02-2019'});
