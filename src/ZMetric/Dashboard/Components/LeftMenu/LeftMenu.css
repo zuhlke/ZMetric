@@ -1,0 +1,14 @@
+.ui.image {
+  margin-top: 0px;
+  margin: auto;
+}
+
+.ui.vertical.labeled.icon.ui.push.left.thin.visible.sidebar.flex-container.menu  {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}
+.bottom-aligned {
+  margin: 0px;
+  margin-top: auto;
+}

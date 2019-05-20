@@ -1,4 +1,10 @@
+.ui.sidebar.thin ~ .pusher {
+   width: calc(100% - 150px);
+ }
 
+.ui.sidebar.very.thin ~ .pusher {
+  width: calc(100% - 50px);
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
