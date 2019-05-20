@@ -56,6 +56,7 @@ export function CumulativeFlowReport(props) {
     <Segment.Group height={1400}>
       {console.table(props.data)}
       {console.log(props)}
+      {console.log(displayedData)}
       <Segment.Group horizontal style={{height:"100%"}}>
         <Segment height={window.innerHeight}>
           <Label size={'medium'} color='blue' attached='top left'>

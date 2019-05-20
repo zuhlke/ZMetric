@@ -8,14 +8,13 @@ import moment from "moment";
 import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
 import {ThroughputReport} from "../../Reports/Throughput/ThroughputReport";
 import {applyDateRangeFilter} from "../../Filters/DateRange/DateFilter";
-
-const useForceUpdate = () => useState()[1];
+import {generateTrendLineData} from "../../Reports/Throughput/TrendLine/TrendLine";
 
 export default function MockDashboard(props) {
   const [workflow] = useState(getWorkflow());
   const [cumulativeFlow] = useState(getCumulativeFlowData());
   const [leadCycleTimeData] = useState(getLeadTimeReportData());
-  const [throughput] = useState(getThroughput());
+  const [throughput] = useState(generateTrendLineData(getThroughput(), "throughput"));
 
   const [sidebarVisible, updateSidebarVisibility] = useState(true);
   const [reportFiltersVisible, updateReportFiltersVisibility] = useState(true);
@@ -23,17 +22,13 @@ export default function MockDashboard(props) {
   const [dateRange, updateDateRange] = useState(undefined);
   const [currentReport, updateCurrentReport] = useState("Throughput");
 
-  const [counter, updateCounter] = useState(0);
-
-  const forceUpdate = useForceUpdate();
-  const forceUpdate2 = () => updateCounter( prev => prev + 1);
-
   return (
     <div id="mockDashboardRoot">
-      {/*{console.log("parent")}*/}
         <div id="topBar">
           ZMETRIC &emsp;
-x        </div>
+          <Icon name='sidebar' onClick={() => updateSidebarVisibility(!sidebarVisible)}/>
+        </div>
+
 
         <Segment.Group horizontal id='overwritten'>
           <Sidebar.Pushable as={Segment}>
@@ -65,8 +60,6 @@ x        </div>
                   {throughput && <ReportFilters hide={() => updateReportFiltersVisibility(!reportFiltersVisible)} data={throughput}
                                                 dateRangeUpdate={range => {
                                                   updateDateRange(range);
-                                                  forceUpdate();
-                                                  forceUpdate2();
                                                 }
                                                  }/>
                   }
