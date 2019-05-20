@@ -22,7 +22,7 @@ export const toggleProperty = (data, propertyName) => {
 };
 
 export const mergeData = (data, selectedIssueTypes) => {
-  const mergeTwoDataPoints = (...data) => {
+  const mergeTwoDataPoints = (...data) => { //TODO: Change to function and move to bottom
     return data.reduce((a, b) => {
       for (let k in b) {
         if (k === "date") {

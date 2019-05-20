@@ -596,7 +596,7 @@ const leadAndCycleTimeData = [
     "averageCycleTime": 4
   }
 ];
-const cumulativeFlowData = [
+const innerCumulativeFlowData = [
   {
     "id": "1",
     "name": "Bug",
@@ -2556,8 +2556,29 @@ const jiraResponse = {
   ]
 };
 
+const cumulativeFlowData = [
+  {
+    id: "1",
+    name: "Bug",
+    data: innerCumulativeFlowData
+  }, {
+    id: "6",
+    name: "Epic",
+    data: innerCumulativeFlowData
+  }, {
+    "id": "5",
+    "name": "Story",
+    data: innerCumulativeFlowData
+  }, {
+    id: "10000",
+    name: "Task",
+    data: innerCumulativeFlowData
+  }
+];
 
-export const getCycleTimeReportData = () => convertFromJiraToLeadtime(jiraResponse);
+
+
+export const getLeadTimeReportData = () => convertFromJiraToLeadtime(jiraResponse);
 export const getWorkflow = () => workflow;
 export const getLeadAndCycleTimeData = () => leadAndCycleTimeData;
 export const getThroughput = () => throughputData;

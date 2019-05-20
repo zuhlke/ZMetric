@@ -1,6 +1,9 @@
 import moment from 'moment';
 
 export const applyDateRangeFilter = (dateRange, data) => {
+  console.log(JSON.stringify(data));
+  console.log(JSON.stringify(dateRange));
+  console.log(JSON.stringify(data.filter(dataPoint => dateInDateRange(dataPoint.date, dateRange))));
   return data.filter(dataPoint => dateInDateRange(dataPoint.date, dateRange))
 };
 

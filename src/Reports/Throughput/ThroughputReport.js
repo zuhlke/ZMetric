@@ -35,6 +35,9 @@ export function ThroughputReport(props) {
   };
   return (
     <Segment.Group stacked>
+      {/*{console.log("child")}*/}
+      {/*{console.log(props.data)}*/}
+      {/*{console.table(trendLineData)}*/}
       <Segment.Group horizontal>
         <Segment>
           <SemanticLabel size={'medium'} color='blue' attached='top left'>
@@ -48,7 +51,7 @@ export function ThroughputReport(props) {
                 <YAxis label={{value: "Throughput (issues)", angle: -90, position: 'insideLeft'}}/>
                 <Tooltip/>
                 <Legend/>
-                <ReferenceLine y={averageThroughput} stroke="blue" strokeDasharray="3 3">
+                <ReferenceLine id="AverageThroughputLine" y={averageThroughput} stroke="blue" strokeDasharray="3 3">
                   <Label value="Avg" position="left"/>
                   <Label value={averageThroughput} position="right"/>
                 </ReferenceLine>
