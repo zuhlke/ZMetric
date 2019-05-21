@@ -5,7 +5,7 @@ import {Checkbox} from "semantic-ui-react";
 export function MultipleWorkflowStatusesSelector(props) {
 
   return (
-    <div>
+    <div style={{border:0, outline:0}}>
       {
         Array.from(props.workflowStatuses).map(state => {
             return (
