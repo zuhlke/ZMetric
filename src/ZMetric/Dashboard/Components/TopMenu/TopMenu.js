@@ -1,13 +1,12 @@
 import React from "react";
-import {Menu, Icon, Dropdown } from "semantic-ui-react";
+import {Menu, Dropdown } from "semantic-ui-react";
 import moment from "moment"
 import {DateRange} from "../../../../Filters/DateRange/DateRange";
 export function TopMenu (props) {
-const {jiraInstance, username, selectedProject, updateSidebarVisibility, dateRangeUpdate, minDate, maxDate} = props;
+const {jiraInstance, username, selectedProject, dateRangeUpdate, minDate, maxDate} = props;
 return (
   <Menu style={{margin:0}}>
     <Menu.Item>{jiraInstance}</Menu.Item>
-    <Menu.Item onClick={() => updateSidebarVisibility()}><Icon name='sidebar'/></Menu.Item>
     <Dropdown item text={selectedProject}>
       <Dropdown.Menu>
       </Dropdown.Menu>

@@ -22,7 +22,7 @@ export function DateRange(props) {
     <Form>
       <DatesRangeInput
         name="datesRange"
-        placeholder={minDate.toISOString(true).split("T")[0] + " - " + maxDate.toISOString(true).split("T")[0]} //TODO: update this
+        placeholder={minDate.toISOString(true).split("T")[0] + "-" + maxDate.toISOString(true).split("T")[0]} //TODO: update this
         value={datesRange}
         iconPosition="left"
         onChange={handleChange}

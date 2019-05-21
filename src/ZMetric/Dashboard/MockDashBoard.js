@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './Dashboard.css';
-import {Icon, Menu, Segment, Sidebar, Transition} from "semantic-ui-react";
+import {Icon, Segment, Sidebar, Transition} from "semantic-ui-react";
 import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
 import {getCumulativeFlowData, getLeadTimeReportData, getThroughput, getWorkflow} from "./DataFetcher";
 import moment from "moment";
@@ -12,6 +12,7 @@ import {
 } from "../../Filters/DateRange/DateFilter";
 import {generateTrendLineData} from "../../Reports/Throughput/TrendLine/TrendLine";
 import {TopMenu} from "./Components/TopMenu/TopMenu";
+import {LeftMenu} from "./Components/LeftMenu/LeftMenu";
 
 export default function MockDashboard() {
   const [workflow] = useState(getWorkflow());
@@ -27,37 +28,18 @@ export default function MockDashboard() {
 
   return (
     <div id="mockDashboardRoot">
-        <TopMenu jiraInstance={"Zuhlke"} username={"Nickson Thanda"}
-                 selectedProject={"ZMETRIC"} updateSidebarVisibility={() => updateSidebarVisibility(!sidebarVisible)}
-                 minDate={moment(throughput[0].date, 'YYYY-MM-DD')} maxDate={moment(throughput[throughput.length-1].date, 'YYYY-MM-DD')}
-                 dateRangeUpdate={range => updateDateRange(range)}
-                 />
+
 
 
         <Segment.Group horizontal id='overwritten' style={{margin:0}}>
           <Sidebar.Pushable as={Segment}>
-            <Sidebar
-              as={Menu}
-              animation='push'
-              icon='labeled'
-              vertical
-              visible={sidebarVisible}
-              width='thin'
-            >
-              <Menu.Item id="CumulativeFlowSidebarMenuItem" as='a' onClick={() => updateCurrentReport("CumulativeFlow")}>
-                <Icon name='quidditch' />
-                Cumulative Flow
-              </Menu.Item>
-              <Menu.Item as='a' id="LeadTimeSidebarMenuItem" onClick={() => updateCurrentReport("LeadTime")}>
-                <Icon name='sync' />
-                Lead & Cycle Time
-              </Menu.Item>
-              <Menu.Item as='a' id="ThroughputSidebarMenuItem" onClick={() => updateCurrentReport("Throughput")}>
-                <Icon name='chart line' />
-                Throughput
-              </Menu.Item>
-            </Sidebar>
+            <LeftMenu updateCurrentReport={updateCurrentReport}/>
             <Sidebar.Pusher>
+              <TopMenu jiraInstance={"Zuhlke"} username={"Nickson Thanda"}
+                       selectedProject={"ZMETRIC"} updateSidebarVisibility={() => updateSidebarVisibility(!sidebarVisible)}
+                       minDate={moment(throughput[0].date, 'YYYY-MM-DD')} maxDate={moment(throughput[throughput.length-1].date, 'YYYY-MM-DD')}
+                       dateRangeUpdate={range => updateDateRange(range)}
+              />
               <div id="ReportsFilterVisibilityIcon"> <b>Report Specific Filters</b> <Icon name={'angle ' + (reportFiltersVisible ? 'up' : 'down')} onClick={() => updateReportFiltersVisibility(!reportFiltersVisible)}/> </div>
               <Transition visible={reportFiltersVisible} animation="slide down" duration={500}>
                 <Segment basic>

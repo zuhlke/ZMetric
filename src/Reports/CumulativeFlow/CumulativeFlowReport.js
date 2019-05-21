@@ -2,12 +2,10 @@ import React, {useState, useEffect} from 'react'
 import {Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {Button, Label, Segment, Transition} from "semantic-ui-react";
 import '../reports.css';
-import moment from "moment";
 import PropTypes from "prop-types";
 import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
 import {MultipleWorkflowStatusesSelector} from "./Filters/IssueTypeAndStatus/Selectors/MultipleWorkflowStatusesSelector";
 import {MultipleIssueTypeSelector} from "./Filters/IssueTypeAndStatus/Selectors/MultipleIssueTypeSelector";
-import {applyDateRangeFilter} from "../../Filters/DateRange/DateFilter";
 import {
   getSelectedWorkflows,
   mergeData,
@@ -18,7 +16,6 @@ import {
   getColoursForNewIssues, initialSelectedIssueTypesState,
   initialSelectedWorkflowState
 } from "./Filters/IssueTypeAndStatus/CumulativeFlowStateInitialization";
-import {DateRange} from "../../Filters/DateRange/DateRange";
 
 export function CumulativeFlowReport(props) {
   const [isTableVisible, toggleTableVisibility] = useState(false);
@@ -51,11 +48,6 @@ export function CumulativeFlowReport(props) {
     updateSelectedWorkflowStatuses(workflowStatuses);
   };
 
-  const filterData = dateRange => {
-    const newData = applyDateRangeFilter(dateRange, props.data);
-    updateDisplayedData(newData);
-  };
-
   return (
     <Segment.Group>
       <Segment.Group horizontal>
@@ -84,13 +76,6 @@ export function CumulativeFlowReport(props) {
           </div>
         </Segment>
         <Segment>
-          <h4>Select date range:</h4>
-          {props.data.length &&
-          <DateRange id={"data-range-picker-cumulative-flow"} minDate={moment(props.data[0].date)}
-                     maxDate={moment(props.data[props.data.length - 1].date)}
-                     dateRangeUpdate={dateRange => filterData(dateRange)}/>
-          }
-          <br/>
           <Segment.Group horizontal>
             <Segment>
               <h4>Select Issue types:</h4>
