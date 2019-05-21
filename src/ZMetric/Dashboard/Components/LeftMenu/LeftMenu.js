@@ -11,7 +11,7 @@ export function LeftMenu (props) {
   }
   return (
       <Sidebar as={Menu} animation='push' icon='labeled' left vertical visible width={width} className={'flex-container'} >
-        <Menu.Item fitted={'vertically'} className={width} style={{"min-width":0}}>
+        <Menu.Item fitted={'vertically'} className={width} style={{"min-width":0, /*height:"2.85714286em",*/ padding: 0, background:"#9A5CA7"}}>
           <Image src={logo} size={'mini'}/>
         </Menu.Item>
         <Menu.Item id="CumulativeFlowSidebarMenuItem" as='a' onClick={() => updateCurrentReport("CumulativeFlow")} style={{"min-width":0}}>

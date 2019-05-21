@@ -49,12 +49,12 @@ export function CumulativeFlowReport(props) {
   };
 
   return (
-    <Segment.Group>
-      <Segment.Group horizontal>
-        <Segment height={window.innerHeight}>
-          <Label size={'medium'} color='blue' attached='top left'>
-            Cumulative Flow (Mock)
-          </Label>
+    <Segment.Group basic style={{margin:0, border:0}}>
+      <Segment.Group basic horizontal>
+        <Segment basic height={window.innerHeight}>
+          {/*<Label size={'medium'} color='blue' attached='top left'>*/}
+          {/*  Cumulative Flow (Mock)*/}
+          {/*</Label>*/}
           <div className={'chart-segment'}>
             <ResponsiveContainer width={props.graphWidth} height={400}>
               <AreaChart id='cumulative-flow-area-chart' data={displayedData}>
@@ -75,15 +75,15 @@ export function CumulativeFlowReport(props) {
             </ResponsiveContainer>
           </div>
         </Segment>
-        <Segment>
-          <Segment.Group horizontal>
-            <Segment>
+        <Segment style={{border:0}}>
+          <Segment.Group basic horizontal style={{border:0, outline:0, "box-shadow": "none", "-webkit-box-shadow": "none", "-moz-box-shadow": "none"}}>
+            <Segment style={{border:0}}>
               <h4>Select Issue types:</h4>
               <MultipleIssueTypeSelector selectedIssueTypes={selectedIssueTypes}
                                          toggleIssueType={toggleIssueType}/>
             </Segment>
-            <Segment>
-              <h4>Select Workflow Statuses</h4>
+            <Segment style={{border:0}}>
+              <h4>Select Workflow Statuses:</h4>
               <MultipleWorkflowStatusesSelector workflowStatuses={selectedWorkflowStatuses}
                                                 toggleWorkflowStatus={toggleWorkflowStatus}/>
             </Segment>

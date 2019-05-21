@@ -9,11 +9,11 @@ import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
 export function LeadTimeLineChart(props) {
   const [isTableVisible, toggleTableVisibility] = useState(false);
   return (
-    <Segment.Group>
+    <Segment.Group style={{margin:0, border:0}}>
         <Segment>
-          <Label size={'medium'} color='blue' attached='top left'>
-            Lead Time
-          </Label>
+          {/*<Label size={'medium'} color='blue' attached='top left'>*/}
+          {/*  Lead Time*/}
+          {/*</Label>*/}
           <div className={'chart-segment'}>
             <ResponsiveContainer>
               <LineChart id="lead-time-line-chart" data={props.data}>

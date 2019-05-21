@@ -24,11 +24,11 @@ export function ThroughputReport(props) {
   const [isTableVisible, toggleTableVisibility] = useState(false);
 
   return (
-    <Segment.Group>
-        <Segment>
-          <SemanticLabel size={'medium'} color='blue' attached='top left'>
-            Throughput
-          </SemanticLabel>
+    <Segment.Group basic style={{margin:0, border:0}}>
+        <Segment basic >
+          {/*<SemanticLabel size={'medium'} color='blue' attached='top left'>*/}
+          {/*  Throughput*/}
+          {/*</SemanticLabel>*/}
           <div className={'chart-segment'}>
             <ResponsiveContainer width={props.graphWidth} height={400}>
               <ComposedChart data={props.data} margin={{right: 25}}>

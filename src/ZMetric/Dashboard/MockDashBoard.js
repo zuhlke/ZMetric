@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './Dashboard.css';
-import {Icon, Segment, Sidebar, Transition} from "semantic-ui-react";
+import {Icon, Label, Segment, Sidebar, Transition} from "semantic-ui-react";
 import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
 import {getCumulativeFlowData, getLeadTimeReportData, getThroughput, getWorkflow} from "./DataFetcher";
 import moment from "moment";
@@ -24,13 +24,10 @@ export default function MockDashboard() {
   const [reportFiltersVisible, updateReportFiltersVisibility] = useState(false);
 
   const [dateRange, updateDateRange] = useState(undefined);
-  const [currentReport, updateCurrentReport] = useState("Throughput");
+  const [currentReport, updateCurrentReport] = useState("CumulativeFlow");
 
   return (
     <div id="mockDashboardRoot">
-
-
-
         <Segment.Group horizontal id='overwritten' style={{margin:0}}>
           <Sidebar.Pushable as={Segment}>
             <LeftMenu updateCurrentReport={updateCurrentReport}/>
@@ -38,9 +35,14 @@ export default function MockDashboard() {
               <TopMenu jiraInstance={"Zuhlke"} username={"Nickson Thanda"}
                        selectedProject={"ZMETRIC"} updateSidebarVisibility={() => updateSidebarVisibility(!sidebarVisible)}
                        minDate={moment(throughput[0].date, 'YYYY-MM-DD')} maxDate={moment(throughput[throughput.length-1].date, 'YYYY-MM-DD')}
-                       dateRangeUpdate={range => updateDateRange(range)}
+                       dateRangeUpdate={range => updateDateRange(range)} projects={["ZMETRIC","ZAPP","ZTRACK"]}
               />
-              <div id="ReportsFilterVisibilityIcon"> <b>Report Specific Filters</b> <Icon name={'angle ' + (reportFiltersVisible ? 'up' : 'down')} onClick={() => updateReportFiltersVisibility(!reportFiltersVisible)}/> </div>
+              <Segment basic id="ReportsFilterVisibilityIcon" style={{padding: 0, margin: 0}}>
+                <Label size={'medium'} color='blue' >
+                  {currentReport}
+                </Label>
+                <Icon name={'angle ' + (reportFiltersVisible ? 'up' : 'down')} onClick={() => updateReportFiltersVisibility(!reportFiltersVisible)}/>
+              </Segment>
               <Transition visible={reportFiltersVisible} animation="slide down" duration={500}>
                 <Segment basic>
                   <ReportFilters hide={() => updateReportFiltersVisibility(!reportFiltersVisible)}/>
