@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import './Dashboard.css';
-import {Button, Container, Divider, Icon, Label, Menu, Segment, Sidebar, Transition} from "semantic-ui-react";
+import {Icon, Menu, Segment, Sidebar, Transition} from "semantic-ui-react";
 import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
 import {getCumulativeFlowData, getLeadTimeReportData, getThroughput, getWorkflow} from "./DataFetcher";
-import {DateRange} from "../../Filters/DateRange/DateRange";
 import moment from "moment";
 import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
 import {ThroughputReport} from "../../Reports/Throughput/ThroughputReport";
@@ -12,28 +11,30 @@ import {
   applyDateRangeFilterToDataNestedInListOfObjects
 } from "../../Filters/DateRange/DateFilter";
 import {generateTrendLineData} from "../../Reports/Throughput/TrendLine/TrendLine";
+import {TopMenu} from "./Components/TopMenu/TopMenu";
 
-export default function MockDashboard(props) {
+export default function MockDashboard() {
   const [workflow] = useState(getWorkflow());
   const [cumulativeFlow] = useState(getCumulativeFlowData());
   const [leadCycleTimeData] = useState(getLeadTimeReportData());
   const [throughput] = useState(generateTrendLineData(getThroughput(), "throughput"));
 
   const [sidebarVisible, updateSidebarVisibility] = useState(true);
-  const [reportFiltersVisible, updateReportFiltersVisibility] = useState(true);
+  const [reportFiltersVisible, updateReportFiltersVisibility] = useState(false);
 
   const [dateRange, updateDateRange] = useState(undefined);
   const [currentReport, updateCurrentReport] = useState("Throughput");
 
   return (
     <div id="mockDashboardRoot">
-        <div id="topBar">
-          ZMETRIC &emsp;
-          <Icon name='sidebar' onClick={() => updateSidebarVisibility(!sidebarVisible)}/>
-        </div>
+        <TopMenu jiraInstance={"Zuhlke"} username={"Nickson Thanda"}
+                 selectedProject={"ZMETRIC"} updateSidebarVisibility={() => updateSidebarVisibility(!sidebarVisible)}
+                 minDate={moment(throughput[0].date, 'YYYY-MM-DD')} maxDate={moment(throughput[throughput.length-1].date, 'YYYY-MM-DD')}
+                 dateRangeUpdate={range => updateDateRange(range)}
+                 />
 
 
-        <Segment.Group horizontal id='overwritten'>
+        <Segment.Group horizontal id='overwritten' style={{margin:0}}>
           <Sidebar.Pushable as={Segment}>
             <Sidebar
               as={Menu}
@@ -60,16 +61,9 @@ export default function MockDashboard(props) {
               <div id="ReportsFilterVisibilityIcon"> <b>Report Specific Filters</b> <Icon name={'angle ' + (reportFiltersVisible ? 'up' : 'down')} onClick={() => updateReportFiltersVisibility(!reportFiltersVisible)}/> </div>
               <Transition visible={reportFiltersVisible} animation="slide down" duration={500}>
                 <Segment basic>
-                  {throughput && <ReportFilters hide={() => updateReportFiltersVisibility(!reportFiltersVisible)} data={throughput}
-                                                dateRangeUpdate={range => {
-                                                  updateDateRange(range);
-                                                }
-                                                 }/>
-                  }
+                  <ReportFilters hide={() => updateReportFiltersVisibility(!reportFiltersVisible)}/>
                 </Segment>
               </Transition>
-
-              {/*{workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={cumulativeFlow} workflow={workflow}/>}*/}
               {workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={dateRange ? applyDateRangeFilterToDataNestedInListOfObjects(dateRange, cumulativeFlow) : cumulativeFlow} workflow={workflow}/>}
               {leadCycleTimeData && (currentReport==="LeadTime") && <LeadTimeLineChart data={dateRange ? applyDateRangeFilter(dateRange, leadCycleTimeData) : leadCycleTimeData}/>}
               {throughput && (currentReport==="Throughput") && <ThroughputReport data={dateRange ? applyDateRangeFilter(dateRange, throughput) : throughput}/>}
@@ -82,14 +76,9 @@ export default function MockDashboard(props) {
   );
 }
 
-function ReportFilters(props) {
-  const minDate = props.data[0].date;
-  const maxDate = props.data[props.data.length-1].date;
+function ReportFilters() {
   return(
       <span >
-        {<DateRange id={"data-range-picker-cumulative-flow"} minDate={moment(minDate)}
-                   maxDate={moment(maxDate)}
-                   dateRangeUpdate={props.dateRangeUpdate}/>}
       </span>
   )
 }
