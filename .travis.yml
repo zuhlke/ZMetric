@@ -11,19 +11,21 @@ cache:
   yarn: true
   directories:
     - node_modules
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
 before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
+    - rm -rf $HOME/.cache/electron-builder/wine
+
 script:
   - yarn test:ci
   - yarn run audit # customised yarn audit
   - yarn lint
-  - yarn build
   - sonar-scanner
+  - yarn build
+  - yarn deploy-electron
   - yarn run semantic-release
-  - yarn release
 after_script:
   - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
-  - # require the branch name to be master (note for PRs this is the base branch name)
 
 
 addons:
