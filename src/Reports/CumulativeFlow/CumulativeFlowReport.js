@@ -50,7 +50,7 @@ export function CumulativeFlowReport(props) {
 
   return (
     <Segment.Group basic style={{margin:0, border:0}}>
-      <Segment.Group basic horizontal>
+      {/*<Segment.Group basic horizontal>*/}
         <Segment basic height={window.innerHeight}>
           {/*<Label size={'medium'} color='blue' attached='top left'>*/}
           {/*  Cumulative Flow (Mock)*/}
@@ -75,21 +75,21 @@ export function CumulativeFlowReport(props) {
             </ResponsiveContainer>
           </div>
         </Segment>
-        <Segment style={{border:0}}>
-          <Segment.Group basic horizontal style={{border:0, outline:0, "box-shadow": "none", "-webkit-box-shadow": "none", "-moz-box-shadow": "none"}}>
-            <Segment style={{border:0}}>
-              <h4>Select Issue types:</h4>
-              <MultipleIssueTypeSelector selectedIssueTypes={selectedIssueTypes}
-                                         toggleIssueType={toggleIssueType}/>
-            </Segment>
-            <Segment style={{border:0}}>
-              <h4>Select Workflow Statuses:</h4>
-              <MultipleWorkflowStatusesSelector workflowStatuses={selectedWorkflowStatuses}
-                                                toggleWorkflowStatus={toggleWorkflowStatus}/>
-            </Segment>
-          </Segment.Group>
-        </Segment>
-      </Segment.Group>
+      {/*  <Segment style={{border:0}}>*/}
+      {/*    <Segment.Group basic horizontal style={{border:0, outline:0, "box-shadow": "none", "-webkit-box-shadow": "none", "-moz-box-shadow": "none"}}>*/}
+      {/*      <Segment style={{border:0}}>*/}
+      {/*        <h4>Select Issue types:</h4>*/}
+      {/*        <MultipleIssueTypeSelector selectedIssueTypes={selectedIssueTypes}*/}
+      {/*                                   toggleIssueType={toggleIssueType}/>*/}
+      {/*      </Segment>*/}
+      {/*      <Segment style={{border:0}}>*/}
+      {/*        <h4>Select Workflow Statuses:</h4>*/}
+      {/*        <MultipleWorkflowStatusesSelector workflowStatuses={selectedWorkflowStatuses}*/}
+      {/*                                          toggleWorkflowStatus={toggleWorkflowStatus}/>*/}
+      {/*      </Segment>*/}
+      {/*    </Segment.Group>*/}
+      {/*  </Segment>*/}
+      {/*</Segment.Group>*/}
   <Segment color='green'>
     <Button
       basic

@@ -20,8 +20,9 @@ return (
                           dateRangeUpdate={dateRangeUpdate}/>
     </Menu.Item>
 
-    <Menu.Menu position='right'>
+    <Dropdown placeholder={"Select Issues Types"} multiple selection options={[{text:"Story", value:"Story"}, {text:"Task", value:"Task"}, {text:"Epic", value:"Epic"}, {text:"Bug", value:"Bug"}, {text:"Sub-task", value:"Sub-task"}, {text:"Spike", value:"Spike"}]}/>
 
+    <Menu.Menu position='right'>
       <Dropdown item text={username}>
         <Dropdown.Menu>
           <Dropdown.Item>Logout</Dropdown.Item>

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './Dashboard.css';
-import {Icon, Label, Segment, Sidebar, Transition} from "semantic-ui-react";
+import {Dropdown, Icon, Label, Segment, Sidebar, Transition} from "semantic-ui-react";
 import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
 import {getCumulativeFlowData, getLeadTimeReportData, getThroughput, getWorkflow} from "./DataFetcher";
 import moment from "moment";
@@ -45,7 +45,7 @@ export default function MockDashboard() {
               </Segment>
               <Transition visible={reportFiltersVisible} animation="slide down" duration={500}>
                 <Segment basic>
-                  <ReportFilters hide={() => updateReportFiltersVisibility(!reportFiltersVisible)}/>
+                  <ReportFilters hide={() => updateReportFiltersVisibility(!reportFiltersVisible)} currentReport={currentReport}/>
                 </Segment>
               </Transition>
               {workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={dateRange ? applyDateRangeFilterToDataNestedInListOfObjects(dateRange, cumulativeFlow) : cumulativeFlow} workflow={workflow}/>}
@@ -60,9 +60,11 @@ export default function MockDashboard() {
   );
 }
 
-function ReportFilters() {
+function ReportFilters(props) {
   return(
       <span >
+        {(props.currentReport==="CumulativeFlow")&&<Dropdown placeholder={"Select Workflow Statuses"}
+                                                             multiple selection options={[{text:"Done", value:"Done"}, {text:"In Progress", value:"In Progress"}, {text:"On Hold", value:"On Hold "}, {text:"Ready For Test", value:"Ready For Test"}, {text:"Review", value:"Review"}, {text:"To Do", value:"To Do"}]}/>}
       </span>
   )
 }

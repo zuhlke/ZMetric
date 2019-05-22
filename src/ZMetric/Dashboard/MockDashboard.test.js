@@ -32,8 +32,12 @@ describe("Dashboard", () => {
 
   it("renders CumulativeFlowReport when the CumulativeFlowReportMenuItem is selected from the sidebar menu", () => {
     const wrapper = mount(<MockDashboard />);
-    expect(wrapper.exists(CumulativeFlowReport)).toBe(false);
     const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
+    const throughputMenuItem = wrapper.find("#ThroughputSidebarMenuItem").hostNodes();
+    throughputMenuItem.simulate('click');
+    expect(wrapper.exists(ThroughputReport)).toBe(true);
+    expect(wrapper.exists(CumulativeFlowReport)).toBe(false);
+    cumulativeFlowMenuItem.simulate('click');
     cumulativeFlowMenuItem.simulate('click');
     expect(wrapper.exists(CumulativeFlowReport)).toBe(true);
   });
