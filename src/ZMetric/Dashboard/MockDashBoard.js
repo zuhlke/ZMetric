@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Dashboard.css';
-import {Dropdown, Icon, Label, Segment, Sidebar, Transition} from "semantic-ui-react";
+import {Icon, Label, Segment, Sidebar, Transition} from "semantic-ui-react";
 import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
 import {getCumulativeFlowData, getLeadTimeReportData, getThroughput, getWorkflow} from "./DataFetcher";
 import moment from "moment";
@@ -13,6 +13,7 @@ import {
 import {generateTrendLineData} from "../../Reports/Throughput/TrendLine/TrendLine";
 import {TopMenu} from "./Components/TopMenu/TopMenu";
 import {LeftMenu} from "./Components/LeftMenu/LeftMenu";
+import {CumulativeFlowLocalFilters} from "../../Filters/Local/CumulativeFlowLocalFilters";
 
 export default function MockDashboard() {
   const [workflow] = useState(getWorkflow());
@@ -25,6 +26,16 @@ export default function MockDashboard() {
 
   const [dateRange, updateDateRange] = useState(undefined);
   const [currentReport, updateCurrentReport] = useState("CumulativeFlow");
+
+  const [displayLocalFilters, updateDisplayLocalFilters] = useState(hasLocalFilters(currentReport)); //TODO: is it ok to use currentReport variable here, will it be initialized?
+
+  function hasLocalFilters(report){  return report === "CumulativeFlow"}
+
+  useEffect(() => {
+    updateDisplayLocalFilters(hasLocalFilters(currentReport));
+  }, [currentReport]);
+
+
 
   return (
     <div id="mockDashboardRoot">
@@ -41,13 +52,15 @@ export default function MockDashboard() {
                 <Label size={'medium'} color='blue' >
                   {currentReport}
                 </Label>
-                <Icon name={'angle ' + (reportFiltersVisible ? 'up' : 'down')} onClick={() => updateReportFiltersVisibility(!reportFiltersVisible)}/>
+                {displayLocalFilters && <Icon id="LocalFiltersExpanderIcon" name={'angle ' + (reportFiltersVisible ? 'up' : 'down')} onClick={() => updateReportFiltersVisibility(!reportFiltersVisible)}/>}
               </Segment>
-              <Transition visible={reportFiltersVisible} animation="slide down" duration={500}>
-                <Segment basic>
-                  <ReportFilters hide={() => updateReportFiltersVisibility(!reportFiltersVisible)} currentReport={currentReport}/>
-                </Segment>
-              </Transition>
+              {displayLocalFilters &&
+                <Transition visible={reportFiltersVisible} animation="slide down" duration={500}>
+                  <Segment basic>
+                    {(currentReport==="CumulativeFlow")&&<CumulativeFlowLocalFilters statuses={["Done", "In Progress", "On Hold", "Ready For Test", "Review", "To Do"]}/>}
+                  </Segment>
+                </Transition>
+              }
               {workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={dateRange ? applyDateRangeFilterToDataNestedInListOfObjects(dateRange, cumulativeFlow) : cumulativeFlow} workflow={workflow}/>}
               {leadCycleTimeData && (currentReport==="LeadTime") && <LeadTimeLineChart data={dateRange ? applyDateRangeFilter(dateRange, leadCycleTimeData) : leadCycleTimeData}/>}
               {throughput && (currentReport==="Throughput") && <ThroughputReport data={dateRange ? applyDateRangeFilter(dateRange, throughput) : throughput}/>}
@@ -55,16 +68,6 @@ export default function MockDashboard() {
             </Sidebar.Pusher>
           </Sidebar.Pushable>
         </Segment.Group>
-
     </div>
   );
-}
-
-function ReportFilters(props) {
-  return(
-      <span >
-        {(props.currentReport==="CumulativeFlow")&&<Dropdown placeholder={"Select Workflow Statuses"}
-                                                             multiple selection options={[{text:"Done", value:"Done"}, {text:"In Progress", value:"In Progress"}, {text:"On Hold", value:"On Hold "}, {text:"Ready For Test", value:"Ready For Test"}, {text:"Review", value:"Review"}, {text:"To Do", value:"To Do"}]}/>}
-      </span>
-  )
 }

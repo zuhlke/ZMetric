@@ -21,7 +21,8 @@ export function LeftMenu (props) {
               {(width === "thin") ? "Cumulative Flow" : ""}
             </Menu.Item>
           }
-          content={"CumulativeFlow"}
+          header={"CumulativeFlow"}
+          content={"Definition..."}
           position={"right center"}
         />
         <Popup
@@ -32,9 +33,15 @@ export function LeftMenu (props) {
               {(width === "thin") ? "Lead & Cycle Time" : ""}
             </Menu.Item>
           }
-          content={"Lead and Cycle Time"}
+          // header={"Lead and Cycle Time"}
+          // content={"Lead time: definition... \n Cycle Time: definition..."}
           position={"right center"}
-          />
+        >
+          <Popup.Header>Lead & Cycle Time </Popup.Header>
+          <Popup.Content>
+            <p><b>Lead time:</b> definition...</p><p><b>Cycle Time:</b> definition...</p>
+          </Popup.Content>
+        </Popup>
         <Popup
           trigger={
             <Menu.Item as='a' id="ThroughputSidebarMenuItem" onClick={() => updateCurrentReport("Throughput")}
