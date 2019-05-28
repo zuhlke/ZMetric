@@ -1,0 +1,3 @@
+.topmenu.ui.menu .item:nth-child(3)::before{
+  width: 0;
+}
