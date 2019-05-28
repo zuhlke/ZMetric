@@ -1,5 +1,4 @@
 language: node_js
-os: osx
 node_js:
   - "stable"
 env:
@@ -11,23 +10,22 @@ cache:
   yarn: true
   directories:
     - node_modules
-    - $HOME/.cache/electron
-    - $HOME/.cache/electron-builder
-before_cache:
-    - rm -rf $HOME/.cache/electron-builder/wine
-
 script:
   - yarn test:ci
   - yarn run audit # customised yarn audit
   - yarn lint
-  - sonar-scanner
   - yarn build
-  - yarn deploy-electron
-  - yarn run semantic-release
+  - sonar-scanner
 after_script:
   - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
-
-
+deploy:
+  provider: surge
+  project: ./build/
+  domain: $DOMAIN_NAME
+  skip_cleanup: true
+  keep_history: true
+  on:
+    all_branches: true
 addons:
   sonarcloud:
     organization: "zuhlke" # the key of the org you chose at step #3
