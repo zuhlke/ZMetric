@@ -1,0 +1,7 @@
+.ui.button.toggle.active, .ui.buttons .button.toggle.active, .ui.toggle.buttons .active.button{
+ background-color: #2185d0!important;
+}
+
+.ui.button{
+  color: rgba(255,255,255,.9)
+}

@@ -27,7 +27,7 @@ export default function MockDashboard() {
   const [dateRange, updateDateRange] = useState(undefined);
   const [currentReport, updateCurrentReport] = useState("CumulativeFlow");
 
-  const [displayLocalFilters, updateDisplayLocalFilters] = useState(hasLocalFilters(currentReport)); //TODO: is it ok to use currentReport variable here, will it be initialized?
+  const [displayLocalFilters, updateDisplayLocalFilters] = useState(hasLocalFilters(currentReport)); //TODO: is it ok to use currentReport variable here, will it be initialized (especially when we move to axios)?
 
   function hasLocalFilters(report){  return report === "CumulativeFlow"}
 
@@ -56,7 +56,7 @@ export default function MockDashboard() {
               </Segment>
               {displayLocalFilters &&
                 <Transition visible={reportFiltersVisible} animation="slide down" duration={500}>
-                  <Segment basic>
+                  <Segment basic style={{padding: 0, margin: "1em auto 0"}}>
                     {(currentReport==="CumulativeFlow")&&<CumulativeFlowLocalFilters statuses={["Done", "In Progress", "On Hold", "Ready For Test", "Review", "To Do"]}/>}
                   </Segment>
                 </Transition>

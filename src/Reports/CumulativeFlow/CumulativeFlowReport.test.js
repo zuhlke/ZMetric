@@ -2,10 +2,8 @@ import ReactDOM from "react-dom";
 import React from "react";
 import {CumulativeFlowReport} from "./CumulativeFlowReport";
 import {mount} from "enzyme/build";
-import {Checkbox} from "semantic-ui-react";
 import {Area} from "recharts";
-import {MultipleWorkflowStatusesSelector} from "./Filters/IssueTypeAndStatus/Selectors/MultipleWorkflowStatusesSelector";
-import {MultipleIssueTypeSelector} from "./Filters/IssueTypeAndStatus/Selectors/MultipleIssueTypeSelector";
+
 
 describe("CumulativeFlowReport", () => {
   const workflow = [
@@ -748,30 +746,5 @@ describe("CumulativeFlowReport", () => {
     const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400}/>);
 
     expect(wrapper.find(Area).length).toBe(2);
-  });
-
-  it('initializes issue types with story as default', () => {
-    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400}/>);
-
-    expect(wrapper.find("#multi-issue-selector-checkbox-10001").hostNodes().props().checked).toBeTruthy();
-  });
-
-  it("updates graph when deselecting workflow state", () => {
-    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400}/>);
-    const workflowSelector = wrapper.find(MultipleWorkflowStatusesSelector);
-    expect(wrapper.find(Area).length).toEqual(2);
-    workflowSelector.find(Checkbox).first().simulate('change');
-    expect(wrapper.find(Area).length).toEqual(1);
-  });
-
-  it("updates available workflows when selecting issues types with new workflows", () => {
-    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400}/>);
-    const issueTypeSelector = wrapper.find(MultipleIssueTypeSelector);
-
-    issueTypeSelector.find(Checkbox).first().simulate('change');
-
-    const workflowSelector = wrapper.find(MultipleWorkflowStatusesSelector);
-    const workflowStates = workflowSelector.find(Checkbox);
-    expect(workflowStates.length).toEqual(3);
   });
 });

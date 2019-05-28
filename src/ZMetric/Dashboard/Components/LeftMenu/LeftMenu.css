@@ -4,15 +4,15 @@
   height: 100%;
 }
 .bottom-aligned {
-  margin: auto 0px 0px;
+  margin: auto 0 0;
 }
 
 .ui.mini.image{
   width: 39px;
   height: 39px;
-  margin-top: 0px;
   margin: auto;
   /*float: left;*/
 }
+
 
 /*color: "#9A5CA7"*/
