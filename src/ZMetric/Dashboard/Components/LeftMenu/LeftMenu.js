@@ -3,7 +3,7 @@ import {Sidebar, Menu, Icon, Image, Popup} from "semantic-ui-react";
 import logo from "../../../../logo.jpg"
 import "./LeftMenu.css"
 export function LeftMenu (props) {
-  const [width, setWidth] = useState('thin');
+  const [width, setWidth] = useState('very thin');
   const {updateCurrentReport} = props;
 
   function onClickArrow() {
@@ -33,8 +33,6 @@ export function LeftMenu (props) {
               {(width === "thin") ? "Lead & Cycle Time" : ""}
             </Menu.Item>
           }
-          // header={"Lead and Cycle Time"}
-          // content={"Lead time: definition... \n Cycle Time: definition..."}
           position={"right center"}
         >
           <Popup.Header>Lead & Cycle Time </Popup.Header>
@@ -54,7 +52,7 @@ export function LeftMenu (props) {
           content={"A measure of issues completed per unit time."}
           position={"right center"}
           />
-        <Menu.Item as='a' className={'bottom-aligned'} onClick ={onClickArrow} style={{"min-width":0}}>
+        <Menu.Item id='leftMenuExpander' as='a' className={'bottom-aligned'} onClick ={onClickArrow} style={{"min-width":0}}>
           <Icon name={width==='thin' ? "angle left" : "angle right"} />
         </Menu.Item>
       </Sidebar>
