@@ -14,7 +14,7 @@ import {
 } from "recharts";
 import PropTypes from 'prop-types';
 import {calculateAverageThroughput} from "./ThroughputDataAdapter";
-import {Button, Label as SemanticLabel, Segment, Transition} from "semantic-ui-react";
+import {Button, Segment, Transition} from "semantic-ui-react";
 import '../reports.css';
 import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
 
@@ -26,9 +26,6 @@ export function ThroughputReport(props) {
   return (
     <Segment.Group basic style={{margin:0, border:0}}>
         <Segment basic >
-          {/*<SemanticLabel size={'medium'} color='blue' attached='top left'>*/}
-          {/*  Throughput*/}
-          {/*</SemanticLabel>*/}
           <div className={'chart-segment'}>
             <ResponsiveContainer width={props.graphWidth} height={400}>
               <ComposedChart data={props.data} margin={{right: 25}}>
@@ -49,6 +46,7 @@ export function ThroughputReport(props) {
         </Segment>
       <Segment color='green'>
         <Button
+          id='throughputReportDataTableButton'
           basic
           color='green'
           content='Data Table'

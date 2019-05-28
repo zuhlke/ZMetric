@@ -1,16 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
-import {Button, Label, Segment, Transition} from "semantic-ui-react";
+import {Button, Segment, Transition} from "semantic-ui-react";
 import '../reports.css';
 import PropTypes from "prop-types";
 import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
-import {MultipleWorkflowStatusesSelector} from "./Filters/IssueTypeAndStatus/Selectors/MultipleWorkflowStatusesSelector";
-import {MultipleIssueTypeSelector} from "./Filters/IssueTypeAndStatus/Selectors/MultipleIssueTypeSelector";
 import {
   getSelectedWorkflows,
   mergeData,
-  toggleProperty,
-  updateAvailableWorkflowStatusTypes
 } from "./Filters/IssueTypeAndStatus/CumulativeFlowReportService";
 import {
   getColoursForNewIssues, initialSelectedIssueTypesState,
@@ -19,9 +15,9 @@ import {
 
 export function CumulativeFlowReport(props) {
   const [isTableVisible, toggleTableVisibility] = useState(false);
-  const [selectedIssueTypes, updateSelectedIssueTypes] = useState(initialSelectedIssueTypesState(props.workflow));
+  const [selectedIssueTypes] = useState(initialSelectedIssueTypesState(props.workflow));
   const [displayedData, updateDisplayedData] = useState(mergeData(props.data, selectedIssueTypes));
-  const [selectedWorkflowStatuses, updateSelectedWorkflowStatuses] = useState(initialSelectedWorkflowState(props.workflow));
+  const [selectedWorkflowStatuses] = useState(initialSelectedWorkflowState(props.workflow));
   const [statusColours] = useState(getColoursForNewIssues(props.workflow));
 
   useEffect(() => {
@@ -36,25 +32,9 @@ export function CumulativeFlowReport(props) {
                           activeDot={true}/>);
   };
 
-  const toggleIssueType = issueTypeName => {
-    const issueTypes = toggleProperty(selectedIssueTypes, issueTypeName);
-    updateSelectedIssueTypes(issueTypes);
-    updateSelectedWorkflowStatuses(updateAvailableWorkflowStatusTypes(issueTypes, props.workflow, selectedWorkflowStatuses));
-    updateDisplayedData(mergeData(props.data, issueTypes));
-  };
-
-  const toggleWorkflowStatus = statusName => {
-    const workflowStatuses = toggleProperty(selectedWorkflowStatuses, statusName);
-    updateSelectedWorkflowStatuses(workflowStatuses);
-  };
-
   return (
     <Segment.Group basic style={{margin:0, border:0}}>
-      {/*<Segment.Group basic horizontal>*/}
         <Segment basic height={window.innerHeight}>
-          {/*<Label size={'medium'} color='blue' attached='top left'>*/}
-          {/*  Cumulative Flow (Mock)*/}
-          {/*</Label>*/}
           <div className={'chart-segment'}>
             <ResponsiveContainer width={props.graphWidth} height={400}>
               <AreaChart id='cumulative-flow-area-chart' data={displayedData}>
@@ -75,23 +55,9 @@ export function CumulativeFlowReport(props) {
             </ResponsiveContainer>
           </div>
         </Segment>
-      {/*  <Segment style={{border:0}}>*/}
-      {/*    <Segment.Group basic horizontal style={{border:0, outline:0, "box-shadow": "none", "-webkit-box-shadow": "none", "-moz-box-shadow": "none"}}>*/}
-      {/*      <Segment style={{border:0}}>*/}
-      {/*        <h4>Select Issue types:</h4>*/}
-      {/*        <MultipleIssueTypeSelector selectedIssueTypes={selectedIssueTypes}*/}
-      {/*                                   toggleIssueType={toggleIssueType}/>*/}
-      {/*      </Segment>*/}
-      {/*      <Segment style={{border:0}}>*/}
-      {/*        <h4>Select Workflow Statuses:</h4>*/}
-      {/*        <MultipleWorkflowStatusesSelector workflowStatuses={selectedWorkflowStatuses}*/}
-      {/*                                          toggleWorkflowStatus={toggleWorkflowStatus}/>*/}
-      {/*      </Segment>*/}
-      {/*    </Segment.Group>*/}
-      {/*  </Segment>*/}
-      {/*</Segment.Group>*/}
   <Segment color='green'>
     <Button
+      id='cumulativeFlowReportDataTableButton'
       basic
       color='green'
       content='Data Table'

@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from "react-dom";
 import {LeadTimeLineChart} from "./LeadTimeLineChart";
 import {mount} from "enzyme";
-import {DatesRangeInput} from "semantic-ui-calendar-react";
-import {act} from "react-dom/test-utils";
-import {LineChart} from "recharts";
+import {Table} from "semantic-ui-react";
 
 
 describe("LeadTimeLineChart", () => {
@@ -36,5 +34,19 @@ describe("LeadTimeLineChart", () => {
     ReactDOM.render(<LeadTimeLineChart data={data}/>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
+
+  it("initially renders report without data table ", () => {
+    const wrapper = mount(<LeadTimeLineChart data={data}/>);
+    expect(wrapper.exists(Table)).toBe(false);
+  });
+
+  it("renders the data table when the data table button is clicked", () => {
+    const wrapper = mount(<LeadTimeLineChart data={data}/>);
+    const tableButton = wrapper.find('#leadTimeReportDataTableButton').hostNodes();
+    expect(wrapper.exists(Table)).toBe(false);
+    tableButton.simulate('click');
+    expect(wrapper.exists(Table)).toBe(true);
+  })
+
 
 });

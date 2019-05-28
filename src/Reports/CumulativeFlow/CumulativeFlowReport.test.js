@@ -3,6 +3,7 @@ import React from "react";
 import {CumulativeFlowReport} from "./CumulativeFlowReport";
 import {mount} from "enzyme/build";
 import {Area} from "recharts";
+import {Table} from "semantic-ui-react";
 
 
 describe("CumulativeFlowReport", () => {
@@ -741,10 +742,22 @@ describe("CumulativeFlowReport", () => {
     ReactDOM.unmountComponentAtNode(div);
   });
 
-
   it('initialises all workflow states as selected', () => {
     const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400}/>);
-
     expect(wrapper.find(Area).length).toBe(2);
   });
+
+  it("initially renders report without data table ", () => {
+    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400}/>);
+    expect(wrapper.exists(Table)).toBe(false);
+  });
+
+  it("renders the data table when the data table button is clicked", () => {
+    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400}/>);
+    const tableButton = wrapper.find('#cumulativeFlowReportDataTableButton').hostNodes();
+    expect(wrapper.exists(Table)).toBe(false);
+    tableButton.simulate('click');
+    expect(wrapper.exists(Table)).toBe(true);
+  })
+
 });

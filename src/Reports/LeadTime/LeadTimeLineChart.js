@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import PropTypes from 'prop-types';
-import {Button, Label, Segment, Transition} from "semantic-ui-react";
+import {Button, Segment, Transition} from "semantic-ui-react";
 import '../reports.css';
 import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
 
@@ -35,6 +35,7 @@ export function LeadTimeLineChart(props) {
         </Segment>
       <Segment color='green'>
         <Button
+          id='leadTimeReportDataTableButton'
           basic
           color='green'
           content='Data Table'
