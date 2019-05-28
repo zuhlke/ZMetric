@@ -15,6 +15,8 @@ describe("Dashboard", () => {
     ReactDOM.unmountComponentAtNode(div);
   });
 
+  //TODO: improve test coverage of this file, inject axios
+
 });
 
 

@@ -8,9 +8,6 @@ const {jiraInstance, username, selectedProject, dateRangeUpdate, minDate, maxDat
 const issueTypes = ["Story", "Task", "Epic", "Bug", "Sub-task", "Spike"];
   const initialSelectedButtonsArray = issueTypes.map(issueType => {return {status: issueType, active: true}});
   const [selectedButtonsArray, updateSelectedButtonsArray] = useState(initialSelectedButtonsArray);
-  // const options = issueTypes.map(issueType => {
-  //   return {"text":issueType, "value":issueType}
-  // });
   const toggleButton = index => {
     const updatedArray = [...selectedButtonsArray];
     updatedArray[index].active = !selectedButtonsArray[index].active;
@@ -33,7 +30,6 @@ return (
                           dateRangeUpdate={dateRangeUpdate}/>
     </Menu.Item>
 
-    {/*<Dropdown placeholder={"Select Issues Types"} multiple selection clearable defaultValue={issueTypes} options={options}/>*/}
     <Button.Group>
       {selectedButtonsArray.map((workflowStatus, index) => <Button toggle size="small" style={{"background-color": (workflowStatus.active ? '#2185d0' : null)}} active={workflowStatus.active} onClick={() => toggleButton(index)}>{workflowStatus.status}</Button>)}
     </Button.Group>
