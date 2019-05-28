@@ -6,9 +6,6 @@ export function CumulativeFlowLocalFilters(props){
   const {statuses} = props;
   const initialSelectedButtonsArray = statuses.map(status => {return {status: status, active: true}});
   const [selectedButtonsArray, updateSelectedButtonsArray] = useState(initialSelectedButtonsArray);
-  // const options = statuses.map(workflowStatus => {
-  //   return {"text":workflowStatus, "value":workflowStatus}
-  // });
   const toggleButton = index => {
     const updatedArray = [...selectedButtonsArray];
     updatedArray[index].active = !selectedButtonsArray[index].active;
@@ -18,13 +15,6 @@ export function CumulativeFlowLocalFilters(props){
     <span >
       <div style={{position: "relative", left:"1em"}}>
         <h5>Select Workflow Statuses To Display:</h5>
-          {/*<Dropdown*/}
-          {/*  id='CumulativeFlowWorkflowFilterDropdown'*/}
-          {/*  placeholder={"Select Workflow Statuses"}*/}
-          {/*  defaultValue={statuses}*/}
-          {/*  clearable*/}
-          {/*  multiple selection options={options}*/}
-          {/*/>*/}
           <Button.Group>
             {selectedButtonsArray.map((workflowStatus, index) => <Button toggle size="small" style={{"background-color": (workflowStatus.active ? '#2185d0' : null)}} active={workflowStatus.active} onClick={() => toggleButton(index)}>{workflowStatus.status}</Button>)}
           </Button.Group>
