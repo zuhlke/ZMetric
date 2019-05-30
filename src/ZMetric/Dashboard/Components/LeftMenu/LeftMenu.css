@@ -1,6 +1,5 @@
 .ui.vertical.labeled.icon.ui.push.left.visible.sidebar.flex-container.menu  {
   display: flex;
-  /*justify-content: space-between;*/
   height: 100%;
   width: 35px;
 }
@@ -20,19 +19,4 @@
   background: rgba(0,0,0,.25);
   color: teal;
   border-radius: 0;
-  box-shadow: none;
 }
-
-/*.bottom-aligned {*/
-/*  margin: auto 0 0;*/
-/*}*/
-
-/*.ui.mini.image{*/
-/*  width: 39px;*/
-/*  height: 39px;*/
-/*  margin: auto;*/
-/*  !*float: left;*!*/
-/*}*/
-
-
-/*color: "#9A5CA7"*/
