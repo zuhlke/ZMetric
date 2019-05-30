@@ -8,7 +8,7 @@ import {act} from "react-dom/test-utils";
 import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
 import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
 import {AreaChart, ComposedChart, LineChart, ReferenceLine} from "recharts";
-import  Label} from "semantic-ui-react";
+import  {Label} from "semantic-ui-react";
 import {CumulativeFlowLocalFilters} from "../../Filters/Local/CumulativeFlowLocalFilters";
 
 const session = {name: 'cookie', value: '123'};
