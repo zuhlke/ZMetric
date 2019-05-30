@@ -11,9 +11,6 @@ export function LeadTimeLineChart(props) {
   return (
     <Segment.Group style={{margin:0, border:0}}>
         <Segment>
-          {/*<Label size={'medium'} color='blue' attached='top left'>*/}
-          {/*  Lead Time*/}
-          {/*</Label>*/}
           <div className={'chart-segment'}>
             <ResponsiveContainer>
               <LineChart id="lead-time-line-chart" data={props.data}>
@@ -33,7 +30,7 @@ export function LeadTimeLineChart(props) {
             </ResponsiveContainer>
           </div>
         </Segment>
-      <Segment color='green'>
+      <Segment style={{"border":0}}>
         <Button
           id='leadTimeReportDataTableButton'
           basic

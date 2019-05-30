@@ -1,3 +1,34 @@
-.topmenu.ui.menu .item:nth-child(3)::before{
+.topmenu.ui.menu .item:before
+{
   width: 0;
+}
+
+.ui.menu {
+  height: 35px;
+}
+
+.ui.button.toggle.active:hover{
+  background-color: #2185d0!important;
+}
+.ui.mini.active.toggle.button{
+  height:30px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 3px;
+  margin-right: 3px;
+  /*padding:0;*/
+}
+
+
+.ui.menu {
+  display: -webkit-flex;
+  display: flex;
+  margin: 1rem 0;
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+  background: #fff;
+  font-weight: 400;
+  border: 1px solid rgba(34,36,38,.15);
+  box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+  border-radius: .28571429rem;
+  /* min-height: 2.85714286em; */
 }

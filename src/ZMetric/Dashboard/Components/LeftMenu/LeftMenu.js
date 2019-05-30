@@ -1,24 +1,15 @@
-import React, {useState} from "react";
-import {Sidebar, Menu, Icon, Image, Popup} from "semantic-ui-react";
-import logo from "../../../../logo.jpg"
+import React from "react";
+import {Sidebar, Menu, Icon, Popup} from "semantic-ui-react";
 import "./LeftMenu.css"
 export function LeftMenu (props) {
-  const [width, setWidth] = useState('very thin');
-  const {updateCurrentReport} = props;
+  const {updateCurrentReport, currentReport} = props;
 
-  function onClickArrow() {
-    setWidth(width==='thin' ? 'very thin' : 'thin')
-  }
   return (
-      <Sidebar as={Menu} animation='push' icon='labeled' left vertical visible width={width} className={'flex-container'} >
-        <Menu.Item fitted={'vertically'} className={width} style={{"min-width":0, /*height:"2.85714286em",*/ padding: 0, background:"#9A5CA7"}}>
-          <Image src={logo} size={'mini'}/>
-        </Menu.Item>
+      <Sidebar as={Menu} animation='push' icon='labeled' left vertical visible width={'very thin'} className={'flex-container'} >
         <Popup
           trigger={
-            <Menu.Item id="CumulativeFlowSidebarMenuItem" as='a' onClick={() => updateCurrentReport("CumulativeFlow")} style={{"min-width":0}}>
-              <Icon name='quidditch' />
-              {(width === "thin") ? "Cumulative Flow" : ""}
+            <Menu.Item active={currentReport === "CumulativeFlow"} id="CumulativeFlowSidebarMenuItem" as='a' onClick={() => updateCurrentReport("CumulativeFlow")} style={{"min-width":0}}>
+              <Icon name='quidditch' size={"mini"}/>
             </Menu.Item>
           }
           header={"CumulativeFlow"}
@@ -27,10 +18,9 @@ export function LeftMenu (props) {
         />
         <Popup
           trigger={
-            <Menu.Item as='a' id="LeadTimeSidebarMenuItem" onClick={() => updateCurrentReport("LeadTime")}
+            <Menu.Item active={currentReport === "LeadTime"} as='a' id="LeadTimeSidebarMenuItem" onClick={() => updateCurrentReport("LeadTime")}
                        style={{"min-width": 0}}>
-              <Icon name='sync'/>
-              {(width === "thin") ? "Lead & Cycle Time" : ""}
+              <Icon name='sync' size="tiny"/>
             </Menu.Item>
           }
           position={"right center"}
@@ -42,19 +32,15 @@ export function LeftMenu (props) {
         </Popup>
         <Popup
           trigger={
-            <Menu.Item as='a' id="ThroughputSidebarMenuItem" onClick={() => updateCurrentReport("Throughput")}
+            <Menu.Item active={currentReport === "Throughput"} as='a' id="ThroughputSidebarMenuItem" onClick={() => updateCurrentReport("Throughput")}
                        style={{"min-width": 0}}>
-              <Icon name='chart line'/>
-              {(width === "thin") ? "Throughput" : ""}
+              <Icon name='chart line' size="mini"/>
             </Menu.Item>
           }
           header={"Throughput"}
           content={"A measure of issues completed per unit time."}
           position={"right center"}
           />
-        <Menu.Item id='leftMenuExpander' as='a' className={'bottom-aligned'} onClick ={onClickArrow} style={{"min-width":0}}>
-          <Icon name={width==='thin' ? "angle left" : "angle right"} />
-        </Menu.Item>
       </Sidebar>
   );
 }

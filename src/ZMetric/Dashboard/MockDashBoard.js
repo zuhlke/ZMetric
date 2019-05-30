@@ -39,35 +39,35 @@ export default function MockDashboard() {
 
   return (
     <div id="mockDashboardRoot">
-        <Segment.Group horizontal id='overwritten' style={{margin:0}}>
-          <Sidebar.Pushable as={Segment}>
-            <LeftMenu updateCurrentReport={updateCurrentReport}/>
-            <Sidebar.Pusher>
-              <TopMenu jiraInstance={"Zuhlke"} username={"Nickson Thanda"}
-                       selectedProject={"ZMETRIC"} updateSidebarVisibility={() => updateSidebarVisibility(!sidebarVisible)}
-                       minDate={moment(throughput[0].date, 'YYYY-MM-DD')} maxDate={moment(throughput[throughput.length-1].date, 'YYYY-MM-DD')}
-                       dateRangeUpdate={range => updateDateRange(range)} projects={["ZMETRIC","ZAPP","ZTRACK"]}
-              />
-              <Segment basic id="ReportsFilterVisibilityIcon" style={{padding: 0, margin: 0}}>
-                <Label size={'medium'} color='blue' >
-                  {currentReport}
-                </Label>
-                {displayLocalFilters && <Icon id="LocalFiltersExpanderIcon" name={'angle ' + (reportFiltersVisible ? 'up' : 'down')} onClick={() => updateReportFiltersVisibility(!reportFiltersVisible)}/>}
-              </Segment>
-              {displayLocalFilters &&
-                <Transition visible={reportFiltersVisible} animation="slide down" duration={500}>
-                  <Segment basic style={{padding: 0, margin: "1em auto 0"}}>
-                    {(currentReport==="CumulativeFlow")&&<CumulativeFlowLocalFilters statuses={["Done", "In Progress", "On Hold", "Ready For Test", "Review", "To Do"]}/>}
-                  </Segment>
-                </Transition>
-              }
-              {workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={dateRange ? applyDateRangeFilterToDataNestedInListOfObjects(dateRange, cumulativeFlow) : cumulativeFlow} workflow={workflow}/>}
-              {leadCycleTimeData && (currentReport==="LeadTime") && <LeadTimeLineChart data={dateRange ? applyDateRangeFilter(dateRange, leadCycleTimeData) : leadCycleTimeData}/>}
-              {throughput && (currentReport==="Throughput") && <ThroughputReport data={dateRange ? applyDateRangeFilter(dateRange, throughput) : throughput}/>}
+      <TopMenu jiraInstance={"Zuhlke"} username={"Nickson Thanda"}
+               selectedProject={"ZMETRIC"} updateSidebarVisibility={() => updateSidebarVisibility(!sidebarVisible)}
+               minDate={moment(throughput[0].date, 'YYYY-MM-DD')} maxDate={moment(throughput[throughput.length-1].date, 'YYYY-MM-DD')}
+               dateRangeUpdate={range => updateDateRange(range)} projects={["ZMETRIC","ZAPP","ZTRACK"]}
+      />
+      <Segment.Group horizontal id='overwritten' style={{margin:0}}>
+        <Sidebar.Pushable as={Segment}>
+          <LeftMenu updateCurrentReport={updateCurrentReport} currentReport={currentReport}/>
+          <Sidebar.Pusher>
+            <Segment basic id="ReportsFilterVisibilityIcon" style={{padding: 0, margin: "1em auto 0 1em"}}>
+              <Label size={'big'} color='teal' >
+                {currentReport}
+              </Label>
+              {displayLocalFilters && <Icon id="LocalFiltersExpanderIcon" name={'angle ' + (reportFiltersVisible ? 'up' : 'down')} onClick={() => updateReportFiltersVisibility(!reportFiltersVisible)}/>}
+            </Segment>
+            {displayLocalFilters &&
+              <Transition visible={reportFiltersVisible} animation="slide down" duration={500}>
+                <Segment basic style={{padding: 0, margin: "1em auto 0"}}>
+                  {(currentReport==="CumulativeFlow")&&<CumulativeFlowLocalFilters statuses={["Done", "In Progress", "On Hold", "Ready For Test", "Review", "To Do"]}/>}
+                </Segment>
+              </Transition>
+            }
+            {workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={dateRange ? applyDateRangeFilterToDataNestedInListOfObjects(dateRange, cumulativeFlow) : cumulativeFlow} workflow={workflow}/>}
+            {leadCycleTimeData && (currentReport==="LeadTime") && <LeadTimeLineChart data={dateRange ? applyDateRangeFilter(dateRange, leadCycleTimeData) : leadCycleTimeData}/>}
+            {throughput && (currentReport==="Throughput") && <ThroughputReport data={dateRange ? applyDateRangeFilter(dateRange, throughput) : throughput}/>}
 
-            </Sidebar.Pusher>
-          </Sidebar.Pushable>
-        </Segment.Group>
+          </Sidebar.Pusher>
+        </Sidebar.Pushable>
+      </Segment.Group>
     </div>
   );
 }

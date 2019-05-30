@@ -1,10 +1,11 @@
 import React, {useState} from "react";
-import {Menu, Dropdown, Button} from "semantic-ui-react";
+import {Menu, Dropdown, Button, Image} from "semantic-ui-react";
+import logo from "../../../../logo.jpg"
 import moment from "moment"
 import {DateRange} from "../../../../Filters/DateRange/DateRange";
 import './TopMenu.css'
 export function TopMenu (props) {
-const {jiraInstance, username, selectedProject, dateRangeUpdate, minDate, maxDate, projects} = props;
+const {username, selectedProject, dateRangeUpdate, minDate, maxDate, projects} = props;
 const issueTypes = ["Story", "Task", "Epic", "Bug", "Sub-task", "Spike"];
   const initialSelectedButtonsArray = issueTypes.map(issueType => {return {status: issueType, active: true}});
   const [selectedButtonsArray, updateSelectedButtonsArray] = useState(initialSelectedButtonsArray);
@@ -15,7 +16,9 @@ const issueTypes = ["Story", "Task", "Epic", "Bug", "Sub-task", "Spike"];
   };
 return (
   <Menu className={"topmenu"} style={{margin:0}}>
-    <Menu.Item>{jiraInstance}</Menu.Item>
+    <Menu.Item style={{"min-width":0, padding: 0}}>
+      <Image src={logo} size={'mini'}/>
+    </Menu.Item>
     <Dropdown item text={selectedProject}>
       <Dropdown.Menu>
         {projects.map((project) =>
@@ -30,9 +33,7 @@ return (
                           dateRangeUpdate={dateRangeUpdate}/>
     </Menu.Item>
 
-    <Button.Group>
-      {selectedButtonsArray.map((workflowStatus, index) => <Button toggle size="small" style={{"background-color": (workflowStatus.active ? '#2185d0' : null)}} active={workflowStatus.active} onClick={() => toggleButton(index)}>{workflowStatus.status}</Button>)}
-    </Button.Group>
+      {selectedButtonsArray.map((issueType, index) => <Button toggle size="mini"  style={{"background-color": (issueType.active ? '#DAF7A6' : null)}}  active={issueType.active} onClick={() => toggleButton(index)}>{issueType.status}</Button>)}
 
     <Menu.Menu position='right'>
       <Dropdown item text={username}>

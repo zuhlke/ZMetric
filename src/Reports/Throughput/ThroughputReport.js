@@ -44,7 +44,7 @@ export function ThroughputReport(props) {
             </ResponsiveContainer>
           </div>
         </Segment>
-      <Segment color='green'>
+      <Segment style={{"border-top":0}}>
         <Button
           id='throughputReportDataTableButton'
           basic
