@@ -31,7 +31,7 @@ export function CumulativeFlowReport(props) {
   };
 
   return (
-  <Segment.Group basic className="report" id={"cumulativeFlowReportOuterSegments"}>
+  <Segment.Group basic className="report">
       <Segment basic height={window.innerHeight}>
         <div className={'chart-segment'}>
           <ResponsiveContainer width={props.graphWidth} height={400}>

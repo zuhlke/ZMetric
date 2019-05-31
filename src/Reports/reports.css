@@ -7,8 +7,7 @@
   background-color: #fff;
 }
 
-.ui.segments.report.container{
-  margin:0!important;
+.ui.segments.report{
   border:0;
 }
 
@@ -18,9 +17,4 @@
 
 .ui.segments:not(.horizontal)>.segment:last-child{
   border-top:0;
-}
-
-#cumulativeFlowReportOuterSegments{
-  margin:0;
-  border:0;
 }

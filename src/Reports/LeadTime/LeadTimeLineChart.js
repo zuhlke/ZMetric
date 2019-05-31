@@ -9,7 +9,7 @@ import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
 export function LeadTimeLineChart(props) {
   const [isTableVisible, toggleTableVisibility] = useState(false);
   return (
-    <Segment.Group style={{margin:0, border:0}}>
+    <Segment.Group className={"report"}>
         <Segment>
           <div className={'chart-segment'}>
             <ResponsiveContainer>
