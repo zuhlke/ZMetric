@@ -8,7 +8,7 @@ export function LeftMenu (props) {
       <Sidebar as={Menu} animation='push' icon='labeled' left vertical visible width={'very thin'} className={'flex-container'} >
         <Popup
           trigger={
-            <Menu.Item active={currentReport === "CumulativeFlow"} id="CumulativeFlowSidebarMenuItem" as='a' onClick={() => updateCurrentReport("CumulativeFlow")} style={{"min-width":0}}>
+            <Menu.Item active={currentReport === "CumulativeFlow"} id="CumulativeFlowSidebarMenuItem" as='a' onClick={() => updateCurrentReport("CumulativeFlow")} >
               <Icon name='quidditch' size={"mini"}/>
             </Menu.Item>
           }
@@ -18,8 +18,7 @@ export function LeftMenu (props) {
         />
         <Popup
           trigger={
-            <Menu.Item active={currentReport === "LeadTime"} as='a' id="LeadTimeSidebarMenuItem" onClick={() => updateCurrentReport("LeadTime")}
-                       style={{"min-width": 0}}>
+            <Menu.Item active={currentReport === "LeadTime"} as='a' id="LeadTimeSidebarMenuItem" onClick={() => updateCurrentReport("LeadTime")}>
               <Icon name='sync' size="tiny"/>
             </Menu.Item>
           }
@@ -32,8 +31,7 @@ export function LeftMenu (props) {
         </Popup>
         <Popup
           trigger={
-            <Menu.Item active={currentReport === "Throughput"} as='a' id="ThroughputSidebarMenuItem" onClick={() => updateCurrentReport("Throughput")}
-                       style={{"min-width": 0}}>
+            <Menu.Item active={currentReport === "Throughput"} as='a' id="ThroughputSidebarMenuItem" onClick={() => updateCurrentReport("Throughput")}>
               <Icon name='chart line' size="mini"/>
             </Menu.Item>
           }
