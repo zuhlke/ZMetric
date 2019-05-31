@@ -3,14 +3,10 @@
   width: 0;
 }
 
-.ui.menu {
-  height: 35px;
-}
-
 .ui.button.toggle.active:hover{
   background-color: #2185d0!important;
 }
-.ui.mini.active.toggle.button{
+.ui.mini.toggle.button{
   height:30px;
   margin-top: auto;
   margin-bottom: auto;
@@ -18,17 +14,15 @@
   margin-right: 3px;
 }
 
-
 .ui.menu {
-  display: -webkit-flex;
-  display: flex;
-  margin: 1rem 0;
-  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-  background: #fff;
-  font-weight: 400;
-  border: 1px solid rgba(34,36,38,.15);
+  height: 35px;
+  margin: 0;
   box-shadow: 0 0 50px rgba(34,36,38,.15);
   position: relative;
   z-index: 10;
 }
 
+#logo{
+  min-width:0;
+  padding: 0;
+}

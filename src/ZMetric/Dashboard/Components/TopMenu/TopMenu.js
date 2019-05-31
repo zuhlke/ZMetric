@@ -14,8 +14,8 @@ const {username, selectedProject, dateRangeUpdate, minDate, maxDate, projects, i
     updateSelectedButtonsArray(updatedArray);
   };
 return (
-  <Menu className={"topmenu"} style={{margin:0}}>
-    <Menu.Item style={{"min-width":0, padding: 0}}>
+  <Menu className={"topmenu"}>
+    <Menu.Item id="logo">
       <Image src={logo} size={'mini'}/>
     </Menu.Item>
     <Dropdown item text={selectedProject}>
