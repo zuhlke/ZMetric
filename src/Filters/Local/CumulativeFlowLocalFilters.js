@@ -12,7 +12,7 @@ export function CumulativeFlowLocalFilters(props){
   };
   return(
     <span >
-      <div style={{position: "relative", left:"1em"}}>
+      <div id={"localFilterDiv"}>
         <h5>Select Workflow Statuses To Display:</h5>
             {selectedStatuses.map((workflowStatus, index) => <Button id={"cumulativeFlowLocalFilterWorkflowButton" + workflowStatus.issueType.replace(/\s+/g, '')}
                                                                          key={"cumulativeFlowLocalFilterWorkflowButton" + workflowStatus.issueType}
@@ -20,7 +20,7 @@ export function CumulativeFlowLocalFilters(props){
                                                                          active={workflowStatus.active} onClick={() => toggleButton(index)}>{workflowStatus.issueType}</Button>)}
       </div>
       <br/>
-      <Divider style={{margin: "1em auto 0.5em"}}/>
+      <Divider id={"localFilterBottom"} />
     </span>
 
   )
