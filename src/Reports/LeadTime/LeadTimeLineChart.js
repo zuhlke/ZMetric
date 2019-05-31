@@ -30,7 +30,7 @@ export function LeadTimeLineChart(props) {
             </ResponsiveContainer>
           </div>
         </Segment>
-      <Segment style={{"border":0}}>
+      <Segment>
         <Button
           id='leadTimeReportDataTableButton'
           basic

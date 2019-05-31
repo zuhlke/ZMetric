@@ -24,7 +24,7 @@ export function ThroughputReport(props) {
   const [isTableVisible, toggleTableVisibility] = useState(false);
 
   return (
-    <Segment.Group basic style={{margin:0, border:0}}>
+    <Segment.Group basic className="report container">
         <Segment basic>
           <div className={'chart-segment'}>
             <ResponsiveContainer width={props.graphWidth} height={400}>
@@ -44,7 +44,7 @@ export function ThroughputReport(props) {
             </ResponsiveContainer>
           </div>
         </Segment>
-      <Segment style={{"border-top":0}}>
+      <Segment>
         <Button
           id='throughputReportDataTableButton'
           basic
