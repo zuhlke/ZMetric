@@ -50,11 +50,11 @@ export default function MockDashboard() {
                dateRangeUpdate={range => updateDateRange(range)} projects={["ZMETRIC","ZAPP","ZTRACK"]}
                issueTypes={["Story", "Task", "Epic", "Bug", "Sub-task", "Spike"]}
       />
-      <Segment.Group horizontal id='overwritten' style={{margin:0}}>
+      <Segment.Group horizontal id='segmentGroupContainingPushable'>
         <Sidebar.Pushable as={Segment}>
           <LeftMenu updateCurrentReport={updateCurrentReport} currentReport={currentReport}/>
           <Sidebar.Pusher>
-            <Segment basic id="ReportsFilterVisibilityIcon" style={{padding: 0, margin: "1em auto 0 1em"}}>
+            <Segment basic className={"dashboardSegment"}>
               <Label size={'big'} color='teal' >
                 {currentReport}
               </Label>
@@ -62,7 +62,7 @@ export default function MockDashboard() {
             </Segment>
             {displayLocalFilters &&
               <Transition visible={reportFiltersVisible} animation="slide down" duration={500}>
-                <Segment basic style={{padding: 0, margin: "1em auto 0"}}>
+                <Segment basic className={"dashboardSegment"}>
                   {(currentReport==="CumulativeFlow")&&<CumulativeFlowLocalFilters selectedStatuses={selectedWorkflowStatuses}
                                                                                    updateSelectedStatuses={updateStatuses}/>}
                 </Segment>
