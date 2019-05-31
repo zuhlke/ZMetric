@@ -1,6 +1,3 @@
-export const getSelectedWorkflows = workflows => Array.from(workflows.entries())
-  .filter(entry => entry[1].selected === true);
-
 export const getFilteredIssueStatuses = (workflow, updatedIssueTypes) => {
   return workflow.filter(issueType => updatedIssueTypes.get(issueType.name).selected).flatMap(issueType => issueType.statuses);
 };

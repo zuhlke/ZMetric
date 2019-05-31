@@ -5,19 +5,17 @@ import '../reports.css';
 import PropTypes from "prop-types";
 import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
 import {
-  getSelectedWorkflows,
   mergeData,
 } from "./Filters/IssueTypeAndStatus/CumulativeFlowReportService";
 import {
   getColoursForNewIssues, initialSelectedIssueTypesState,
-  initialSelectedWorkflowState
 } from "./Filters/IssueTypeAndStatus/CumulativeFlowStateInitialization";
 
 export function CumulativeFlowReport(props) {
   const [isTableVisible, toggleTableVisibility] = useState(false);
   const [selectedIssueTypes] = useState(initialSelectedIssueTypesState(props.workflow));
   const [displayedData, updateDisplayedData] = useState(mergeData(props.data, selectedIssueTypes));
-  const [selectedWorkflowStatuses] = useState(initialSelectedWorkflowState(props.workflow));
+  const selectedWorkflowStatuses = props.selectedStatuses;
   const [statusColours] = useState(getColoursForNewIssues(props.workflow));
 
   useEffect(() => {
@@ -25,16 +23,15 @@ export function CumulativeFlowReport(props) {
   }, [props, selectedIssueTypes]);
 
   const renderAreaChartsForSelectedWorkflows = () => {
-    return getSelectedWorkflows(selectedWorkflowStatuses)
-      .map(entry => <Area type="monotone" id={entry[0]} key={entry[0]} dataKey={entry[0]} stackId="1"
-                          stroke={statusColours.get(entry[0])}
-                          fill={statusColours.get(entry[0])}
+    return selectedWorkflowStatuses
+      .map(status => <Area type="monotone" id={status} key={status} dataKey={status} stackId="1"
+                          stroke={statusColours.get(status)}
+                          fill={statusColours.get(status)}
                           activeDot={true}/>);
   };
 
   return (
   <Segment.Group basic style={{margin:0, border:0}}>
-    {/*, "box-shadow":"none"*/}
       <Segment basic height={window.innerHeight}>
         <div className={'chart-segment'}>
           <ResponsiveContainer width={props.graphWidth} height={400}>

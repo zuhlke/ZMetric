@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import moment from "moment";
 
 export function DateRange(props) {
-  const minDate = moment(props.minDate);
-  const maxDate = moment(props.maxDate);
+  const minDate = moment(props.minDate, "DD-MM-YYYY");
+  const maxDate = moment(props.maxDate, "DD-MM-YYYY");
   const [datesRange, updateDatesRange] = useState('');
 
   const handleChange = (event, {value}) => {
@@ -22,8 +22,7 @@ export function DateRange(props) {
     <Form>
       <DatesRangeInput
         name="datesRange"
-        placeholder={minDate.format("DD.MM.YY") + "-" + maxDate.format("DD.MM.YY")} //TODO: update this
-        // placeholder={minDate.toISOString(true).split("T")[0] + "-" + maxDate.toISOString(true).split("T")[0]} //TODO: update this
+        placeholder={minDate.format("DD.MM.YY") + "-" + maxDate.format("DD.MM.YY")}
         value={datesRange}
         iconPosition="left"
         onChange={handleChange}

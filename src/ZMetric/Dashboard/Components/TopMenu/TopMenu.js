@@ -5,9 +5,8 @@ import moment from "moment"
 import {DateRange} from "../../../../Filters/DateRange/DateRange";
 import './TopMenu.css'
 export function TopMenu (props) {
-const {username, selectedProject, dateRangeUpdate, minDate, maxDate, projects} = props;
-const issueTypes = ["Story", "Task", "Epic", "Bug", "Sub-task", "Spike"];
-  const initialSelectedButtonsArray = issueTypes.map(issueType => {return {status: issueType, active: true}});
+const {username, selectedProject, dateRangeUpdate, minDate, maxDate, projects, issueTypes} = props;
+  const initialSelectedButtonsArray = issueTypes.map(issueType => {return {issueType: issueType, active: true}});
   const [selectedButtonsArray, updateSelectedButtonsArray] = useState(initialSelectedButtonsArray);
   const toggleButton = index => {
     const updatedArray = [...selectedButtonsArray];
@@ -22,7 +21,7 @@ return (
     <Dropdown item text={selectedProject}>
       <Dropdown.Menu>
         {projects.map((project) =>
-          <Dropdown.Item text={project} active={project===selectedProject}/> //TODO: replace selectedProject as string with a index for array
+          <Dropdown.Item key={"projectDropdownItem"+project} text={project} active={project===selectedProject}/> //TODO: replace selectedProject as string with a index for array
         )}
       </Dropdown.Menu>
     </Dropdown>
@@ -33,7 +32,7 @@ return (
                           dateRangeUpdate={dateRangeUpdate}/>
     </Menu.Item>
 
-      {selectedButtonsArray.map((issueType, index) => <Button toggle size="mini"  style={{"background-color": (issueType.active ? '#DAF7A6' : null)}}  active={issueType.active} onClick={() => toggleButton(index)}>{issueType.status}</Button>)}
+      {selectedButtonsArray.map((issueType, index) => <Button key={"issueTypeButton"+issueType.issueType} toggle size="mini"  style={{"background-color": (issueType.active ? '#DAF7A6' : null)}}  active={issueType.active} onClick={() => toggleButton(index)}>{issueType.issueType}</Button>)}
 
     <Menu.Menu position='right'>
       <Dropdown item text={username}>

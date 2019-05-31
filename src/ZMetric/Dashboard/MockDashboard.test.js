@@ -7,8 +7,7 @@ import {DatesRangeInput} from "semantic-ui-calendar-react";
 import {act} from "react-dom/test-utils";
 import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
 import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
-import {AreaChart, ComposedChart, LineChart, ReferenceLine} from "recharts";
-import  {Label} from "semantic-ui-react";
+import {AreaChart, ComposedChart, LineChart} from "recharts";
 import {CumulativeFlowLocalFilters} from "../../Filters/Local/CumulativeFlowLocalFilters";
 
 const session = {name: 'cookie', value: '123'};
@@ -93,22 +92,6 @@ describe("Dashboard", () => {
         expect(chartProps.data[0].date).toEqual("2019-02-02");
         expect(chartProps.data[1].date).toEqual("2019-02-03")
       });
-
-
-      xit("re-renders throughput report's ReferenceLine at height of average throughput during a date range specified with the DateRangePicker", () => {
-        const wrapper = mount(<MockDashboard />);
-        const datesRangeInput = wrapper.find(DatesRangeInput).at(0);
-        const event = {target: {value: '02-02-2019 - 03-02-2019'}};
-        const throughputMenuItem = wrapper.find("#ThroughputSidebarMenuItem").hostNodes();
-        throughputMenuItem.simulate('click');
-        expect(wrapper.find(ReferenceLine).props().y).toEqual(2.5); //TODO: NOTE: When called on a shallow wrapper, .props() will return values for props on the root node that the component renders, not the component itself. ??
-        act(() => {
-          datesRangeInput.props().onChange(event, {value: '02-02-2019 - 03-02-2019'});
-        });
-        wrapper.update();
-        expect(wrapper.find("#AverageThroughputLine").props().y).toEqual(3.5);
-      });
-
     });
   });
 
@@ -141,7 +124,7 @@ describe("Dashboard", () => {
     });
     describe("CumulativeFlow", () => {
       it("Render a local filter section with all possible workflow statuses as options", () =>{
-        const wrapper = mount(<MockDashboard/>); //TODO: When moving away from mock values will have to be injected
+        const wrapper = mount(<MockDashboard/>); //TODO: This will be more meaningful when statuses are injected in to replicate axios
         const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
         cumulativeFlowMenuItem.simulate('click');
         expect(wrapper.exists(CumulativeFlowReport)).toBe(true);
@@ -149,14 +132,10 @@ describe("Dashboard", () => {
         localFiltersExpander.simulate('click');
         expect(wrapper.exists(CumulativeFlowLocalFilters)).toEqual(true);
         const cumulativeFlowLocalFilters = wrapper.find(CumulativeFlowLocalFilters);
-        expect(cumulativeFlowLocalFilters.props().statuses).toEqual([ 'Done',
-          'In Progress',
-          'On Hold',
-          'Ready For Test',
-          'Review',
-          'To Do' ])
+        const initialSelectedWorkflowStatusesArray = ["Done", "In Progress", "On Hold", "Ready For Test", "Review", "To Do"].map(status => {return {issueType: status, active: true}});
+        expect(cumulativeFlowLocalFilters.props().selectedStatuses).toEqual(initialSelectedWorkflowStatusesArray)
       });
-      it("Render a dropdown with all possible workflow statuses initially selected", () =>{
+      it("Render all possible workflow statuses initially selected", () =>{
         const wrapper = mount(<MockDashboard/>);
         const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
         cumulativeFlowMenuItem.simulate('click');
@@ -168,30 +147,8 @@ describe("Dashboard", () => {
         });
 
       });
-      xit("De-selecting a status removes the corresponding Area from the CumulativeFlow graph", () => {
-        const statuses = [ 'Done', 'In Progress', 'On Hold', 'Ready For Test', 'Review', 'To Do' ];
-        const wrapper = mount(<MockDashboard/>);
-        const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
-        cumulativeFlowMenuItem.simulate('click');
-        expect(wrapper.exists(CumulativeFlowReport)).toBe(true);
-        const localFiltersExpander = wrapper.find('#LocalFiltersExpanderIcon').hostNodes();
-        localFiltersExpander.simulate('click');
-        const areaChart = wrapper.find(AreaChart);
-        const chartDataEntry = areaChart.props().data[0];
-        statuses.forEach( status => expect(chartDataEntry.hasOwnProperty(status)).toBe(true));
-        statuses.forEach( status => {
-            const statusButton = wrapper.find("#cumulativeFlowLocalFilterWorkflowButton" + status.replace(/\s+/g, '')).at(0);
-            act(()=>{
-              statusButton.simulate('click');
-            });
-          wrapper.update();
-          expect(wrapper.find("#cumulativeFlowLocalFilterWorkflowButton" + status.replace(/\s+/g, '')).at(0).props().active).toBe(false);
-      });
-        const updatedDataEntry = wrapper.find(AreaChart).props().data[0];
-        statuses.forEach( status => expect(updatedDataEntry.hasOwnProperty(status)).toBe(false));
-      });
 
-      xit("Selecting a (previously not selected) status in the drop down adds the corresponding Area from the CumulativeFlow graph", () => {
+      it("De-selecting every issueType with local filters causes a corresponding change to the props passed to the CumulativeFlowReport", () => {
         const statuses = [ 'Done', 'In Progress', 'On Hold', 'Ready For Test', 'Review', 'To Do' ];
         const wrapper = mount(<MockDashboard/>);
         const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
@@ -199,9 +156,6 @@ describe("Dashboard", () => {
         expect(wrapper.exists(CumulativeFlowReport)).toBe(true);
         const localFiltersExpander = wrapper.find('#LocalFiltersExpanderIcon').hostNodes();
         localFiltersExpander.simulate('click');
-        const areaChart = wrapper.find(AreaChart);
-        const chartDataEntry = areaChart.props().data[0];
-        statuses.forEach( status => expect(chartDataEntry.hasOwnProperty(status)).toBe(true));
         statuses.forEach( status => {
           const statusButton = wrapper.find("#cumulativeFlowLocalFilterWorkflowButton" + status.replace(/\s+/g, '')).at(0);
           act(()=>{
@@ -210,12 +164,37 @@ describe("Dashboard", () => {
           wrapper.update();
           expect(wrapper.find("#cumulativeFlowLocalFilterWorkflowButton" + status.replace(/\s+/g, '')).at(0).props().active).toBe(false);
         });
-        const updatedDataEntry = wrapper.find(AreaChart).props().data[0];
-        statuses.forEach( status => expect(updatedDataEntry.hasOwnProperty(status)).toBe(false));
-
-        wrapper.find("#cumulativeFlowLocalFilterWorkflowButtonDone").at(0).simulate('click');
-        expect(wrapper.find('#CumulativeFlowWorkflowFilterDropdown').find(Label).exists({value:"Done"})).toBe(true);
+        expect(wrapper.find(CumulativeFlowReport).props().selectedStatuses).toStrictEqual([])
       });
+
+      it("Selecting (previously not selected) statuses with local filters causes a corresponding change to the props passed to the CumulativeFlowReport", () => {
+        const statuses = [ 'Done', 'In Progress', 'On Hold', 'Ready For Test', 'Review', 'To Do' ];
+        const wrapper = mount(<MockDashboard/>);
+        const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
+        cumulativeFlowMenuItem.simulate('click');
+        expect(wrapper.exists(CumulativeFlowReport)).toBe(true);
+        const localFiltersExpander = wrapper.find('#LocalFiltersExpanderIcon').hostNodes();
+        localFiltersExpander.simulate('click');
+        statuses.forEach( status => {
+          const statusButton = wrapper.find("#cumulativeFlowLocalFilterWorkflowButton" + status.replace(/\s+/g, '')).at(0);
+          act(()=>{
+            statusButton.simulate('click');
+          });
+          wrapper.update();
+          expect(wrapper.find("#cumulativeFlowLocalFilterWorkflowButton" + status.replace(/\s+/g, '')).at(0).props().active).toBe(false);
+        });
+        expect(wrapper.find("CumulativeFlowReport").props().selectedStatuses).toStrictEqual([]);
+        statuses.forEach( status => {
+          const statusButton = wrapper.find("#cumulativeFlowLocalFilterWorkflowButton" + status.replace(/\s+/g, '')).at(0);
+          act(()=>{
+            statusButton.simulate('click');
+          });
+          wrapper.update();
+          expect(wrapper.find("#cumulativeFlowLocalFilterWorkflowButton" + status.replace(/\s+/g, '')).at(0).props().active).toBe(true);
+        });
+        expect(wrapper.find("CumulativeFlowReport").props().selectedStatuses).toStrictEqual(statuses)
+      });
+
     })
   });
 

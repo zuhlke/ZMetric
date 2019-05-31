@@ -738,26 +738,32 @@ describe("CumulativeFlowReport", () => {
 
   it("renders without crashing", () => {
     const div = document.createElement('div');
-    ReactDOM.render(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow}/>, div);
+    ReactDOM.render(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} selectedStatuses={["To Do", "Done"]}/>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
   it('initialises all workflow states as selected', () => {
-    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400}/>);
+    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400} selectedStatuses={["To Do", "Done"]}/>);
     expect(wrapper.find(Area).length).toBe(2);
   });
 
   it("initially renders report without data table ", () => {
-    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400}/>);
+    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400} selectedStatuses={["To Do", "Done"]}/>);
     expect(wrapper.exists(Table)).toBe(false);
   });
 
   it("renders the data table when the data table button is clicked", () => {
-    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400}/>);
+    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400} selectedStatuses={["To Do", "Done"]}/>);
     const tableButton = wrapper.find('#cumulativeFlowReportDataTableButton').hostNodes();
     expect(wrapper.exists(Table)).toBe(false);
     tableButton.simulate('click');
     expect(wrapper.exists(Table)).toBe(true);
+  });
+
+  it("renders an Area in the AreaChart for each selected WorkflowStatus in the props", ()=>{
+    const wrapper = mount(<CumulativeFlowReport data={cumulativeFlowData} workflow={workflow} graphWidth={400} selectedStatuses={["To Do", "Done"]}/>);
+    expect(wrapper.find(Area).exists({id:"To Do"})).toBe(true);
+    expect(wrapper.find(Area).exists({id:"Done"})).toBe(true);
   })
 
 });

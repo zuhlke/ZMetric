@@ -25,7 +25,7 @@ export function ThroughputReport(props) {
 
   return (
     <Segment.Group basic style={{margin:0, border:0}}>
-        <Segment basic >
+        <Segment basic>
           <div className={'chart-segment'}>
             <ResponsiveContainer width={props.graphWidth} height={400}>
               <ComposedChart data={props.data} margin={{right: 25}}>

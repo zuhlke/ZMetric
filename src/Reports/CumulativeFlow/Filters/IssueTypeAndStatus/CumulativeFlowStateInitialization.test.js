@@ -1,4 +1,4 @@
-import {getColoursForNewIssues, initialSelectedWorkflowState} from "./CumulativeFlowStateInitialization";
+import {getColoursForNewIssues} from "./CumulativeFlowStateInitialization";
 
 describe("CumulativeFlowStateInitialization", () => {
 
@@ -70,13 +70,4 @@ describe("CumulativeFlowStateInitialization", () => {
 
     expect(getColoursForNewIssues(workflow)).toEqual(expectedColours);
   });
-
-  it("generates initial selectedWorkflowStatuses correctly from workflow", () => {
-    const expectedWorkflowStatuses = new Map([
-      ["In Progress", {id: "2", selected: true}],
-      ["To Do", {id: "1", selected: true}],
-      ["On Hold", {id: "4", selected: true}]
-    ]);
-    expect(initialSelectedWorkflowState(workflow)).toEqual(expectedWorkflowStatuses);
-  })
 });
