@@ -10,7 +10,7 @@ export function LeadTimeLineChart(props) {
   const [isTableVisible, toggleTableVisibility] = useState(false);
   return (
     <Segment.Group className={"report"}>
-        <Segment>
+        <Segment basic className="chart segment">
           <div className={'chart-segment'}>
             <ResponsiveContainer>
               <LineChart id="lead-time-line-chart" data={props.data}>

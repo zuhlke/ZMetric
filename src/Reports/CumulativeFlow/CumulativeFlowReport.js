@@ -32,7 +32,7 @@ export function CumulativeFlowReport(props) {
 
   return (
   <Segment.Group basic className="report">
-      <Segment basic height={window.innerHeight}>
+      <Segment basic className="chart segment" height={window.innerHeight}>
         <div className={'chart-segment'}>
           <ResponsiveContainer width={props.graphWidth} height={400}>
             <AreaChart id='cumulative-flow-area-chart' data={displayedData}>
