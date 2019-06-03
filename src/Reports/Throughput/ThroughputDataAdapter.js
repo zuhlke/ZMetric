@@ -13,7 +13,7 @@ export const convertFromJiraToThroughput = (data) => {
   const issues = data.issues.map(issue => {
     return {
       key: issue.key,
-      resolvedDate: issue.fields.resolutiondate ? new moment(issue.fields.resolutiondate) : undefined,
+      date: issue.fields.resolutiondate ? new moment(issue.fields.resolutiondate) : undefined,
     }
   });
 
@@ -33,7 +33,7 @@ export const convertFromJiraToThroughput = (data) => {
 
 const getThroughputForCurrentDate = (issues, date) => {
   return issues
-    .filter(issue => issue.resolvedDate && issue.resolvedDate.isSame(date, 'day')).length;
+    .filter(issue => issue.date && issue.date.isSame(date, 'day')).length;
 };
 export const calculateAverageThroughput = data => data.length ? calculateAverage(data) : 0;
 

@@ -1,42 +1,44 @@
 import moment from "moment";
 
 export const convertFromJiraToLeadtime = (data) => {
-  let dateEntries = [];
-  const periodStartDate = data.issues
-    .map((issue) => new moment(issue.fields.created))
-    .sort((a, b) => a - b)[0];
-
+  const issues = data.issues.filter(issue => issue.fields.resolutiondate).map(issue => {
+    return {
+      date: issue.fields.resolutiondate ? new moment(issue.fields.resolutiondate, 'YYYY-MM-DD') : undefined,
+      metricValue: issue.fields.resolutiondate ? new moment(issue.fields.resolutiondate, 'YYYY-MM-DD').diff(new moment(issue.fields.created, 'YYYY-MM-DD'), 'days') : undefined
+    }
+  });
   const periodEndDate = data.issues
     .map((issue) => issue.fields.resolutiondate ? new moment(issue.fields.resolutiondate) : new moment())
     .sort((a, b) => b - a)[0];
 
-  const issues = data.issues.map(issue => {
-    return {
-      key: issue.key,
-      creationDate: new moment(issue.fields.created),
-      resolvedDate: issue.fields.resolutiondate ? new moment(issue.fields.resolutiondate) : undefined,
-      leadTime: issue.fields.resolutiondate ? new moment(issue.fields.resolutiondate).diff(new moment(issue.fields.created), 'days') : undefined
-    }
-  });
+  return (issues && issues.length > 0) ? calculateFullDataSetForLeadOrCycleTime(issues, periodEndDate, "averageLeadTime") : [];
+};
 
-  while (periodStartDate.diff(periodEndDate) <= 0) {
-    const currentLeadTime = getAverageLeadTime(issues, periodStartDate);
+export function calculateFullDataSetForLeadOrCycleTime(dataPoints, periodEndDate, metricName) {
+  const dateCounter = moment(dataPoints.sort((a,b) => moment(a.date).isBefore(b.date) ? -1 : 1)[0].date);
+  const dateEntries = [];
+
+  while (dateCounter.isSameOrBefore(periodEndDate)) {
+    const currentMetricValue = getAverageLeadOrCycleTime(dataPoints, dateCounter);
     dateEntries.push(
       {
-        "date": periodStartDate.format('YYYY-MM-DD'),
-        "averageLeadTime": currentLeadTime
+        "date": dateCounter.format('YYYY-MM-DD'),
+        [metricName]: currentMetricValue
       });
-    periodStartDate.add(1, 'd')
-
+    dateCounter.add(1, 'd')
   }
   return dateEntries;
-};
 
-const average = arr => arr.length ? arr.reduce((l, r) => l + r, 0) / arr.length : 0;
+  function getAverageLeadOrCycleTime(dataPoints, date) {
+    const average = arr => arr.length ? arr.reduce((l, r) => l + r, 0) / arr.length : 0;
+    const metricValues = dataPoints
+      .filter(dataPoint => dataPoint.date && moment(dataPoint.date).isSameOrBefore(date))
+      .map(dataPoint => dataPoint.metricValue);
+    return average(metricValues)
+  }
+}
 
-const getAverageLeadTime = (issues, date) => {
-  const leadTimes = issues
-    .filter(issue => issue.resolvedDate && issue.resolvedDate <= date)
-    .map(issue => issue.leadTime);
-  return average(leadTimes)
-};
+
+
+
+

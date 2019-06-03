@@ -3,7 +3,7 @@ import {imageSnapshot} from '@storybook/addon-storyshots-puppeteer';
 
 const devices = require('puppeteer/DeviceDescriptors');
 
-const iPhone = devices['iPhone X'];
+const iPhone = devices['iPad Pro'];
 
 function customizePage(page) {
   return page.emulate(iPhone);
