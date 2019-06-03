@@ -34,7 +34,7 @@ describe("Dashboard", () => {
         const leadTimeMenuItem = wrapper.find("#LeadTimeSidebarMenuItem").hostNodes();
         leadTimeMenuItem.simulate('click');
         act(() => {
-          datesRangeInput.props().onChange(event, {value: '02-02-2019 - 03-02-2019'});
+          datesRangeInput.props().onChange(event, {value: '02-02-19 - 03-02-19'});
         });
         wrapper.update();
         const chartProps = wrapper.find(LineChart).props();
@@ -46,11 +46,11 @@ describe("Dashboard", () => {
       it("renders CumulativeFlowReport with updated props.data when DateRangePicker is used to specify a date range", () => {
         const wrapper = mount(<MockDashboard />);
         const datesRangeInput = wrapper.find(DatesRangeInput).at(0);
-        const event = {target: {value: '02-02-2019 - 03-02-2019'}};
+        const event = {target: {value: '02-02-19 - 03-02-19'}};
         const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
         cumulativeFlowMenuItem.simulate('click');
         act(() => {
-          datesRangeInput.props().onChange(event, {value: '02-02-2019 - 03-02-2019'});
+          datesRangeInput.props().onChange(event, {value: '02-02-19 - 03-02-19'});
         });
         wrapper.update();
         const chartProps = wrapper.find(CumulativeFlowReport).props();
@@ -64,11 +64,11 @@ describe("Dashboard", () => {
       it("renders CumulativeFlowReport AreaChart with updated data values when DateRangePicker is used to specify a date range", () => {
         const wrapper = mount(<MockDashboard />);
         const datesRangeInput = wrapper.find(DatesRangeInput).at(0);
-        const event = {target: {value: '02-02-2019 - 03-02-2019'}};
+        const event = {target: {value: '02-02-19 - 03-02-19'}};
         const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
         cumulativeFlowMenuItem.simulate('click');
         act(() => {
-          datesRangeInput.props().onChange(event, {value: '02-02-2019 - 03-02-2019'});
+          datesRangeInput.props().onChange(event, {value: '02-02-19 - 03-02-19'});
         });
         wrapper.update();
         const chartProps = wrapper.find(AreaChart).props();
@@ -80,11 +80,11 @@ describe("Dashboard", () => {
       it("renders ThroughputReport with updated data values when DateRangePicker is used to specify a date range", () => {
         const wrapper = mount(<MockDashboard />);
         const datesRangeInput = wrapper.find(DatesRangeInput).at(0);
-        const event = {target: {value: '02-02-2019 - 03-02-2019'}};
+        const event = {target: {value: '02-02-19 - 03-02-19'}};
         const throughputMenuItem = wrapper.find("#ThroughputSidebarMenuItem").hostNodes();
         throughputMenuItem.simulate('click');
         act(() => {
-          datesRangeInput.props().onChange(event, {value: '02-02-2019 - 03-02-2019'});
+          datesRangeInput.props().onChange(event, {value: '02-02-19 - 03-02-19'});
         });
         wrapper.update();
         const chartProps = wrapper.find(ComposedChart).props();

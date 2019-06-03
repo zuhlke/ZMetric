@@ -48,3 +48,8 @@ html, body, #app, #app>div {
   padding: 0;
   margin: 1em auto 0 1em;
 }
+
+.calendar.icon + input{
+  height: 28.55px;
+  width: 173px;
+}
