@@ -1,0 +1,28 @@
+.topmenu.ui.menu .item:before
+{
+  width: 0;
+}
+
+.ui.button.toggle.active:hover{
+  background-color: #2185d0!important;
+}
+.ui.mini.toggle.button{
+  height:30px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.ui.menu {
+  height: 35px;
+  margin: 0;
+  box-shadow: 0 0 50px rgba(34,36,38,.15);
+  position: relative;
+  z-index: 10;
+}
+
+#logo{
+  min-width:0;
+  padding: 0;
+}

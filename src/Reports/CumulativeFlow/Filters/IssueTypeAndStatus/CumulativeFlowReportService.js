@@ -1,6 +1,3 @@
-export const getSelectedWorkflows = workflows => Array.from(workflows.entries())
-  .filter(entry => entry[1].selected === true);
-
 export const getFilteredIssueStatuses = (workflow, updatedIssueTypes) => {
   return workflow.filter(issueType => updatedIssueTypes.get(issueType.name).selected).flatMap(issueType => issueType.statuses);
 };
@@ -21,8 +18,8 @@ export const toggleProperty = (data, propertyName) => {
   return mappedData;
 };
 
-export const mergeData = (data, selectedIssueTypes) => {
-  const mergeTwoDataPoints = (...data) => {
+export const mergeData = (data) => {
+  const mergeTwoDataPoints = (...data) => { //TODO: Change to function and move to bottom
     return data.reduce((a, b) => {
       for (let k in b) {
         if (k === "date") {
@@ -35,8 +32,7 @@ export const mergeData = (data, selectedIssueTypes) => {
     }, {});
   };
 
-  const filteredFlatData = data.filter(issueType => selectedIssueTypes.has(issueType.name) &&
-    selectedIssueTypes.get(issueType.name).selected).flatMap(issueType => issueType.data);
+  const filteredFlatData = data.flatMap(issueType => issueType.data);
   const map = new Map();
   filteredFlatData.forEach(dataPoint => {
     if (map.has(dataPoint.date)) {

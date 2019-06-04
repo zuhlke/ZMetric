@@ -1,4 +1,4 @@
-import {getFilteredIssueStatuses} from "./CumulativeFlowReportService";
+// import {getFilteredIssueStatuses} from "./CumulativeFlowReportService";
 
 export const getColoursForNewIssues = (workflow) => {
   const colours = new Map();
@@ -19,18 +19,3 @@ export const initialSelectedIssueTypesState = workflow => new Map(workflow.map(i
     "selected": issueType.name === "Story"
   }
 ]));
-
-export const initialSelectedWorkflowState = workflow => {
-  const initialIssues = initialSelectedIssueTypesState(workflow);
-  return initializeAvailableWorkflowStatusTypes(initialIssues, workflow);
-};
-
-export const initializeAvailableWorkflowStatusTypes = (updatedIssueTypes, workflow) => {
-  const graphWorkflowStates = getFilteredIssueStatuses(workflow, updatedIssueTypes)
-    .map(status => [status.name, {
-      "id": status.id,
-      "selected": true
-    }]);
-  graphWorkflowStates.sort();
-  return new Map(graphWorkflowStates);
-};

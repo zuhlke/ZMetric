@@ -85,7 +85,7 @@ class SelectProject extends Component {
       </Form>
       }
 
-      <Message error hidden={phase !== Phases.FAILED} header="Can't load projects from JIRA"
+      <Message error hidden={phase !== Phases.FAILED} header="Can't load projects from JIRA. "
                content={errorMessage}/>
 
     </div>

@@ -6,3 +6,19 @@
   height: 400px;
   background-color: #fff;
 }
+
+.ui.segments.report{
+  border:0;
+}
+
+.ui.segment.dataTable.button{
+  border-top: 0;
+}
+
+.ui.segments:not(.horizontal)>.segment:last-child{
+  border-top:0;
+}
+
+.ui.basic.segment.chart.segment{
+  padding-right:60px;
+}

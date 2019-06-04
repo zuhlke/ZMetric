@@ -12,43 +12,29 @@ import {
   XAxis,
   YAxis
 } from "recharts";
-import moment from "moment";
 import PropTypes from 'prop-types';
 import {calculateAverageThroughput} from "./ThroughputDataAdapter";
-import {Button, Label as SemanticLabel, Segment, Transition} from "semantic-ui-react";
+import {Button, Segment, Transition} from "semantic-ui-react";
 import '../reports.css';
 import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
-import {generateTrendLineData} from "./TrendLine/TrendLine";
-import {applyDateRangeFilter} from "../../Filters/DateRange/DateFilter";
-import {DateRange} from "../../Filters/DateRange/DateRange";
 
 export function ThroughputReport(props) {
   const initialAverageThroughput = calculateAverageThroughput(props.data);
-  const [averageThroughput, updateAverageThroughput] = useState(initialAverageThroughput);
-  const [trendLineData, updateTrendLineData] = useState(generateTrendLineData(props.data, "throughput"));
+  const [averageThroughput] = useState(initialAverageThroughput);
   const [isTableVisible, toggleTableVisibility] = useState(false);
 
-  const filterData = dateRange => {
-    const newData = applyDateRangeFilter(dateRange, props.data);
-    updateAverageThroughput(calculateAverageThroughput(newData));
-    updateTrendLineData(generateTrendLineData(newData, "throughput"));
-  };
   return (
-    <Segment.Group stacked>
-      <Segment.Group horizontal>
-        <Segment>
-          <SemanticLabel size={'medium'} color='blue' attached='top left'>
-            Throughput
-          </SemanticLabel>
+    <Segment.Group basic className="report">
+        <Segment basic className="chart segment">
           <div className={'chart-segment'}>
             <ResponsiveContainer width={props.graphWidth} height={400}>
-              <ComposedChart data={trendLineData} margin={{right: 25}}>
+              <ComposedChart data={props.data} margin={{right: 25}}>
                 <CartesianGrid strokeDasharray="3 3"/>
                 <XAxis lavel={{value: "date", position: "bottom"}} dataKey="date"/>
                 <YAxis label={{value: "Throughput (issues)", angle: -90, position: 'insideLeft'}}/>
                 <Tooltip/>
                 <Legend/>
-                <ReferenceLine y={averageThroughput} stroke="blue" strokeDasharray="3 3">
+                <ReferenceLine id="AverageThroughputLine" y={averageThroughput} stroke="blue" strokeDasharray="3 3">
                   <Label value="Avg" position="left"/>
                   <Label value={averageThroughput} position="right"/>
                 </ReferenceLine>
@@ -58,17 +44,9 @@ export function ThroughputReport(props) {
             </ResponsiveContainer>
           </div>
         </Segment>
-        <Segment>
-          <h4>Select date range:</h4>
-          {props.data.length &&
-          <DateRange id={"dates-range-picker-throughput"} minDate={moment(props.data[0].date)}
-                           maxDate={moment(props.data[props.data.length - 1].date)}
-                           dateRangeUpdate={dateRange => filterData(dateRange)}/>
-          }
-        </Segment>
-      </Segment.Group>
-      <Segment color='green'>
+      <Segment>
         <Button
+          id='throughputReportDataTableButton'
           basic
           color='green'
           content='Data Table'

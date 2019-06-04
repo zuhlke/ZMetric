@@ -14,3 +14,6 @@ export const parseDateRangeToStartAndEndDates = (dateRange) => {
   return {start: dates[0], end: dates[1]}
 };
 
+export const applyDateRangeFilterToDataNestedInListOfObjects = (dateRange, listOfObjects) => {
+   return listOfObjects.map(object => Object.assign({}, object, {data: applyDateRangeFilter(dateRange, object.data)}));
+};

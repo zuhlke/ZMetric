@@ -123,7 +123,7 @@ describe('Select Project', () => {
 
     it('renders response code in the error message', async () => {
       const wrapper = await failed();
-      expect(wrapper.find('.error.message .content').text()).toContain('Error: Request failed with status code 403');
+      expect(wrapper.find('.error.message .content').text()).toContain('Can\'t load projects from JIRA. Error: Request failed with status code 403');
     });
 
     it('displays try again button', async () => {

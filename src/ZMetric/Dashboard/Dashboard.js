@@ -44,7 +44,6 @@ export default function Dashboard(props) {
           {workflow && cumulativeFlow && <CumulativeFlowReport data={cumulativeFlow} workflow={workflow}/>}
           {leadCycleTimeData && <LeadTimeLineChart data={leadCycleTimeData}/>}
           {throughput && <ThroughputReport data={throughput}/>}
-          {/*{workflow && <WorkflowContainer workflow={workflow}/>}*/}
         </Segment>
       </Segment.Group>
     </div>

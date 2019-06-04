@@ -1,31 +1,19 @@
 import React, {useState} from 'react';
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import PropTypes from 'prop-types';
-import moment from "moment";
-import {Button, Label, Segment, Transition} from "semantic-ui-react";
+import {Button, Segment, Transition} from "semantic-ui-react";
 import '../reports.css';
 import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";
-import {applyDateRangeFilter} from "../../Filters/DateRange/DateFilter";
-import {DateRange} from "../../Filters/DateRange/DateRange";
+
 
 export function LeadTimeLineChart(props) {
-  const [displayedData, updateDisplayedData] = useState(props.data);
   const [isTableVisible, toggleTableVisibility] = useState(false);
-
-  const filterData = dateRange => {
-    const newData = applyDateRangeFilter(dateRange, props.data);
-    updateDisplayedData(newData)
-  };
   return (
-    <Segment.Group stacked>
-      <Segment.Group horizontal>
-        <Segment>
-          <Label size={'medium'} color='blue' attached='top left'>
-            Lead Time
-          </Label>
+    <Segment.Group className={"report"}>
+        <Segment basic className="chart segment">
           <div className={'chart-segment'}>
             <ResponsiveContainer>
-              <LineChart id="lead-time-line-chart" data={displayedData}>
+              <LineChart id="lead-time-line-chart" data={props.data}>
                 <Line type="monotone" dataKey="averageLeadTime" stroke="#8884d8"/>
                 <Line type="monotone" dataKey="averageCycleTime" stroke="#82ca9d"/>
                 <Tooltip/>
@@ -42,17 +30,9 @@ export function LeadTimeLineChart(props) {
             </ResponsiveContainer>
           </div>
         </Segment>
-        <Segment>
-          <h4>Select date range:</h4>
-          {props.data.length &&
-          <DateRange id={"data-range-picker-lead"} minDate={moment(props.data[0].date)}
-                           maxDate={moment(props.data[props.data.length - 1].date)}
-                           dateRangeUpdate={dateRange => filterData(dateRange)}/>
-          }
-        </Segment>
-      </Segment.Group>
-      <Segment color='green'>
+      <Segment>
         <Button
+          id='leadTimeReportDataTableButton'
           basic
           color='green'
           content='Data Table'

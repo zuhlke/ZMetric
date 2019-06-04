@@ -1,0 +1,23 @@
+.ui.vertical.labeled.icon.ui.push.left.visible.sidebar.flex-container.menu  {
+  display: flex;
+  height: 100%;
+  width: 35px;
+}
+.ui.labeled.icon.menu .item {
+  display: flex;
+  padding: 0;
+  height: 40px;
+  min-width: 0;
+}
+.ui.labeled.icon.menu .item>.icon:not(.dropdown){
+  height: 1em;
+  display: block;
+  font-size: 1.4em!important;
+  margin: auto!important;
+}
+
+.ui.icon.menu .active.item {
+  background: rgba(0,0,0,.25);
+  color: teal;
+  border-radius: 0;
+}

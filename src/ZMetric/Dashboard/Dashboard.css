@@ -1,28 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -34,4 +9,47 @@
 
 #main-segment {
   margin: 2rem;
+}
+
+#topBar {
+  padding: 10px 0 0 15px;
+}
+
+#segmentGroupContainingPushable {
+  margin:0;
+  height: 100%;
+}
+
+#root {
+  display: block;
+  float: none;
+  width: auto;
+  height: 100%
+}
+
+#mockDashboardRoot {
+  height: 100%
+}
+
+html, body, #app, #app>div {
+  height: 100%
+}
+
+.ui.visible[class*="very thin"].left.sidebar~.fixed, .ui.visible[class*="very thin"].left.sidebar~.pusher {
+  -webkit-transform: translate3d(60px,0,0);
+  transform: translate3d(37px,0,0);
+}
+
+.ui.left.visible.sidebar, .ui.right.visible.sidebar {
+  box-shadow: none;
+}
+
+.pusher .segment.dashboardSegment{
+  padding: 0;
+  margin: 1em auto 0 1em;
+}
+
+.calendar.icon + input{
+  height: 28.55px;
+  width: 173px;
 }
