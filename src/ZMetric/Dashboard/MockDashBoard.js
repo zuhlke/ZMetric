@@ -28,8 +28,10 @@ export default function MockDashboard() {
   const [currentReport, updateCurrentReport] = useState("CumulativeFlow");
 
   const [displayLocalFilters, updateDisplayLocalFilters] = useState(hasLocalFilters(currentReport)); //TODO: is it ok to use currentReport variable here, will it be initialized (especially when we move to axios)?
-  const initialSelectedWorkflowStatusesArray = ["Done", "In Progress", "On Hold", "Ready For Test", "Review", "To Do"].map(status => {return {issueType: status, active: true}});
+  const initialSelectedWorkflowStatusesArray = ["Done", "In Progress", "On Hold", "Ready For Test", "Review", "To Do"].map(status => ({status, active: true}));
+  const initialSelectedIssueTypes = ["Story", "Task", "Epic", "Bug", "Sub-task", "Spike"].map(issueType => ({issueType, active: true}));
   const [selectedWorkflowStatuses, updateSelectedWorkflowStatuses] = useState(initialSelectedWorkflowStatusesArray);
+  const [selectedIssueTypes, updateSelectedIssueTypes] = useState(initialSelectedIssueTypes);
 
   function hasLocalFilters(report){  return report === "CumulativeFlow"}
 
@@ -37,10 +39,11 @@ export default function MockDashboard() {
     updateDisplayLocalFilters(hasLocalFilters(currentReport));
   }, [currentReport]);
 
-  function updateStatuses(statuses){
-    updateSelectedWorkflowStatuses(statuses);
+  function filterCumulativeFlowData(cumulativeFlowData, dateRange, selectedIssueTypes){
+    const issueTypesClone = JSON.parse(JSON.stringify(selectedIssueTypes));
+    const cumulativeFlow = cumulativeFlowData.filter(issueType => issueTypesClone.find(entry => entry.issueType === issueType.name).active);
+    return dateRange ? applyDateRangeFilterToDataNestedInListOfObjects(dateRange, cumulativeFlow) : cumulativeFlow
   }
-
 
   return (
     <div id="mockDashboardRoot">
@@ -48,7 +51,8 @@ export default function MockDashboard() {
                updateSidebarVisibility={() => updateSidebarVisibility(!sidebarVisible)}
                minDate={moment(throughput[0].date, 'YYYY-MM-DD')} maxDate={moment(throughput[throughput.length-1].date, 'YYYY-MM-DD')}
                dateRangeUpdate={range => updateDateRange(range)} projects={["ZMETRIC","ZAPP","ZTRACK"]}
-               issueTypes={["Story", "Task", "Epic", "Bug", "Sub-task", "Spike"]}
+               selectedIssueTypes={selectedIssueTypes}
+               updateSelectedIssueTypes={updateSelectedIssueTypes}
       />
       <Segment.Group horizontal id='segmentGroupContainingPushable'>
         <Sidebar.Pushable as={Segment}>
@@ -58,19 +62,19 @@ export default function MockDashboard() {
               <Label size={'big'} color='teal' >
                 {currentReport}
               </Label>
-              {displayLocalFilters && <Icon id="LocalFiltersExpanderIcon" name={'angle ' + (reportFiltersVisible ? 'up' : 'down')} onClick={() => updateReportFiltersVisibility(!reportFiltersVisible)}/>}
+              {displayLocalFilters && <Icon id="LocalFiltersExpanderIcon" name={`angle ${reportFiltersVisible ? 'up' : 'down'}`} onClick={() => updateReportFiltersVisibility(!reportFiltersVisible)}/>}
             </Segment>
             {displayLocalFilters &&
               <Transition visible={reportFiltersVisible} animation="slide down" duration={500}>
                 <Segment basic className={"dashboardSegment"}>
                   {(currentReport==="CumulativeFlow")&&<CumulativeFlowLocalFilters selectedStatuses={selectedWorkflowStatuses}
-                                                                                   updateSelectedStatuses={updateStatuses}/>}
+                                                                                   updateSelectedStatuses={updateSelectedWorkflowStatuses}/>}
                 </Segment>
               </Transition>
             }
-            {workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={dateRange ? applyDateRangeFilterToDataNestedInListOfObjects(dateRange, cumulativeFlow) : cumulativeFlow}
+            {workflow && cumulativeFlow && (currentReport==="CumulativeFlow") && <CumulativeFlowReport data={filterCumulativeFlowData(cumulativeFlow, dateRange, selectedIssueTypes)}
                                                                                                        workflow={workflow}
-                                                                                                      selectedStatuses={selectedWorkflowStatuses.filter(entry => entry.active).map(entry => entry.issueType)}/>}
+                                                                                                      selectedStatuses={selectedWorkflowStatuses.filter(entry => entry.active).map(entry => entry.status)}/>}
             {leadCycleTimeData && (currentReport==="LeadTime") && <LeadTimeLineChart data={dateRange ? applyDateRangeFilter(dateRange, leadCycleTimeData) : leadCycleTimeData}/>}
             {throughput && (currentReport==="Throughput") && <ThroughputReport data={dateRange ? applyDateRangeFilter(dateRange, throughput) : throughput}/>}
 

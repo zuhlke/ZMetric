@@ -9,6 +9,7 @@ import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowR
 import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
 import {AreaChart, ComposedChart, LineChart} from "recharts";
 import {CumulativeFlowLocalFilters} from "../../Filters/Local/CumulativeFlowLocalFilters";
+import {TopMenu} from "./Components/TopMenu/TopMenu";
 
 const session = {name: 'cookie', value: '123'};
 const project = "MockProject";
@@ -21,8 +22,29 @@ describe("Dashboard", () => {
     });
   describe("Global Filters", () => {
     describe("IssueType filter", () =>{
-      it("", () =>{
+      it("CumulativeFlow deselecting an issue type is reflected in the data passed onto the CumulativeFlowReport", () =>{
+        const wrapper = mount(<MockDashboard />); //WILL HAVE TO INJECT IN ISSUE TYPES WHEN MOVING AWAY FROM MOCK
+        const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
+        cumulativeFlowMenuItem.simulate('click');
+        expect(wrapper.exists(CumulativeFlowReport)).toBe(true);
+        const button = wrapper.find(TopMenu).find("#issueTypeButtonEpic").hostNodes();
+        expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(6);
+        button.simulate('click');
+        expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(5);
+      });
 
+      it("CumulativeFlow deselecting and then re-selecting an issue type is reflected in the data passed onto the CumulativeFlowReport", () =>{
+        const wrapper = mount(<MockDashboard />); //WILL HAVE TO INJECT IN ISSUE TYPES WHEN MOVING AWAY FROM MOCK
+        const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
+        cumulativeFlowMenuItem.simulate('click');
+        expect(wrapper.exists(CumulativeFlowReport)).toBe(true);
+        const button = wrapper.find(TopMenu).find("#issueTypeButtonEpic").hostNodes();
+        expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(6);
+        button.simulate('click');
+        console.log(JSON.stringify(wrapper.find(CumulativeFlowReport).props().data));
+        expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(5);
+        button.simulate('click');
+        expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(6);
       })
     });
 
@@ -132,7 +154,7 @@ describe("Dashboard", () => {
         localFiltersExpander.simulate('click');
         expect(wrapper.exists(CumulativeFlowLocalFilters)).toEqual(true);
         const cumulativeFlowLocalFilters = wrapper.find(CumulativeFlowLocalFilters);
-        const initialSelectedWorkflowStatusesArray = ["Done", "In Progress", "On Hold", "Ready For Test", "Review", "To Do"].map(status => {return {issueType: status, active: true}});
+        const initialSelectedWorkflowStatusesArray = ["Done", "In Progress", "On Hold", "Ready For Test", "Review", "To Do"].map(status => {return {status: status, active: true}});
         expect(cumulativeFlowLocalFilters.props().selectedStatuses).toEqual(initialSelectedWorkflowStatusesArray)
       });
       it("Render all possible workflow statuses initially selected", () =>{
@@ -147,7 +169,6 @@ describe("Dashboard", () => {
         });
 
       });
-
       it("De-selecting every issueType with local filters causes a corresponding change to the props passed to the CumulativeFlowReport", () => {
         const statuses = [ 'Done', 'In Progress', 'On Hold', 'Ready For Test', 'Review', 'To Do' ];
         const wrapper = mount(<MockDashboard/>);

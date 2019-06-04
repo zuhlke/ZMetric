@@ -1,17 +1,15 @@
-import React, {useState} from "react";
+import React from "react";
 import {Menu, Dropdown, Button, Image} from "semantic-ui-react";
 import logo from "../../../../logo.jpg"
 import moment from "moment"
 import {DateRange} from "../../../../Filters/DateRange/DateRange";
 import './TopMenu.css'
 export function TopMenu (props) {
-const {username, selectedProject, dateRangeUpdate, minDate, maxDate, projects, issueTypes} = props;
-  const initialSelectedButtonsArray = issueTypes.map(issueType => {return {issueType: issueType, active: true}});
-  const [selectedButtonsArray, updateSelectedButtonsArray] = useState(initialSelectedButtonsArray);
+const {username, selectedProject, dateRangeUpdate, minDate, maxDate, projects, selectedIssueTypes, updateSelectedIssueTypes} = props;
   const toggleButton = index => {
-    const updatedArray = [...selectedButtonsArray];
-    updatedArray[index].active = !selectedButtonsArray[index].active;
-    updateSelectedButtonsArray(updatedArray);
+    const updatedArrayClone = JSON.parse(JSON.stringify(selectedIssueTypes));
+    updatedArrayClone[index].active = !selectedIssueTypes[index].active;
+    updateSelectedIssueTypes(updatedArrayClone);
   };
 return (
   <Menu className={"topmenu"}>
@@ -31,8 +29,9 @@ return (
                           maxDate={moment(maxDate)}
                           dateRangeUpdate={dateRangeUpdate}/>
     </Menu.Item>
-
-      {selectedButtonsArray.map((issueType, index) => <Button key={"issueTypeButton"+issueType.issueType} toggle size="mini"  style={{"background-color": (issueType.active ? '#DAF7A6' : null)}}  active={issueType.active} onClick={() => toggleButton(index)}>{issueType.issueType}</Button>)}
+      {selectedIssueTypes.map((issueType, index) => <Button key={issueType.issueType} id={"issueTypeButton"+issueType.issueType}
+                                                            toggle size="mini"  style={{"background-color": (issueType.active ? '#DAF7A6' : null)}}
+                                                            active={issueType.active} onClick={() => toggleButton(index)}>{issueType.issueType}</Button>)}
 
     <Menu.Menu position='right'>
       <Dropdown item text={username}>

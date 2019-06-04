@@ -8,19 +8,18 @@ import {
   mergeData,
 } from "./Filters/IssueTypeAndStatus/CumulativeFlowReportService";
 import {
-  getColoursForNewIssues, initialSelectedIssueTypesState,
+  getColoursForNewIssues,
 } from "./Filters/IssueTypeAndStatus/CumulativeFlowStateInitialization";
 
 export function CumulativeFlowReport(props) {
   const [isTableVisible, toggleTableVisibility] = useState(false);
-  const [selectedIssueTypes] = useState(initialSelectedIssueTypesState(props.workflow));
-  const [displayedData, updateDisplayedData] = useState(mergeData(props.data, selectedIssueTypes));
+  const [displayedData, updateDisplayedData] = useState(mergeData(props.data));
   const selectedWorkflowStatuses = props.selectedStatuses;
   const [statusColours] = useState(getColoursForNewIssues(props.workflow));
 
   useEffect(() => {
-      updateDisplayedData(mergeData(props.data, selectedIssueTypes));
-  }, [props, selectedIssueTypes]);
+      updateDisplayedData(mergeData(props.data));
+  }, [props]);
 
   const renderAreaChartsForSelectedWorkflows = () => {
     return selectedWorkflowStatuses

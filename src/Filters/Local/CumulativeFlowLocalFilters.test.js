@@ -5,14 +5,17 @@ import {mount} from "enzyme";
 import {Button} from "semantic-ui-react";
 
 describe("CumulativeFlowLocalFilters", () => {
-  const initialSelectedWorkflowStatusesArray = [
-    { issueType: 'Done', active: true },
-    { issueType: 'In Progress', active: true },
-    { issueType: 'On Hold', active: true },
-    { issueType: 'Ready For Test', active: true },
-    { issueType: 'Review', active: true },
-    { issueType: 'To Do', active: true }
-    ];
+  let initialSelectedWorkflowStatusesArray;
+  beforeEach(() => {
+    initialSelectedWorkflowStatusesArray = [
+      { status: 'Done', active: true },
+      { status: 'In Progress', active: true },
+      { status: 'On Hold', active: true },
+      { status: 'Ready For Test', active: true },
+      { status: 'Review', active: true },
+      { status: 'To Do', active: true }
+    ]
+  });
   it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<CumulativeFlowLocalFilters selectedStatuses={initialSelectedWorkflowStatusesArray} updateSelectedStatuses={()=>{}}/>, div);
@@ -25,14 +28,43 @@ describe("CumulativeFlowLocalFilters", () => {
     buttons.forEach(button => expect(button.props().active).toEqual(true))
   });
 
-  it("renders a button as inactive after it is clicked once", () =>{
-    const wrapper = mount(<CumulativeFlowLocalFilters selectedStatuses={initialSelectedWorkflowStatusesArray} updateSelectedStatuses={()=>{}}/>);
-    const buttons = wrapper.find(Button);
-    buttons.forEach(button => expect(button.props().active).toEqual(true));
-    const button = buttons.first();
+  it("calls updateSelectedStatuses with an updated list of statuses when a button is clicked", () => {
+    const updateSelectedStatusesCallback = jest.fn(() => {});
+    const wrapper = mount(<CumulativeFlowLocalFilters selectedStatuses={initialSelectedWorkflowStatusesArray} updateSelectedStatuses={updateSelectedStatusesCallback}/>);
+    const button = wrapper.find(Button).find("#cumulativeFlowLocalFilterWorkflowButtonDone").hostNodes();
     button.simulate('click');
-    expect(button.props().active).toEqual(true)
-  })
+    expect(updateSelectedStatusesCallback.mock.calls[0][0]).toEqual([
+      { status: 'Done', active: false },
+      { status: 'In Progress', active: true },
+      { status: 'On Hold', active: true },
+      { status: 'Ready For Test', active: true },
+      { status: 'Review', active: true },
+      { status: 'To Do', active: true }
+    ]);
+  });
 
+  it("calls updateSelectedStatuses with an updated list of statuses when a inactive button is clicked.", () => {
+    const selectedWorkflowStatusesArray = [
+      { status: 'Done', active: false },
+      { status: 'In Progress', active: true },
+      { status: 'On Hold', active: true },
+      { status: 'Ready For Test', active: true },
+      { status: 'Review', active: false },
+      { status: 'To Do', active: true }
+    ];
+    const updateSelectedStatusesCallback = jest.fn(() => {});
+    const wrapper = mount(<CumulativeFlowLocalFilters selectedStatuses={selectedWorkflowStatusesArray} updateSelectedStatuses={updateSelectedStatusesCallback}/>);
+    const buttons = wrapper.find(Button);
+    const button = buttons.find("#cumulativeFlowLocalFilterWorkflowButtonDone").hostNodes();
+    button.simulate('click');
+    expect(updateSelectedStatusesCallback.mock.calls[0][0]).toStrictEqual([
+      { status: 'Done', active: true },
+      { status: 'In Progress', active: true },
+      { status: 'On Hold', active: true },
+      { status: 'Ready For Test', active: true },
+      { status: 'Review', active: false },
+      { status: 'To Do', active: true }
+    ]);
+  });
 
 });
