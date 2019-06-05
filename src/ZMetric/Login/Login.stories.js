@@ -22,7 +22,7 @@ storiesOf('Login', module)
     return <Login onSuccess={onSuccessMock}/>;
   })
   .add('Submitting', () => {
-    const mock = new MockAdapter(axios, {delayResponse: 100000});
+    new MockAdapter(axios, {delayResponse: 100000});
 
     Actions.type("#jiraUrl", "https://jira.zuehlke.com");
     Actions.type("#jiraUsername", "username");
