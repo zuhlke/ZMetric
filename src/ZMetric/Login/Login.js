@@ -40,6 +40,7 @@ class Login extends Component {
       }, {headers: {"X-Atlassian-Token": "no-check"}})
       .then((response) => {
         this.props.onSuccess(response.data.session, this.state.jiraUrl);
+        // self.setState({phase: Phases.FAIL});
         self.setState({phase: Phases.SUCCESS});
       })
       .catch(error => self.setState({

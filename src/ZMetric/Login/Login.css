@@ -2,14 +2,12 @@ body {
   background-color: #DADADA;
 }
 
-body > .grid {
-  height: 100%;
-}
+/** {*/
+/*  font-size: 24px !important;*/
+/*}*/
 
-.image {
-  margin-top: -100px;
-}
+/*.field input {*/
+/*  margin: 0 50px !important;*/
+/*  background-color: #A3C293 !important;*/
+/*}*/
 
-.column {
-  max-width: 450px;
-}
