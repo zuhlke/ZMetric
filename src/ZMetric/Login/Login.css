@@ -3,12 +3,13 @@ body {
 }
 
 /*NEVER EVER EVER EVER DO THIS !*/
-/** {*/
-/*  font-size: 24px !important;*/
-/*}*/
 
-/*.field input {*/
-/*  margin: 0 50px !important;*/
-/*  background-color: #A3C293 !important;*/
-/*}*/
+* {
+  font-size: 24px !important;
+}
+
+.field input {
+  margin: 0 50px !important;
+  background-color: #A3C293 !important;
+}
 
