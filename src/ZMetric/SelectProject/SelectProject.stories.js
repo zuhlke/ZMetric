@@ -17,7 +17,7 @@ storiesOf('Select Project', module)
                           session={{name: 'cookie', value: '123'}}/>;
   })
   .add('Loading', () => {
-    const mock = new MockAdapter(axios, {delayResponse: 100000});
+    new MockAdapter(axios, {delayResponse: 100000});
     return <SelectProject onProjectSelected={onProjectSelectedMock} jiraUrl='https://jira.atlassian.com/'
                           session={{name: 'cookie', value: '123'}}/>;
   })

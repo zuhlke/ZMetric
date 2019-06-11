@@ -1,8 +1,8 @@
 language: node_js
 node_js:
   - "stable"
-env:
-  - DOMAIN_NAME=$(if [ $TRAVIS_BRANCH = "master" ]; then echo "https://zmetric.surge.sh"; else echo "https://"$TRAVIS_BRANCH"-zmetric.surge.sh"; fi)
+#env:
+#  - DOMAIN_NAME=$(if [ $TRAVIS_BRANCH = "master" ]; then echo "https://zmetric.surge.sh"; else echo "https://"$TRAVIS_BRANCH"-zmetric.surge.sh"; fi)
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
   - export PATH=$HOME/.yarn/bin:$PATH
@@ -12,22 +12,14 @@ cache:
     - node_modules
 script:
   - yarn test:ci
-  - yarn run audit # customised yarn audit
-  - yarn lint
-  - yarn build
-  - sonar-scanner
-after_script:
-  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls # send code coverage to coveralls
-deploy:
-  provider: surge
-  project: ./build/
-  domain: $DOMAIN_NAME
-  skip_cleanup: true
-  keep_history: true
-  on:
-    all_branches: true
-addons:
-  sonarcloud:
-    organization: "zuhlke" # the key of the org you chose at step #3
-    token:
-      secure: $SONAR_TOKEN # encrypted value of your token
+#  - yarn run audit # customised yarn audit
+#  - yarn lint
+#  - yarn build
+#deploy:
+#  provider: surge
+#  project: ./build/
+#  domain: $DOMAIN_NAME
+#  skip_cleanup: true
+#  keep_history: true
+#  on:
+#    all_branches: true
