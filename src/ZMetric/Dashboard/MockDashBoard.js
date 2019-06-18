@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './Dashboard.css';
 import {Icon, Label, Segment, Sidebar, Transition} from "semantic-ui-react";
 import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
-import {getCumulativeFlowData, getLeadTimeReportData, getThroughput, getWorkflow} from "./DataFetcher";
+import {getCumulativeFlowData, getLeadTimeReportData, getThroughput, getWorkflow} from "../Data/ZMetricsData";
 import moment from "moment";
 import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
 import {ThroughputReport} from "../../Reports/Throughput/ThroughputReport";
@@ -15,7 +15,7 @@ import {TopMenu} from "./Components/TopMenu/TopMenu";
 import {LeftMenu} from "./Components/LeftMenu/LeftMenu";
 import {CumulativeFlowLocalFilters} from "../../Filters/Local/CumulativeFlowLocalFilters";
 
-export default function MockDashboard() {
+export default function MockDashboard(props) {
   const [workflow] = useState(getWorkflow());
   const [cumulativeFlow] = useState(getCumulativeFlowData());
   const [leadCycleTimeData] = useState(getLeadTimeReportData());
