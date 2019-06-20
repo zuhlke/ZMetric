@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './Dashboard.css';
 import {Icon, Label, Segment, Sidebar, Transition} from "semantic-ui-react";
 import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
-import {getCumulativeFlowData, getLeadTimeReportData, getThroughput, getWorkflow} from "./DataFetcher";
+import {getCumulativeFlowData, getJiraResponse, getThroughput, getWorkflow} from "./DataFetcher";
 import moment from "moment";
 import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
 import {ThroughputReport} from "../../Reports/Throughput/ThroughputReport";
@@ -14,11 +14,12 @@ import {generateTrendLineData} from "../../Reports/Throughput/TrendLine/TrendLin
 import {TopMenu} from "./Components/TopMenu/TopMenu";
 import {LeftMenu} from "./Components/LeftMenu/LeftMenu";
 import {CumulativeFlowLocalFilters} from "../../Filters/Local/CumulativeFlowLocalFilters";
+import {convertFromJiraToLeadtime} from "../../Reports/LeadTime/LeadTimeDataAdapter";
 
 export default function MockDashboard() {
   const [workflow] = useState(getWorkflow());
   const [cumulativeFlow] = useState(getCumulativeFlowData());
-  const [leadCycleTimeData] = useState(getLeadTimeReportData());
+  const [leadCycleTimeData] = useState(convertFromJiraToLeadtime(getJiraResponse()));
   const [throughput] = useState(generateTrendLineData(getThroughput(), "throughput"));
 
   const [sidebarVisible, updateSidebarVisibility] = useState(true);

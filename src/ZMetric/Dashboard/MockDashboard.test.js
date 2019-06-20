@@ -10,10 +10,12 @@ import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
 import {AreaChart, ComposedChart, LineChart} from "recharts";
 import {CumulativeFlowLocalFilters} from "../../Filters/Local/CumulativeFlowLocalFilters";
 import {TopMenu} from "./Components/TopMenu/TopMenu";
+import * as DataFetcher from "./DataFetcher";
 
 const session = {name: 'cookie', value: '123'};
 const project = "MockProject";
 const jiraUrl = "jira.url";
+
 describe("Dashboard", () => {
     it('renders without crashing', () => {
       const div = document.createElement('div');
@@ -22,30 +24,295 @@ describe("Dashboard", () => {
     });
   describe("Global Filters", () => {
     describe("IssueType filter", () =>{
-      it("CumulativeFlow deselecting an issue type is reflected in the data passed onto the CumulativeFlowReport", () =>{
-        const wrapper = mount(<MockDashboard />); //WILL HAVE TO INJECT IN ISSUE TYPES WHEN MOVING AWAY FROM MOCK
-        const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
-        cumulativeFlowMenuItem.simulate('click');
-        expect(wrapper.exists(CumulativeFlowReport)).toBe(true);
-        const button = wrapper.find(TopMenu).find("#issueTypeButtonEpic").hostNodes();
-        expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(6);
-        button.simulate('click');
-        expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(5);
-      });
+      describe("CumulativeFlow ", () => {
+        it("Deselecting an issue type is reflected in the data passed onto the CumulativeFlowReport", () =>{
+          const wrapper = mount(<MockDashboard />); //WILL HAVE TO INJECT IN ISSUE TYPES WHEN MOVING AWAY FROM MOCK
+          const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
+          cumulativeFlowMenuItem.simulate('click');
+          expect(wrapper.exists(CumulativeFlowReport)).toBe(true);
+          const button = wrapper.find(TopMenu).find("#issueTypeButtonEpic").hostNodes();
+          expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(6);
+          button.simulate('click');
+          expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(5);
+        });
 
-      it("CumulativeFlow deselecting and then re-selecting an issue type is reflected in the data passed onto the CumulativeFlowReport", () =>{
-        const wrapper = mount(<MockDashboard />); //WILL HAVE TO INJECT IN ISSUE TYPES WHEN MOVING AWAY FROM MOCK
-        const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
-        cumulativeFlowMenuItem.simulate('click');
-        expect(wrapper.exists(CumulativeFlowReport)).toBe(true);
-        const button = wrapper.find(TopMenu).find("#issueTypeButtonEpic").hostNodes();
-        expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(6);
-        button.simulate('click');
-        console.log(JSON.stringify(wrapper.find(CumulativeFlowReport).props().data));
-        expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(5);
-        button.simulate('click');
-        expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(6);
-      })
+        it("Deselecting and then re-selecting an issue type is reflected in the data passed onto the CumulativeFlowReport", () =>{
+          const wrapper = mount(<MockDashboard />); //WILL HAVE TO INJECT IN ISSUE TYPES WHEN MOVING AWAY FROM MOCK
+          const cumulativeFlowMenuItem = wrapper.find("#CumulativeFlowSidebarMenuItem").hostNodes();
+          cumulativeFlowMenuItem.simulate('click');
+          expect(wrapper.exists(CumulativeFlowReport)).toBe(true);
+          const button = wrapper.find(TopMenu).find("#issueTypeButtonEpic").hostNodes();
+          expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(6);
+          button.simulate('click');
+          expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(5);
+          button.simulate('click');
+          expect(wrapper.find(CumulativeFlowReport).props().data.length).toEqual(6);
+        })
+      });
+      describe("LeadTimeLineChart", () =>{
+        const mockJiraResponse = {
+          "issues": [
+            {
+              "id": "1185009",
+              "key": "JRASERVER-69440",
+              "fields": {
+                "issuetype": {
+                  "id": "10000",
+                  "name": "Story",
+                  "subtask": false
+                },
+                "resolutiondate": "2019-06-8T15:13:27.229+0000",
+                "created": "2019-06-05T15:40:38.000+0000"
+              },
+              "changelog": {
+                "histories": [
+                  {
+                    "id": "8715258",
+                    "created": "2019-06-05T15:40:43.437+0000",
+                    "items": [
+                      {
+                        "field": "status",
+                        "fieldtype": "jira",
+                        "from": "10030",
+                        "fromString": "Needs Triage",
+                        "to": "12072",
+                        "toString": "Gathering Impact"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "8715327",
+                    "created": "2019-06-6T15:58:49.160+0000",
+                    "items": [
+                      {
+                        "field": "status",
+                        "fieldtype": "jira",
+                        "from": "12072",
+                        "fromString": "Gathering Impact",
+                        "to": "3",
+                        "toString": "In Progress"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "8715328",
+                    "created": "2019-06-7T15:59:27.229+0000",
+                    "items": [
+                      {
+                        "field": "resolution",
+                        "fieldtype": "jira",
+                        "from": null,
+                        "fromString": null,
+                        "to": "3",
+                        "toString": "Duplicate"
+                      },
+                      {
+                        "field": "status",
+                        "fieldtype": "jira",
+                        "from": "3",
+                        "fromString": "In Progress",
+                        "to": "6",
+                        "toString": "Closed"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "1184905",
+              "key": "JRASERVER-69439",
+              "fields": {
+                "issuetype": {
+                  "id": "10001",
+                  "name": "Bug",
+                  "subtask": false
+                },
+                "resolutiondate": "2019-06-30T15:59:27.229+0000",
+                "created": "2019-06-05T15:37:20.000+0000"
+              },
+              "changelog": {
+                "histories": [
+                  {
+                    "id": "8715258",
+                    "created": "2019-06-05T15:40:43.437+0000",
+                    "items": [
+                      {
+                        "field": "status",
+                        "fieldtype": "jira",
+                        "from": "10030",
+                        "fromString": "Needs Triage",
+                        "to": "12072",
+                        "toString": "Gathering Impact"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "8715327",
+                    "created": "2019-06-15T15:58:49.160+0000",
+                    "items": [
+                      {
+                        "field": "status",
+                        "fieldtype": "jira",
+                        "from": "12072",
+                        "fromString": "Gathering Impact",
+                        "to": "3",
+                        "toString": "In Progress"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "8715328",
+                    "created": "2019-06-30T15:59:27.229+0000",
+                    "items": [
+                      {
+                        "field": "resolution",
+                        "fieldtype": "jira",
+                        "from": null,
+                        "fromString": null,
+                        "to": "3",
+                        "toString": "Duplicate"
+                      },
+                      {
+                        "field": "status",
+                        "fieldtype": "jira",
+                        "from": "3",
+                        "fromString": "In Progress",
+                        "to": "6",
+                        "toString": "Closed"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "1184123",
+              "key": "JRASERVER-69433",
+              "fields": {
+                "issuetype": {
+                  "id": "10002",
+                  "name": "Task",
+                  "subtask": false
+                },
+                "resolutiondate": "2019-06-7T15:59:27.229+0000",
+                "created": "2019-06-04T20:56:19.000+0000"
+              },
+              "changelog": {
+                "histories": [
+                  {
+                    "id": "8715258",
+                    "created": "2019-06-05T15:40:43.437+0000",
+                    "items": [
+                      {
+                        "field": "status",
+                        "fieldtype": "jira",
+                        "from": "10030",
+                        "fromString": "Needs Triage",
+                        "to": "12072",
+                        "toString": "Gathering Impact"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "8715327",
+                    "created": "2019-06-6T15:58:49.160+0000",
+                    "items": [
+                      {
+                        "field": "status",
+                        "fieldtype": "jira",
+                        "from": "12072",
+                        "fromString": "Gathering Impact",
+                        "to": "3",
+                        "toString": "In Progress"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "8715328",
+                    "created": "2019-06-7T15:59:27.229+0000",
+                    "items": [
+                      {
+                        "field": "resolution",
+                        "fieldtype": "jira",
+                        "from": null,
+                        "fromString": null,
+                        "to": "3",
+                        "toString": "Duplicate"
+                      },
+                      {
+                        "field": "status",
+                        "fieldtype": "jira",
+                        "from": "3",
+                        "fromString": "In Progress",
+                        "to": "6",
+                        "toString": "Closed"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        };
+        jest.mock("./DataFetcher");
+        it("Deselecting an issue type is reflected in the data passed onto the report", () =>{
+          DataFetcher.getJiraResponse = jest.fn( () => mockJiraResponse);
+          const wrapper = mount(<MockDashboard />); //INJECT simple values to allow testing
+          const leadTimeMenuItem = wrapper.find("#LeadTimeSidebarMenuItem").hostNodes();
+          leadTimeMenuItem.simulate('click');
+          expect(wrapper.exists(LeadTimeLineChart)).toBe(true);
+          expect(wrapper.find(LeadTimeLineChart).props().data.length).toEqual(27);
+          const button = wrapper.find(TopMenu).find("#issueTypeButtonBug").hostNodes();
+          button.simulate('click');
+          wrapper.update();
+          expect(wrapper.find(LeadTimeLineChart).props().data.length).toEqual(5);
+        });
+
+        xit("Deselecting and then re-selecting an issue type is reflected in the data passed onto the report", () =>{
+          const wrapper = mount(<MockDashboard />); //WILL HAVE TO INJECT IN ISSUE TYPES WHEN MOVING AWAY FROM MOCK
+          const leadTimeMenuItem = wrapper.find("#LeadTimeSidebarMenuItem").hostNodes();
+          leadTimeMenuItem.simulate('click');
+          expect(wrapper.exists(LeadTimeLineChart)).toBe(true);
+          expect(wrapper.find(LeadTimeLineChart).props().data.length).toEqual(27);
+          const button = wrapper.find(TopMenu).find("#issueTypeButtonBug").hostNodes();
+          button.simulate('click');
+          wrapper.update();
+          expect(wrapper.find(LeadTimeLineChart).props().data.length).toEqual(5);
+          wrapper.find(TopMenu).find("#issueTypeButtonBug").hostNodes().simulate('click');
+          wrapper.update();
+          expect(wrapper.find(LeadTimeLineChart).props().data.length).toEqual(27);
+
+        })
+      });
+      describe("ThroughputReport", () =>{
+        xit("Deselecting an issue type is reflected in the data passed onto the report", () =>{
+          const wrapper = mount(<MockDashboard />); //WILL HAVE TO INJECT IN ISSUE TYPES WHEN MOVING AWAY FROM MOCK
+          const throughputMenuItem = wrapper.find("#ThroughputSidebarMenuItem").hostNodes();
+          throughputMenuItem.simulate('click');
+          expect(wrapper.exists(ThroughputReport)).toBe(true);
+          expect(wrapper.find(ThroughputReport).props().data.length).toEqual(27);
+          const button = wrapper.find(TopMenu).find("#issueTypeButtonBug").hostNodes();
+          button.simulate('click');
+          wrapper.update();
+          expect(wrapper.find(ThroughputReport).props().data.length).toEqual(5);
+        });
+
+        xit("Deselecting and then re-selecting an issue type is reflected in the data passed onto the report", () =>{
+          const wrapper = mount(<MockDashboard />); //WILL HAVE TO INJECT IN ISSUE TYPES WHEN MOVING AWAY FROM MOCK
+          const throughputMenuItem = wrapper.find("#ThroughputSidebarMenuItem").hostNodes();
+          throughputMenuItem.simulate('click');
+          expect(wrapper.exists(ThroughputReport)).toBe(true);
+          expect(wrapper.find(ThroughputReport).props().data.length).toEqual(27);
+          const button = wrapper.find(TopMenu).find("#issueTypeButtonBug").hostNodes();
+          button.simulate('click');
+          wrapper.update();
+          expect(wrapper.find(ThroughputReport).props().data.length).toEqual(5);
+          wrapper.find(TopMenu).find("#issueTypeButtonBug").hostNodes().simulate('click');
+          wrapper.update();
+          expect(wrapper.find(LeadTimeLineChart).props().data.length).toEqual(27);
+        })
+      });
     });
 
     describe("DateRange", () => {

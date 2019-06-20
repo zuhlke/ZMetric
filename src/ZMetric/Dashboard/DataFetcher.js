@@ -2557,6 +2557,7 @@ const jiraResponse = {
 };
 
 
+export let getJiraResponse = () => jiraResponse;
 export const getLeadTimeReportData = () => convertFromJiraToLeadtime(jiraResponse);
 export const getWorkflow = () => workflow;
 export const getLeadAndCycleTimeData = () => leadAndCycleTimeData;
