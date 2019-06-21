@@ -39,6 +39,16 @@ export function LeftMenu (props) {
           content={"A measure of issues completed per unit time."}
           position={"right center"}
           />
+        <Popup
+          trigger={
+            <Menu.Item active={currentReport === "Histogram"} as='a' id="" onClick={() => updateCurrentReport("FixVsFeatureTime")}>
+                <Icon name='chart bar outline' size="mini"/>
+            </Menu.Item>
+          }
+          header={"Histogram"}
+          content={"A serious of fix vs feature work."}
+          position={"right center"}
+        />
       </Sidebar>
   );
 }

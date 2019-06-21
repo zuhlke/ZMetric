@@ -1,4 +1,5 @@
 import {convertFromJiraToLeadtime} from "../../Reports/LeadTime/LeadTimeDataAdapter";
+import {convertFromJiraToTimeSpent} from "../../Reports/Histogram/FixVsFeatureTimeDataAdapter";
 
 const workflow = [
   {
@@ -2556,10 +2557,3936 @@ const jiraResponse = {
   ]
 };
 
+const fixVsFeatureTimeData = [];
+
+/*
+const bugsData = {
+  "expand": "schema,names",
+  "startAt": 0,
+  "maxResults": 20,
+  "total": 61,
+  "issues": [{
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "109520",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/109520",
+    "key": "ZAPP-611",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-06-06T09:12:12.000+0000",
+      "created": "2019-06-06T06:31:39.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "109063",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/109063",
+    "key": "ZAPP-602",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-30T08:27:37.000+0000",
+      "created": "2019-05-29T10:21:00.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "108381",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/108381",
+    "key": "ZAPP-598",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-21T07:48:06.000+0000",
+      "created": "2019-05-17T04:12:12.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107852",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107852",
+    "key": "ZAPP-594",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-15T09:23:41.000+0000",
+      "created": "2019-05-09T14:37:48.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107736",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107736",
+    "key": "ZAPP-585",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-09T09:31:55.000+0000",
+      "created": "2019-05-08T09:38:04.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107715",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107715",
+    "key": "ZAPP-584",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-09T06:20:49.000+0000",
+      "created": "2019-05-08T07:15:40.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107612",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107612",
+    "key": "ZAPP-582",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-08T07:33:34.000+0000",
+      "created": "2019-05-07T08:07:05.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107468",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107468",
+    "key": "ZAPP-577",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-06T04:03:42.000+0000",
+      "created": "2019-05-02T16:10:20.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106846",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106846",
+    "key": "ZAPP-570",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-07T10:03:19.000+0000",
+      "created": "2019-04-23T10:19:54.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106721",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106721",
+    "key": "ZAPP-569",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-29T10:05:11.000+0000",
+      "created": "2019-04-18T07:54:36.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106711",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106711",
+    "key": "ZAPP-568",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-29T06:18:20.000+0000",
+      "created": "2019-04-18T05:06:13.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106433",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106433",
+    "key": "ZAPP-564",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-23T16:39:12.000+0000",
+      "created": "2019-04-15T13:57:46.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105887",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105887",
+    "key": "ZAPP-558",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-11T12:34:01.000+0000",
+      "created": "2019-04-09T14:31:28.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105886",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105886",
+    "key": "ZAPP-557",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-11T12:35:39.000+0000",
+      "created": "2019-04-09T14:26:45.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105389",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105389",
+    "key": "ZAPP-555",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-05T12:18:04.000+0000",
+      "created": "2019-04-05T09:48:41.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105381",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105381",
+    "key": "ZAPP-554",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-05T10:04:02.000+0000",
+      "created": "2019-04-05T08:35:09.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "104988",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/104988",
+    "key": "ZAPP-552",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-05T15:54:18.000+0000",
+      "created": "2019-04-03T15:24:33.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "103404",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/103404",
+    "key": "ZAPP-533",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-03-18T14:55:21.000+0000",
+      "created": "2019-03-18T13:30:43.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "102836",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/102836",
+    "key": "ZAPP-532",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-30T08:26:23.000+0000",
+      "created": "2019-03-12T17:04:13.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "102605",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/102605",
+    "key": "ZAPP-530",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-03-14T13:58:14.000+0000",
+      "created": "2019-03-08T14:03:34.000+0000"
+    }
+  }]
+};
+
+const bugsData = {
+  "expand": "schema,names",
+  "startAt": 0,
+  "maxResults": 300,
+  "total": 61,
+  "issues": [{
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "109520",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/109520",
+    "key": "ZAPP-611",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-06-06T09:12:12.000+0000",
+      "created": "2019-06-06T06:31:39.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "109063",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/109063",
+    "key": "ZAPP-602",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-30T08:27:37.000+0000",
+      "created": "2019-05-29T10:21:00.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "108381",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/108381",
+    "key": "ZAPP-598",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-21T07:48:06.000+0000",
+      "created": "2019-05-17T04:12:12.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107852",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107852",
+    "key": "ZAPP-594",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-15T09:23:41.000+0000",
+      "created": "2019-05-09T14:37:48.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107736",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107736",
+    "key": "ZAPP-585",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-09T09:31:55.000+0000",
+      "created": "2019-05-08T09:38:04.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107715",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107715",
+    "key": "ZAPP-584",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-09T06:20:49.000+0000",
+      "created": "2019-05-08T07:15:40.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107612",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107612",
+    "key": "ZAPP-582",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-08T07:33:34.000+0000",
+      "created": "2019-05-07T08:07:05.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107468",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107468",
+    "key": "ZAPP-577",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-06T04:03:42.000+0000",
+      "created": "2019-05-02T16:10:20.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106846",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106846",
+    "key": "ZAPP-570",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-07T10:03:19.000+0000",
+      "created": "2019-04-23T10:19:54.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106721",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106721",
+    "key": "ZAPP-569",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-29T10:05:11.000+0000",
+      "created": "2019-04-18T07:54:36.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106711",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106711",
+    "key": "ZAPP-568",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-29T06:18:20.000+0000",
+      "created": "2019-04-18T05:06:13.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106433",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106433",
+    "key": "ZAPP-564",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-23T16:39:12.000+0000",
+      "created": "2019-04-15T13:57:46.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105887",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105887",
+    "key": "ZAPP-558",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-11T12:34:01.000+0000",
+      "created": "2019-04-09T14:31:28.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105886",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105886",
+    "key": "ZAPP-557",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-11T12:35:39.000+0000",
+      "created": "2019-04-09T14:26:45.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105389",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105389",
+    "key": "ZAPP-555",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-05T12:18:04.000+0000",
+      "created": "2019-04-05T09:48:41.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105381",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105381",
+    "key": "ZAPP-554",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-05T10:04:02.000+0000",
+      "created": "2019-04-05T08:35:09.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "104988",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/104988",
+    "key": "ZAPP-552",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-05T15:54:18.000+0000",
+      "created": "2019-04-03T15:24:33.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "103404",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/103404",
+    "key": "ZAPP-533",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-03-18T14:55:21.000+0000",
+      "created": "2019-03-18T13:30:43.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "102836",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/102836",
+    "key": "ZAPP-532",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-30T08:26:23.000+0000",
+      "created": "2019-03-12T17:04:13.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "102605",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/102605",
+    "key": "ZAPP-530",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-03-14T13:58:14.000+0000",
+      "created": "2019-03-08T14:03:34.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "102604",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/102604",
+    "key": "ZAPP-529",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-03-18T14:53:48.000+0000",
+      "created": "2019-03-08T13:59:35.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "101536",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/101536",
+    "key": "ZAPP-524",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-02-25T10:09:37.000+0000",
+      "created": "2019-02-22T11:56:20.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "101057",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/101057",
+    "key": "ZAPP-523",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-03-13T14:58:04.000+0000",
+      "created": "2019-02-20T11:40:58.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "99877",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/99877",
+    "key": "ZAPP-482",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-02-07T17:17:24.000+0000",
+      "created": "2019-02-06T14:45:52.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "98565",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/98565",
+    "key": "ZAPP-466",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-02-18T11:24:13.000+0000",
+      "created": "2019-01-23T16:11:51.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "98475",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/98475",
+    "key": "ZAPP-465",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-01-25T09:29:52.000+0000",
+      "created": "2019-01-23T11:05:22.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "96127",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/96127",
+    "key": "ZAPP-443",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-01-11T15:43:28.000+0000",
+      "created": "2018-12-18T09:04:15.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "96035",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/96035",
+    "key": "ZAPP-442",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-18T10:13:24.000+0000",
+      "created": "2018-12-17T10:23:09.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "96029",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/96029",
+    "key": "ZAPP-441",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-19T10:15:40.000+0000",
+      "created": "2018-12-17T09:32:41.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "96011",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/96011",
+    "key": "ZAPP-440",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-02-18T11:17:13.000+0000",
+      "created": "2018-12-14T17:35:24.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "95278",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/95278",
+    "key": "ZAPP-403",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-14T11:40:46.000+0000",
+      "created": "2018-12-10T15:44:49.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "95268",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/95268",
+    "key": "ZAPP-402",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-18T10:11:34.000+0000",
+      "created": "2018-12-10T15:26:28.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "95258",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/95258",
+    "key": "ZAPP-401",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-01-28T09:12:03.000+0000",
+      "created": "2018-12-10T14:18:54.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "95257",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/95257",
+    "key": "ZAPP-400",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-12T18:02:29.000+0000",
+      "created": "2018-12-10T14:18:20.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "95239",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/95239",
+    "key": "ZAPP-398",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-10T17:07:22.000+0000",
+      "created": "2018-12-10T12:43:22.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "94886",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/94886",
+    "key": "ZAPP-396",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-10T16:23:20.000+0000",
+      "created": "2018-12-04T10:38:00.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "94548",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/94548",
+    "key": "ZAPP-392",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-12T11:28:48.000+0000",
+      "created": "2018-11-29T15:58:03.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "92917",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/92917",
+    "key": "ZAPP-377",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-19T11:13:18.000+0000",
+      "created": "2018-11-13T11:57:56.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "92595",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/92595",
+    "key": "ZAPP-372",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-12T10:29:01.000+0000",
+      "created": "2018-11-09T13:32:18.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "92387",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/92387",
+    "key": "ZAPP-370",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-12T12:13:06.000+0000",
+      "created": "2018-11-07T16:41:12.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "92098",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/92098",
+    "key": "ZAPP-368",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-12T10:06:15.000+0000",
+      "created": "2018-11-05T10:35:39.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "91829",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/91829",
+    "key": "ZAPP-362",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-27T14:26:41.000+0000",
+      "created": "2018-10-31T09:29:15.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "91531",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/91531",
+    "key": "ZAPP-353",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-31T09:52:39.000+0000",
+      "created": "2018-10-25T15:17:00.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "91316",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/91316",
+    "key": "ZAPP-347",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-25T12:28:14.000+0000",
+      "created": "2018-10-24T09:52:10.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "91110",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/91110",
+    "key": "ZAPP-345",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-25T12:28:01.000+0000",
+      "created": "2018-10-22T10:51:31.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "91057",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/91057",
+    "key": "ZAPP-342",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-12T10:57:43.000+0000",
+      "created": "2018-10-19T16:16:45.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "90463",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/90463",
+    "key": "ZAPP-278",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-21T14:07:09.000+0000",
+      "created": "2018-10-11T14:45:25.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "90461",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/90461",
+    "key": "ZAPP-276",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-12T12:12:47.000+0000",
+      "created": "2018-10-11T14:40:16.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "90458",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/90458",
+    "key": "ZAPP-274",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-29T13:44:30.000+0000",
+      "created": "2018-10-11T14:16:06.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "90456",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/90456",
+    "key": "ZAPP-273",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-19T10:23:24.000+0000",
+      "created": "2018-10-11T14:06:42.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "90452",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/90452",
+    "key": "ZAPP-272",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-19T10:23:22.000+0000",
+      "created": "2018-10-11T13:55:18.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "89662",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/89662",
+    "key": "ZAPP-268",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-12T10:08:06.000+0000",
+      "created": "2018-10-02T10:46:17.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "89658",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/89658",
+    "key": "ZAPP-267",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-08T07:50:12.000+0000",
+      "created": "2018-10-02T10:21:27.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "70434",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/70434",
+    "key": "ZAPP-179",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-03-06T10:30:44.000+0000",
+      "created": "2018-02-05T16:53:06.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "65673",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/65673",
+    "key": "ZAPP-171",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-04-24T10:19:17.000+0000",
+      "created": "2017-12-04T11:26:14.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "65672",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/65672",
+    "key": "ZAPP-170",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-04-17T12:20:26.000+0000",
+      "created": "2017-12-04T11:23:08.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "64534",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/64534",
+    "key": "ZAPP-155",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-03-06T10:30:38.000+0000",
+      "created": "2017-11-22T11:52:36.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "64371",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/64371",
+    "key": "ZAPP-149",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-04-24T10:17:00.000+0000",
+      "created": "2017-11-21T10:55:35.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "58725",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/58725",
+    "key": "ZAPP-122",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2017-09-11T09:00:12.000+0000",
+      "created": "2017-09-08T10:28:07.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "56998",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/56998",
+    "key": "ZAPP-105",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2017-08-15T14:30:02.000+0000",
+      "created": "2017-08-14T10:55:12.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "56657",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/56657",
+    "key": "ZAPP-100",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2017-08-09T12:54:45.000+0000",
+      "created": "2017-08-08T13:06:02.000+0000"
+    }
+  }]
+};
+*/
+
+const bugsData = {
+  "expand": "schema,names",
+  "startAt": 0,
+  "maxResults": 500,
+  "total": 61,
+  "issues": [{
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "109520",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/109520",
+    "key": "ZAPP-611",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-06-06T09:12:12.000+0000",
+      "created": "2019-06-06T06:31:39.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "109063",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/109063",
+    "key": "ZAPP-602",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-30T08:27:37.000+0000",
+      "created": "2019-05-29T10:21:00.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "108381",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/108381",
+    "key": "ZAPP-598",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-21T07:48:06.000+0000",
+      "created": "2019-05-17T04:12:12.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107852",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107852",
+    "key": "ZAPP-594",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-15T09:23:41.000+0000",
+      "created": "2019-05-09T14:37:48.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107736",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107736",
+    "key": "ZAPP-585",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-09T09:31:55.000+0000",
+      "created": "2019-05-08T09:38:04.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107715",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107715",
+    "key": "ZAPP-584",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-09T06:20:49.000+0000",
+      "created": "2019-05-08T07:15:40.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107612",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107612",
+    "key": "ZAPP-582",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-08T07:33:34.000+0000",
+      "created": "2019-05-07T08:07:05.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107468",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107468",
+    "key": "ZAPP-577",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-06T04:03:42.000+0000",
+      "created": "2019-05-02T16:10:20.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106846",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106846",
+    "key": "ZAPP-570",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-07T10:03:19.000+0000",
+      "created": "2019-04-23T10:19:54.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106721",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106721",
+    "key": "ZAPP-569",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-29T10:05:11.000+0000",
+      "created": "2019-04-18T07:54:36.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106711",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106711",
+    "key": "ZAPP-568",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-29T06:18:20.000+0000",
+      "created": "2019-04-18T05:06:13.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106433",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106433",
+    "key": "ZAPP-564",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-23T16:39:12.000+0000",
+      "created": "2019-04-15T13:57:46.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105887",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105887",
+    "key": "ZAPP-558",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-11T12:34:01.000+0000",
+      "created": "2019-04-09T14:31:28.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105886",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105886",
+    "key": "ZAPP-557",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-11T12:35:39.000+0000",
+      "created": "2019-04-09T14:26:45.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105389",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105389",
+    "key": "ZAPP-555",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-05T12:18:04.000+0000",
+      "created": "2019-04-05T09:48:41.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "105381",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/105381",
+    "key": "ZAPP-554",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-05T10:04:02.000+0000",
+      "created": "2019-04-05T08:35:09.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "104988",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/104988",
+    "key": "ZAPP-552",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-05T15:54:18.000+0000",
+      "created": "2019-04-03T15:24:33.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "103404",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/103404",
+    "key": "ZAPP-533",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-03-18T14:55:21.000+0000",
+      "created": "2019-03-18T13:30:43.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "102836",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/102836",
+    "key": "ZAPP-532",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-30T08:26:23.000+0000",
+      "created": "2019-03-12T17:04:13.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "102605",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/102605",
+    "key": "ZAPP-530",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-03-14T13:58:14.000+0000",
+      "created": "2019-03-08T14:03:34.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "102604",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/102604",
+    "key": "ZAPP-529",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-03-18T14:53:48.000+0000",
+      "created": "2019-03-08T13:59:35.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "101536",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/101536",
+    "key": "ZAPP-524",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-02-25T10:09:37.000+0000",
+      "created": "2019-02-22T11:56:20.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "101057",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/101057",
+    "key": "ZAPP-523",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-03-13T14:58:04.000+0000",
+      "created": "2019-02-20T11:40:58.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "99877",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/99877",
+    "key": "ZAPP-482",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-02-07T17:17:24.000+0000",
+      "created": "2019-02-06T14:45:52.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "98565",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/98565",
+    "key": "ZAPP-466",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-02-18T11:24:13.000+0000",
+      "created": "2019-01-23T16:11:51.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "98475",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/98475",
+    "key": "ZAPP-465",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-01-25T09:29:52.000+0000",
+      "created": "2019-01-23T11:05:22.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "96127",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/96127",
+    "key": "ZAPP-443",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-01-11T15:43:28.000+0000",
+      "created": "2018-12-18T09:04:15.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "96035",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/96035",
+    "key": "ZAPP-442",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-18T10:13:24.000+0000",
+      "created": "2018-12-17T10:23:09.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "96029",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/96029",
+    "key": "ZAPP-441",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-19T10:15:40.000+0000",
+      "created": "2018-12-17T09:32:41.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "96011",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/96011",
+    "key": "ZAPP-440",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-02-18T11:17:13.000+0000",
+      "created": "2018-12-14T17:35:24.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "95278",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/95278",
+    "key": "ZAPP-403",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-14T11:40:46.000+0000",
+      "created": "2018-12-10T15:44:49.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "95268",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/95268",
+    "key": "ZAPP-402",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-18T10:11:34.000+0000",
+      "created": "2018-12-10T15:26:28.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "95258",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/95258",
+    "key": "ZAPP-401",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-01-28T09:12:03.000+0000",
+      "created": "2018-12-10T14:18:54.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "95257",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/95257",
+    "key": "ZAPP-400",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-12T18:02:29.000+0000",
+      "created": "2018-12-10T14:18:20.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "95239",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/95239",
+    "key": "ZAPP-398",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-10T17:07:22.000+0000",
+      "created": "2018-12-10T12:43:22.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "94886",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/94886",
+    "key": "ZAPP-396",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-10T16:23:20.000+0000",
+      "created": "2018-12-04T10:38:00.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "94548",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/94548",
+    "key": "ZAPP-392",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-12T11:28:48.000+0000",
+      "created": "2018-11-29T15:58:03.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "92917",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/92917",
+    "key": "ZAPP-377",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-19T11:13:18.000+0000",
+      "created": "2018-11-13T11:57:56.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "92595",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/92595",
+    "key": "ZAPP-372",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-12T10:29:01.000+0000",
+      "created": "2018-11-09T13:32:18.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "92387",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/92387",
+    "key": "ZAPP-370",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-12T12:13:06.000+0000",
+      "created": "2018-11-07T16:41:12.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "92098",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/92098",
+    "key": "ZAPP-368",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-12T10:06:15.000+0000",
+      "created": "2018-11-05T10:35:39.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "91829",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/91829",
+    "key": "ZAPP-362",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-27T14:26:41.000+0000",
+      "created": "2018-10-31T09:29:15.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "91531",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/91531",
+    "key": "ZAPP-353",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-31T09:52:39.000+0000",
+      "created": "2018-10-25T15:17:00.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "91316",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/91316",
+    "key": "ZAPP-347",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-25T12:28:14.000+0000",
+      "created": "2018-10-24T09:52:10.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "91110",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/91110",
+    "key": "ZAPP-345",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-25T12:28:01.000+0000",
+      "created": "2018-10-22T10:51:31.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "91057",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/91057",
+    "key": "ZAPP-342",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-12-12T10:57:43.000+0000",
+      "created": "2018-10-19T16:16:45.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "90463",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/90463",
+    "key": "ZAPP-278",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-21T14:07:09.000+0000",
+      "created": "2018-10-11T14:45:25.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "90461",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/90461",
+    "key": "ZAPP-276",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-12T12:12:47.000+0000",
+      "created": "2018-10-11T14:40:16.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "90458",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/90458",
+    "key": "ZAPP-274",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-11-29T13:44:30.000+0000",
+      "created": "2018-10-11T14:16:06.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "90456",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/90456",
+    "key": "ZAPP-273",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-19T10:23:24.000+0000",
+      "created": "2018-10-11T14:06:42.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "90452",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/90452",
+    "key": "ZAPP-272",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-19T10:23:22.000+0000",
+      "created": "2018-10-11T13:55:18.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "89662",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/89662",
+    "key": "ZAPP-268",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-12T10:08:06.000+0000",
+      "created": "2018-10-02T10:46:17.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "89658",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/89658",
+    "key": "ZAPP-267",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-10-08T07:50:12.000+0000",
+      "created": "2018-10-02T10:21:27.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "70434",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/70434",
+    "key": "ZAPP-179",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-03-06T10:30:44.000+0000",
+      "created": "2018-02-05T16:53:06.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "65673",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/65673",
+    "key": "ZAPP-171",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-04-24T10:19:17.000+0000",
+      "created": "2017-12-04T11:26:14.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "65672",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/65672",
+    "key": "ZAPP-170",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-04-17T12:20:26.000+0000",
+      "created": "2017-12-04T11:23:08.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "64534",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/64534",
+    "key": "ZAPP-155",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-03-06T10:30:38.000+0000",
+      "created": "2017-11-22T11:52:36.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "64371",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/64371",
+    "key": "ZAPP-149",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2018-04-24T10:17:00.000+0000",
+      "created": "2017-11-21T10:55:35.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "58725",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/58725",
+    "key": "ZAPP-122",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2017-09-11T09:00:12.000+0000",
+      "created": "2017-09-08T10:28:07.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "56998",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/56998",
+    "key": "ZAPP-105",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2017-08-15T14:30:02.000+0000",
+      "created": "2017-08-14T10:55:12.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "56657",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/56657",
+    "key": "ZAPP-100",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/1",
+        "id": "1",
+        "description": "A software error which impairs or prevents the functionality of the product.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=13444&avatarType=issuetype",
+        "name": "Bug",
+        "subtask": false,
+        "avatarId": 13444
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2017-08-09T12:54:45.000+0000",
+      "created": "2017-08-08T13:06:02.000+0000"
+    }
+  }]
+};
+
+const newFeaturesData = {
+  "expand": "schema,names",
+  "startAt": 0,
+  "maxResults": 20,
+  "total": 210,
+  "issues": [{
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "109120",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/109120",
+    "key": "ZAPP-606",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-30T09:01:32.000+0000",
+      "created": "2019-05-30T08:28:09.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "108380",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/108380",
+    "key": "ZAPP-597",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-21T09:24:30.000+0000",
+      "created": "2019-05-17T02:49:02.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107994",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107994",
+    "key": "ZAPP-595",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-30T09:01:25.000+0000",
+      "created": "2019-05-10T17:01:07.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107777",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107777",
+    "key": "ZAPP-589",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-24T07:29:12.000+0000",
+      "created": "2019-05-09T01:43:48.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107776",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107776",
+    "key": "ZAPP-588",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-23T10:44:59.000+0000",
+      "created": "2019-05-09T01:42:31.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107775",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107775",
+    "key": "ZAPP-587",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-17T08:06:47.000+0000",
+      "created": "2019-05-09T01:42:05.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107774",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107774",
+    "key": "ZAPP-586",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-17T08:06:38.000+0000",
+      "created": "2019-05-09T01:40:13.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107605",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107605",
+    "key": "ZAPP-581",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-09T09:31:41.000+0000",
+      "created": "2019-05-07T07:14:52.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107391",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107391",
+    "key": "ZAPP-576",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-06-04T15:00:51.000+0000",
+      "created": "2019-04-30T15:40:49.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107370",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107370",
+    "key": "ZAPP-574",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-31T08:19:37.000+0000",
+      "created": "2019-04-30T10:54:24.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "107369",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/107369",
+    "key": "ZAPP-573",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-28T02:25:45.000+0000",
+      "created": "2019-04-30T10:51:28.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106708",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106708",
+    "key": "ZAPP-567",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-29T10:06:44.000+0000",
+      "created": "2019-04-17T16:36:38.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106707",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106707",
+    "key": "ZAPP-566",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-29T10:07:46.000+0000",
+      "created": "2019-04-17T16:33:19.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106472",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106472",
+    "key": "ZAPP-565",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-02T06:49:17.000+0000",
+      "created": "2019-04-16T05:56:20.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "106284",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/106284",
+    "key": "ZAPP-559",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-29T13:06:45.000+0000",
+      "created": "2019-04-11T15:28:03.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "104993",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/104993",
+    "key": "ZAPP-553",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-11T15:43:11.000+0000",
+      "created": "2019-04-03T16:31:37.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "103678",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/103678",
+    "key": "ZAPP-535",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-03T09:52:49.000+0000",
+      "created": "2019-03-20T11:46:11.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "101935",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/101935",
+    "key": "ZAPP-525",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-05T10:04:00.000+0000",
+      "created": "2019-02-28T13:29:56.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "100776",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/100776",
+    "key": "ZAPP-520",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-04-11T12:35:47.000+0000",
+      "created": "2019-02-18T12:47:11.000+0000"
+    }
+  }, {
+    "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+    "id": "100409",
+    "self": "https://jira.zuehlke.com/rest/api/2/issue/100409",
+    "key": "ZAPP-518",
+    "fields": {
+      "issuetype": {
+        "self": "https://jira.zuehlke.com/rest/api/2/issuetype/10001",
+        "id": "10001",
+        "description": "Created by Jira Software - do not edit or delete. Issue type for a user story.",
+        "iconUrl": "https://jira.zuehlke.com/secure/viewavatar?size=xsmall&avatarId=10915&avatarType=issuetype",
+        "name": "Story",
+        "subtask": false,
+        "avatarId": 10915
+      },
+      "resolution": {
+        "self": "https://jira.zuehlke.com/rest/api/2/resolution/10000",
+        "id": "10000",
+        "description": "GreenHopper Managed Resolution.",
+        "name": "Done"
+      },
+      "resolutiondate": "2019-05-07T09:37:11.000+0000",
+      "created": "2019-02-12T14:08:10.000+0000"
+    }
+  }]
+};
+
+export const getTimeSpentFixingBugs = () => convertFromJiraToTimeSpent(bugsData);
 
 export const getLeadTimeReportData = () => convertFromJiraToLeadtime(jiraResponse);
 export const getWorkflow = () => workflow;
 export const getLeadAndCycleTimeData = () => leadAndCycleTimeData;
 export const getThroughput = () => throughputData;
 export const getCumulativeFlowData = () => cumulativeFlowData;
+export const getFixVsFeatureTimeData = () => fixVsFeatureTimeData;
 

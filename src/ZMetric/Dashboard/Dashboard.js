@@ -9,6 +9,7 @@ import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowR
 import {mergeIssues} from "../../Reports/CumulativeFlow/CumulativeFlowDataAdapter";
 import {convertFromJiraToThroughput} from "../../Reports/Throughput/ThroughputDataAdapter";
 import {convertFromJiraToLeadtime} from "../../Reports/LeadTime/LeadTimeDataAdapter";
+import {FixVsFeatureTime} from "../../Reports/Histogram/FixVsFeatureTime";
 
 
 export default function Dashboard(props) {

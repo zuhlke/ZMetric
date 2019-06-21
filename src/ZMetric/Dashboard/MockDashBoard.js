@@ -3,9 +3,11 @@ import './Dashboard.css';
 import {Icon, Label, Segment, Sidebar, Transition} from "semantic-ui-react";
 import {CumulativeFlowReport} from "../../Reports/CumulativeFlow/CumulativeFlowReport";
 import {getCumulativeFlowData, getLeadTimeReportData, getThroughput, getWorkflow} from "./DataFetcher";
+import {getTimeSpentFixingBugs} from "./DataFetcher";
 import moment from "moment";
 import {LeadTimeLineChart} from "../../Reports/LeadTime/LeadTimeLineChart";
 import {ThroughputReport} from "../../Reports/Throughput/ThroughputReport";
+import {FixVsFeatureTime} from "../../Reports/Histogram/FixVsFeatureTime";
 import {
   applyDateRangeFilter,
   applyDateRangeFilterToDataNestedInListOfObjects
@@ -19,6 +21,9 @@ export default function MockDashboard() {
   const [workflow] = useState(getWorkflow());
   const [cumulativeFlow] = useState(getCumulativeFlowData());
   const [leadCycleTimeData] = useState(getLeadTimeReportData());
+
+  const[fixingBugsTimeData] = useState(getTimeSpentFixingBugs);
+
   const [throughput] = useState(generateTrendLineData(getThroughput(), "throughput"));
 
   const [sidebarVisible, updateSidebarVisibility] = useState(true);
@@ -77,7 +82,7 @@ export default function MockDashboard() {
                                                                                                       selectedStatuses={selectedWorkflowStatuses.filter(entry => entry.active).map(entry => entry.status)}/>}
             {leadCycleTimeData && (currentReport==="LeadTime") && <LeadTimeLineChart data={dateRange ? applyDateRangeFilter(dateRange, leadCycleTimeData) : leadCycleTimeData}/>}
             {throughput && (currentReport==="Throughput") && <ThroughputReport data={dateRange ? applyDateRangeFilter(dateRange, throughput) : throughput}/>}
-
+            {currentReport=="FixVsFeatureTime" && <FixVsFeatureTime data={fixingBugsTimeData}/>}
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </Segment.Group>
