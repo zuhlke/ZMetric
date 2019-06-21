@@ -3,17 +3,13 @@ import {
 	BarChart,
   Bar,
 	CartesianGrid,
-	ComposeChart,
-	Label,
 	Legend,
-	Line,
-	ReferenceLine,
 	ResponsiveContainer,
 	Tooltip,
 	XAxis,
 	YAxis,
 } from "recharts";
-import PropTypes from 'prop-types';
+
 import {Button, Segment, Transition} from "semantic-ui-react";
 import '../reports.css';
 import {DynamicTable} from "../../ZMetric/Dashboard/DataTable/DynamicTable";

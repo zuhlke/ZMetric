@@ -1,32 +1,6 @@
 import moment from 'moment';
 
 export const convertFromJiraToTimeSpent = (data) => {
-  const sample = [
-    {
-      name: 'Page A', uv: 10000, pv: 2400, amt: 2400,
-    },
-    {
-      name: 'Page B', uv: 3000, pv: 1398, amt: 2210,
-    },
-    {
-      name: 'Page C', uv: 2000, pv: 9800, amt: 2290,
-    },
-    {
-      name: 'Page D', uv: 2780, pv: 3908, amt: 2000,
-    },
-    {
-      name: 'Page E', uv: 1890, pv: 4800, amt: 2181,
-    },
-    {
-      name: 'Page F', uv: 2390, pv: 3800, amt: 2500,
-    },
-    {
-      name: 'Page G', uv: 3490, pv: 4300, amt: 2100,
-    },
-  ];
-
-  //let fixingBugsData = data.issues.map((issue) => {return {key: issue.key, created: issue.created, resolutiodate: issue.resolutiondate}});
-
   const fixingBugsData = data.issues
     .filter(issue => issue.fields.issuetype.name == 'Bug')
     .map (issue => {
@@ -68,7 +42,6 @@ function convertMiliseconds(miliseconds, format) {
       break;
     default:
       return days + " " + hours + " " + minutes + " " + seconds;
-    //return {d: days, h:hours, m: minutes, s: seconds};
 
   }
 }
@@ -83,12 +56,8 @@ function groupDataBasedOnWeeksSpent(data) {
       else
         return ((issue.timeSpent > (week-1) * 7 && issue.timeSpent <= week*7) ? 1 : 0);
     });
-    filteredFixingBugsData.push({ 'Week': "Week " + week, 'Start Day': (week - 1) * 7, 'End Day': week * 7, 'Number Of Fixed Bugs': temp.length});
+    filteredFixingBugsData.push({ 'Week': "Week " + week, 'Days Range': (week - 1) * 7 + " - "  + week * 7, 'Number Of Fixed Bugs': temp.length});
   }
 
   return filteredFixingBugsData;
-}
-
-function checkTimeSpent(timeSpent, start, end) {
-  return (timeSpent >= start && timeSpent <= end) ? 1 : 0;
 }
